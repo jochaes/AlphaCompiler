@@ -6,6 +6,8 @@ COMA    : ',';
 ASSIGN  : ':=';
 PIZQ    : '(';
 PDER    : ')';
+CIZQ    :'{';
+CDER    :'}';
 VIR     : '~';
 DOSPUN  : ':';
 DOUBLEQUOTES: '"';   //TAREA: Se agrega ", para que una expression pueda ser un string
@@ -16,6 +18,7 @@ MUL     : '*';
 DIV     : '/';
 
 //palabras reservadas
+DEF     : 'def';
 IF      : 'if';
 WHILE   : 'while';
 LET     : 'let';

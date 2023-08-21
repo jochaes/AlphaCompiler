@@ -1,7 +1,10 @@
 let
-    var x:int
+    var x:int;
+    const y~"hola";
+    def hola(x:int, y:string, f:char){ x := 20 }
 in
 begin
     x := 20;
+    y := 'h';
     print(x)
 end

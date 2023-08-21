@@ -13,7 +13,9 @@ singleCommand : ID ( ASSIGN expression | PIZQ expression PDER )
         | BEGIN command END;
 
 declaration  : singleDeclaration (PyCOMA singleDeclaration)*;
-singleDeclaration : CONST ID VIR expression | VAR ID DOSPUN typedenoter;
+
+singleDeclaration : CONST ID VIR expression | VAR ID DOSPUN typedenoter | DEF ID (PIZQ PDER | PIZQ ID DOSPUN typedenoter (COMA ID DOSPUN typedenoter)* PDER ) CIZQ command CDER;
+
 typedenoter : INTEGER | CHAR | STRING;
 expression : primaryExpression (operator primaryExpression)*;
 //Se agregan las últimas dos de primaryExpression para verifiar "ddd" string o '1' 'd' char
