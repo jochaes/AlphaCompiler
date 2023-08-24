@@ -1,0 +1,7 @@
+let
+    var y:strinng;
+    var z:charn;
+in
+begin
+    print(z)
+end

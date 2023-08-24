@@ -1,8 +1,11 @@
+//Tarea 1: Parser
+//Estudiante: Josué Chaves
+
 lexer grammar AlphaScanner;
 
 //símbolos
 PyCOMA  : ';';
-COMA    : ',';
+COMA    : ',';     //TAREA: Se agrega la coma para poder utilizar varias expresiones en las declaraciones y uso de metodos
 ASSIGN  : ':=';
 PIZQ    : '(';
 PDER    : ')';
@@ -18,7 +21,7 @@ MUL     : '*';
 DIV     : '/';
 
 //palabras reservadas
-DEF     : 'def';
+DEF     : 'def';   //TAREA: Se agrega DEF para indicar que inicia un método
 IF      : 'if';
 WHILE   : 'while';
 LET     : 'let';
@@ -30,15 +33,15 @@ BEGIN   : 'begin';
 END     : 'end';
 CONST   : 'const';
 VAR     : 'var';
-CHAR    : 'char';
-STRING  : 'string';
+CHAR    : 'char';    //TAREA: Se agrega CHAR para verificacion de tipo char
+STRING  : 'string';  //TAREA: Se agrega STRING para verificacion de tipo string
 INTEGER : 'int';
 
 
-ID : LETTER (LETTER|DIGIT)* ;    //TAREA: Se toma el ID cómo String Literal
+ID : LETTER (LETTER|DIGIT)* ;
 NUM : DIGIT DIGIT* ;
-CHARLIT : SINGLEQUOTE (LETTER|DIGIT) SINGLEQUOTE;
-STRLIT: DOUBLEQUOTES ID (ID|[ \t\n\r]+)* DOUBLEQUOTES;
+CHARLIT : SINGLEQUOTE (LETTER|DIGIT) SINGLEQUOTE;       //TAREA: CHARLIT para crear literales de char: x:='h'
+STRLIT: DOUBLEQUOTES ID (ID|[ \t\n\r]+)* DOUBLEQUOTES;  //TAREA: STRLIT para crear literales de String: x:="hola"
 
 fragment LETTER : 'a'..'z' | 'A'..'Z';
 fragment DIGIT : '0'..'9' ;

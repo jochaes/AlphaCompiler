@@ -2,6 +2,43 @@ import generated.AlphaScanner;
 import org.antlr.v4.runtime.Token;
 
 //Algoritmo de Descenso recursivo
+//Tarea 1: Parser
+//Estudiante: Josué Chaves
+
+//Constantes y tipos String
+// Para las declaraciones de constantes strings de la manera:
+//      const ID~"hola"
+// Se agrega al parsePrimaryExpression un if que verifique STRLIT
+//
+// Para los tipos String de la manera:
+//      var y:string
+//Se agrega un if que verifique STRING en parseTypeDenoter
+
+//Constantes y tipos Char
+// Para las declaraciones de constantes char de la manera:
+//      const ID~'h'
+// Se agrega al parsePrimaryExpression un if que verifique CHARLIT
+//
+// Para los tipos Char de la manera:
+//      var y:char
+//Se agrega un if que verifique CHAR en parseTypeDenoter
+
+
+//Declaración y uso de métodos
+
+//Declaración de Métodos de la manera:
+// def ID(x:int, y:string){command}
+// Se verifica en parseSingleDeclaration, que se cumpla lo siguiente:
+//DEF ID (PIZQ PDER | PIZQ ID DOSPUN typedenoter (COMA ID DOSPUN typedenoter)* PDER ) CIZQ command CDER
+
+//Uso de Métodos
+//Uso de métodos de la manera:
+// ID(x,"y",'z',10)
+//Se agrega al single command en el primer if, la validación de
+// PIZQ expression (COMA expression)* PDER
+// Para que puedan haber varias expresiones de un ID pegado con ()
+
+
 public class AlphaParserManual {
 
     private AlphaScanner elScanner;
@@ -78,6 +115,16 @@ public class AlphaParserManual {
             }else if( tokenActual.getType() == AlphaScanner.PIZQ ){
                 acceptIt();
                 parseExpression();
+/*
+ *
+ * Uso de Métodos de la manera:
+ *   ID (x,'y', "HOLA, 20)
+ *
+ * */
+                while(this.tokenActual.getType() == AlphaScanner.COMA){
+                    acceptIt();
+                    parseExpression();
+                }
                 accept(AlphaScanner.PDER);
 
             }else {
@@ -137,27 +184,50 @@ public class AlphaParserManual {
             accept(AlphaScanner.VIR);
             parseExpression();
 
-//            if (tokenActual.getType() == AlphaScanner.VIR){
-//                acceptIt();
-//                parseExpression();
-//            }else{
-//                printError( "Debia venir un ~ pero llegó otra cosa" );
-//            }
-
         } else if( tokenActual.getType() == AlphaScanner.VAR ){
             acceptIt();
             accept( AlphaScanner.ID );
             accept(AlphaScanner.DOSPUN);
             parseTypeDenoter();
+/*
+*
+* Declaración de Métodos de la manera:
+*   def ID(x:int,y:string){command}
+*
+* */
+// DEF ID (PIZQ PDER | PIZQ ID DOSPUN typedenoter (COMA ID DOSPUN typedenoter)* PDER ) CIZQ command CDER
+        } else if(tokenActual.getType() == AlphaScanner.DEF){
+            acceptIt();
+            accept(AlphaScanner.ID);
+            accept(AlphaScanner.PIZQ);
 
-//            if (tokenActual.getType() == AlphaScanner.DOSPUN){
-//                acceptIt();
-//                parseTypeDenoter();
-//            }else{
-//                printError( "Debia venir un : pero llegó otra cosa" );
-//            }
-        }else {
-            printError("Debia venir un const o un var, pero llegó otra cosa");
+            if (tokenActual.getType() == AlphaScanner.PDER){
+                acceptIt();
+                accept(AlphaScanner.CIZQ);
+                parseCommand();
+                accept(AlphaScanner.CDER);
+            } else if (tokenActual.getType() == AlphaScanner.ID) {
+                acceptIt();
+                accept(AlphaScanner.DOSPUN);
+                parseTypeDenoter();
+
+                while(this.tokenActual.getType() == AlphaScanner.COMA){
+                    acceptIt(); //Next token
+                    accept(AlphaScanner.ID);
+                    accept(AlphaScanner.DOSPUN);
+                    parseTypeDenoter();
+                }
+                accept(AlphaScanner.PDER);
+                accept(AlphaScanner.CIZQ);
+                parseCommand();
+                accept(AlphaScanner.CDER);
+            }else{
+                printError("Error de validación de función");
+            }
+
+        }
+        else {
+            printError("Debia venir un const o un var o un DEF, pero llegó otra cosa");
         }
     }
 
@@ -165,13 +235,29 @@ public class AlphaParserManual {
     //    typeDenoter ::=
     //                  Identifier
     public void parseTypeDenoter(){
-        accept(AlphaScanner.ID);
+//        accept(AlphaScanner.ID);
 
-//        if (tokenActual.getType() == AlphaScanner.ID){
-//            acceptIt();
-//        }else {
-//            printError("Debia venir un identificador");
-//        }
+        if (tokenActual.getType() == AlphaScanner.INTEGER) {
+            acceptIt();
+/*
+ *
+ * Tipos CHAR:
+ *   x:char
+ *
+ * */
+        } else if (tokenActual.getType() == AlphaScanner.CHAR) {
+            acceptIt();
+/*
+ *
+ * Tipos STRING:
+ *   x:string
+ *
+ * */
+        } else if (tokenActual.getType() == AlphaScanner.STRING) {
+            acceptIt();
+        }else {
+            printError("Debia venir un Integer, Char o String");
+        }
     }
 
     // Parser del Token No Terminal: expression
@@ -204,10 +290,25 @@ public class AlphaParserManual {
             acceptIt();
             parseExpression();
             accept(AlphaScanner.PDER);
+/*
+ *
+ * Verificación de Constantes CHAR:
+ *   const x~'c'
+ *
+ * */
+        } else if (tokenActual.getType() == AlphaScanner.CHARLIT) {
+            acceptIt();
+/*
+ *
+ * Verificación de Constantes String:
+ *   const x~"hola"
+ *
+ * */
+        } else if (tokenActual.getType() == AlphaScanner.STRLIT) {
+            acceptIt();
+        }else {
+            printError("Debia venir un Num, ID, (Expression), Charlit, Strlit");
+
         }
     }
-
-
-
-
 }

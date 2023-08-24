@@ -1,0 +1,9 @@
+let
+
+    const y~"hola';
+    const w~'jjj
+
+in
+begin
+    print(x);
+end

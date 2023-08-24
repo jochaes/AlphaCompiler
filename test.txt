@@ -1,10 +1,15 @@
 let
     var x:int;
-    const y~"hola";
-    def hola(x:int, y:string, f:char){ x := 20 }
+    var y:string;
+    var z:char;
+    const w~"hola";
+    const t~'k';
+    def hola(x:int, y:string, f:char){ x := 20; x:=(x+y) }
 in
 begin
     x := 20;
-    y := 'h';
-    print(x)
+    y := "hola";
+    z := 'k';
+    print(x);
+    hola(20,y,'g',"hola")
 end

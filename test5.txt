@@ -1,9 +1,8 @@
-//Prueba 1
 let
     var x:int
 in
 begin
     x := "hola";
-    print()
+    hola(
 end
 
