@@ -54,7 +54,7 @@
 
 
 //Para ejecutar el parser Automático
-import generated.*;
+import generatedMiniPython.*;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -75,46 +75,26 @@ public class Main {
     {
         //Casos de Pruebas
 
+//        //TEST.txt
+//        // Caso de prueba con todas las funcionalidades,
+//        // tipos y constantes char y string y declaración y uso de métodos
+//        System.out.println("*********** Prueba: test.txt: Todas las Funcionalidades ***********");
+//        initParserManual("test.txt");
+//        initParserAutomatico("test.txt");
+
         //TEST.txt
         // Caso de prueba con todas las funcionalidades,
         // tipos y constantes char y string y declaración y uso de métodos
-        System.out.println("*********** Prueba: test.txt: Todas las Funcionalidades ***********");
-        initParserManual("test.txt");
-        initParserAutomatico("test.txt");
+        System.out.println("*********** Clase 6 ***********");
+//        initParserManual("testClase6.txt");
+        initParserAutomatico("testClase6.txt");
 
-        //test2.txt
-        // Caso de prueba con errores en la declaracion de tipos string y char
-
-        System.out.println("*********** Prueba: test2.txt: Errores de tipos String y Char ***********");
-        initParserManual("test2.txt");
-        initParserAutomatico("test2.txt");
-
-        //test3.txt
-        // Caso de prueba con errores en la declaracion de constantes string y char
-
-        System.out.println("*********** Prueba: test3.txt: Errores de constantes String y Char ***********");
-        initParserManual("test3.txt");
-        initParserAutomatico("test3.txt");
-
-        //test4.txt
-        // Caso de prueba con errores en la declaracion de metodos, metodo sin nombre
-
-        System.out.println("*********** Prueba: test4.txt: Metodo sin nombre ***********");
-        initParserManual("test4.txt");
-        initParserAutomatico("test4.txt");
-
-        //test5.txt
-        // Caso de prueba con errores en el uso de metodos, metodo sin parentesis derecho
-
-        System.out.println("*********** Prueba: test5.txt: Metodo sin parentesis ***********");
-        initParserManual("test5.txt");
-        initParserAutomatico("test5.txt");
     }
 
     public static void initParserAutomatico(String txtPrueba){
 
-        AlphaScanner inst = null;
-        AlphaParser parser = null;
+        MiniPythonScanner inst = null;
+        MiniPythonParser parser = null;
         ParseTree tree=null;
 
         CharStream input=null;            //Char stream es una clase para abrir el archivo y hacer lectura
@@ -123,9 +103,9 @@ public class Main {
         //Trate de hacer
         try {
             input = CharStreams.fromFileName(txtPrueba);  //Abrir el archivo y lo lee
-            inst = new AlphaScanner(input);               //A partir del stream, se lo doy de entrada al Scanner
+            inst = new MiniPythonScanner(input);               //A partir del stream, se lo doy de entrada al Scanner
             tokens = new CommonTokenStream(inst);          //Se crea la clase commontokenstream, osea a prtir de lo que crea el scanner, hace un objeto con toda la lista de tokens
-            parser = new AlphaParser(tokens);            //Ese objeto se lo mando al parser(Le paso la lista de token que viene en el archivo)
+            parser = new MiniPythonParser(tokens);            //Ese objeto se lo mando al parser(Le paso la lista de token que viene en el archivo)
 
 //           AlphaParserManual parser = new AlphaParserManual(inst); //Nuestro Parser
 
@@ -149,7 +129,7 @@ public class Main {
         }
         catch(Exception e){System.out.println("No hay archivo");e.printStackTrace();}
     }
-
+/**
     public static void initParserManual(String txtPrueba){
         AlphaScanner inst = null;
 //        AlphaParser parser = null;
@@ -187,5 +167,6 @@ public class Main {
         }
         catch(Exception e){System.out.println("No hay archivo");e.printStackTrace();}
     }
+**/
 
 }

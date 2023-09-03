@@ -1,0 +1,7 @@
+let
+    var i:int
+in
+begin
+    i := 20;
+    print(i)
+end

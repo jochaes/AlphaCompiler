@@ -1,5 +1,5 @@
-// Generated from /Users/jochaes/Documents/Repositorios/Compiladores/AlphaCompiler/AlphaParser.g4 by ANTLR 4.12.0
-package generated;
+// Generated from /Users/jochaes/Documents/Repositorios/Compiladores/AlphaCompiler/Proyecto1G4/MiniPythonParser.g4 by ANTLR 4.12.0
+package generatedMiniPython;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -10,7 +10,7 @@ import java.util.Iterator;
 import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast", "CheckReturnValue"})
-public class AlphaParser extends Parser {
+public class MiniPythonParser extends Parser {
 	static { RuntimeMetaData.checkVersion("4.12.0", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
@@ -87,7 +87,7 @@ public class AlphaParser extends Parser {
 	}
 
 	@Override
-	public String getGrammarFileName() { return "AlphaParser.g4"; }
+	public String getGrammarFileName() { return "MiniPythonParser.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
@@ -98,7 +98,7 @@ public class AlphaParser extends Parser {
 	@Override
 	public ATN getATN() { return _ATN; }
 
-	public AlphaParser(TokenStream input) {
+	public MiniPythonParser(TokenStream input) {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
@@ -121,11 +121,6 @@ public class AlphaParser extends Parser {
 			return getRuleContext(SingleCommandContext.class,0);
 		}
 		public ProgramASTContext(ProgramContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof AlphaParserVisitor ) return ((AlphaParserVisitor<? extends T>)visitor).visitProgramAST(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ProgramContext program() throws RecognitionException {
@@ -170,16 +165,11 @@ public class AlphaParser extends Parser {
 		public SingleCommandContext singleCommand(int i) {
 			return getRuleContext(SingleCommandContext.class,i);
 		}
-		public List<TerminalNode> PyCOMA() { return getTokens(AlphaParser.PyCOMA); }
+		public List<TerminalNode> PyCOMA() { return getTokens(MiniPythonParser.PyCOMA); }
 		public TerminalNode PyCOMA(int i) {
-			return getToken(AlphaParser.PyCOMA, i);
+			return getToken(MiniPythonParser.PyCOMA, i);
 		}
 		public CommandASTContext(CommandContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof AlphaParserVisitor ) return ((AlphaParserVisitor<? extends T>)visitor).visitCommandAST(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final CommandContext command() throws RecognitionException {
@@ -235,108 +225,78 @@ public class AlphaParser extends Parser {
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class LetSCASTContext extends SingleCommandContext {
-		public TerminalNode LET() { return getToken(AlphaParser.LET, 0); }
+		public TerminalNode LET() { return getToken(MiniPythonParser.LET, 0); }
 		public DeclarationContext declaration() {
 			return getRuleContext(DeclarationContext.class,0);
 		}
-		public TerminalNode IN() { return getToken(AlphaParser.IN, 0); }
+		public TerminalNode IN() { return getToken(MiniPythonParser.IN, 0); }
 		public SingleCommandContext singleCommand() {
 			return getRuleContext(SingleCommandContext.class,0);
 		}
 		public LetSCASTContext(SingleCommandContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof AlphaParserVisitor ) return ((AlphaParserVisitor<? extends T>)visitor).visitLetSCAST(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class CallSCASTContext extends SingleCommandContext {
-		public TerminalNode ID() { return getToken(AlphaParser.ID, 0); }
-		public TerminalNode PIZQ() { return getToken(AlphaParser.PIZQ, 0); }
+		public TerminalNode ID() { return getToken(MiniPythonParser.ID, 0); }
+		public TerminalNode PIZQ() { return getToken(MiniPythonParser.PIZQ, 0); }
 		public List<ExpressionContext> expression() {
 			return getRuleContexts(ExpressionContext.class);
 		}
 		public ExpressionContext expression(int i) {
 			return getRuleContext(ExpressionContext.class,i);
 		}
-		public TerminalNode PDER() { return getToken(AlphaParser.PDER, 0); }
-		public List<TerminalNode> COMA() { return getTokens(AlphaParser.COMA); }
+		public TerminalNode PDER() { return getToken(MiniPythonParser.PDER, 0); }
+		public List<TerminalNode> COMA() { return getTokens(MiniPythonParser.COMA); }
 		public TerminalNode COMA(int i) {
-			return getToken(AlphaParser.COMA, i);
+			return getToken(MiniPythonParser.COMA, i);
 		}
 		public CallSCASTContext(SingleCommandContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof AlphaParserVisitor ) return ((AlphaParserVisitor<? extends T>)visitor).visitCallSCAST(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class AssignSCASTContext extends SingleCommandContext {
-		public TerminalNode ID() { return getToken(AlphaParser.ID, 0); }
-		public TerminalNode ASSIGN() { return getToken(AlphaParser.ASSIGN, 0); }
+		public TerminalNode ID() { return getToken(MiniPythonParser.ID, 0); }
+		public TerminalNode ASSIGN() { return getToken(MiniPythonParser.ASSIGN, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
 		public AssignSCASTContext(SingleCommandContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof AlphaParserVisitor ) return ((AlphaParserVisitor<? extends T>)visitor).visitAssignSCAST(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class WhileSCASTContext extends SingleCommandContext {
-		public TerminalNode WHILE() { return getToken(AlphaParser.WHILE, 0); }
+		public TerminalNode WHILE() { return getToken(MiniPythonParser.WHILE, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
-		public TerminalNode DO() { return getToken(AlphaParser.DO, 0); }
+		public TerminalNode DO() { return getToken(MiniPythonParser.DO, 0); }
 		public SingleCommandContext singleCommand() {
 			return getRuleContext(SingleCommandContext.class,0);
 		}
 		public WhileSCASTContext(SingleCommandContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof AlphaParserVisitor ) return ((AlphaParserVisitor<? extends T>)visitor).visitWhileSCAST(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class IfSCASTContext extends SingleCommandContext {
-		public TerminalNode IF() { return getToken(AlphaParser.IF, 0); }
+		public TerminalNode IF() { return getToken(MiniPythonParser.IF, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
-		public TerminalNode THEN() { return getToken(AlphaParser.THEN, 0); }
+		public TerminalNode THEN() { return getToken(MiniPythonParser.THEN, 0); }
 		public List<SingleCommandContext> singleCommand() {
 			return getRuleContexts(SingleCommandContext.class);
 		}
 		public SingleCommandContext singleCommand(int i) {
 			return getRuleContext(SingleCommandContext.class,i);
 		}
-		public TerminalNode ELSE() { return getToken(AlphaParser.ELSE, 0); }
+		public TerminalNode ELSE() { return getToken(MiniPythonParser.ELSE, 0); }
 		public IfSCASTContext(SingleCommandContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof AlphaParserVisitor ) return ((AlphaParserVisitor<? extends T>)visitor).visitIfSCAST(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class BlockSCASTContext extends SingleCommandContext {
-		public TerminalNode BEGIN() { return getToken(AlphaParser.BEGIN, 0); }
+		public TerminalNode BEGIN() { return getToken(MiniPythonParser.BEGIN, 0); }
 		public CommandContext command() {
 			return getRuleContext(CommandContext.class,0);
 		}
-		public TerminalNode END() { return getToken(AlphaParser.END, 0); }
+		public TerminalNode END() { return getToken(MiniPythonParser.END, 0); }
 		public BlockSCASTContext(SingleCommandContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof AlphaParserVisitor ) return ((AlphaParserVisitor<? extends T>)visitor).visitBlockSCAST(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final SingleCommandContext singleCommand() throws RecognitionException {
@@ -480,16 +440,11 @@ public class AlphaParser extends Parser {
 		public SingleDeclarationContext singleDeclaration(int i) {
 			return getRuleContext(SingleDeclarationContext.class,i);
 		}
-		public List<TerminalNode> PyCOMA() { return getTokens(AlphaParser.PyCOMA); }
+		public List<TerminalNode> PyCOMA() { return getTokens(MiniPythonParser.PyCOMA); }
 		public TerminalNode PyCOMA(int i) {
-			return getToken(AlphaParser.PyCOMA, i);
+			return getToken(MiniPythonParser.PyCOMA, i);
 		}
 		public DeclarationASTContext(DeclarationContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof AlphaParserVisitor ) return ((AlphaParserVisitor<? extends T>)visitor).visitDeclarationAST(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final DeclarationContext declaration() throws RecognitionException {
@@ -545,21 +500,21 @@ public class AlphaParser extends Parser {
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class DefSDASTContext extends SingleDeclarationContext {
-		public TerminalNode DEF() { return getToken(AlphaParser.DEF, 0); }
-		public List<TerminalNode> ID() { return getTokens(AlphaParser.ID); }
+		public TerminalNode DEF() { return getToken(MiniPythonParser.DEF, 0); }
+		public List<TerminalNode> ID() { return getTokens(MiniPythonParser.ID); }
 		public TerminalNode ID(int i) {
-			return getToken(AlphaParser.ID, i);
+			return getToken(MiniPythonParser.ID, i);
 		}
-		public TerminalNode CIZQ() { return getToken(AlphaParser.CIZQ, 0); }
+		public TerminalNode CIZQ() { return getToken(MiniPythonParser.CIZQ, 0); }
 		public CommandContext command() {
 			return getRuleContext(CommandContext.class,0);
 		}
-		public TerminalNode CDER() { return getToken(AlphaParser.CDER, 0); }
-		public TerminalNode PIZQ() { return getToken(AlphaParser.PIZQ, 0); }
-		public TerminalNode PDER() { return getToken(AlphaParser.PDER, 0); }
-		public List<TerminalNode> DOSPUN() { return getTokens(AlphaParser.DOSPUN); }
+		public TerminalNode CDER() { return getToken(MiniPythonParser.CDER, 0); }
+		public TerminalNode PIZQ() { return getToken(MiniPythonParser.PIZQ, 0); }
+		public TerminalNode PDER() { return getToken(MiniPythonParser.PDER, 0); }
+		public List<TerminalNode> DOSPUN() { return getTokens(MiniPythonParser.DOSPUN); }
 		public TerminalNode DOSPUN(int i) {
-			return getToken(AlphaParser.DOSPUN, i);
+			return getToken(MiniPythonParser.DOSPUN, i);
 		}
 		public List<TypedenoterContext> typedenoter() {
 			return getRuleContexts(TypedenoterContext.class);
@@ -567,46 +522,31 @@ public class AlphaParser extends Parser {
 		public TypedenoterContext typedenoter(int i) {
 			return getRuleContext(TypedenoterContext.class,i);
 		}
-		public List<TerminalNode> COMA() { return getTokens(AlphaParser.COMA); }
+		public List<TerminalNode> COMA() { return getTokens(MiniPythonParser.COMA); }
 		public TerminalNode COMA(int i) {
-			return getToken(AlphaParser.COMA, i);
+			return getToken(MiniPythonParser.COMA, i);
 		}
 		public DefSDASTContext(SingleDeclarationContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof AlphaParserVisitor ) return ((AlphaParserVisitor<? extends T>)visitor).visitDefSDAST(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class ConstSDASTContext extends SingleDeclarationContext {
-		public TerminalNode CONST() { return getToken(AlphaParser.CONST, 0); }
-		public TerminalNode ID() { return getToken(AlphaParser.ID, 0); }
-		public TerminalNode VIR() { return getToken(AlphaParser.VIR, 0); }
+		public TerminalNode CONST() { return getToken(MiniPythonParser.CONST, 0); }
+		public TerminalNode ID() { return getToken(MiniPythonParser.ID, 0); }
+		public TerminalNode VIR() { return getToken(MiniPythonParser.VIR, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
 		public ConstSDASTContext(SingleDeclarationContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof AlphaParserVisitor ) return ((AlphaParserVisitor<? extends T>)visitor).visitConstSDAST(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class VarSDASTContext extends SingleDeclarationContext {
-		public TerminalNode VAR() { return getToken(AlphaParser.VAR, 0); }
-		public TerminalNode ID() { return getToken(AlphaParser.ID, 0); }
-		public TerminalNode DOSPUN() { return getToken(AlphaParser.DOSPUN, 0); }
+		public TerminalNode VAR() { return getToken(MiniPythonParser.VAR, 0); }
+		public TerminalNode ID() { return getToken(MiniPythonParser.ID, 0); }
+		public TerminalNode DOSPUN() { return getToken(MiniPythonParser.DOSPUN, 0); }
 		public TypedenoterContext typedenoter() {
 			return getRuleContext(TypedenoterContext.class,0);
 		}
 		public VarSDASTContext(SingleDeclarationContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof AlphaParserVisitor ) return ((AlphaParserVisitor<? extends T>)visitor).visitVarSDAST(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final SingleDeclarationContext singleDeclaration() throws RecognitionException {
@@ -736,33 +676,18 @@ public class AlphaParser extends Parser {
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class IntTDASTContext extends TypedenoterContext {
-		public TerminalNode INTEGER() { return getToken(AlphaParser.INTEGER, 0); }
+		public TerminalNode INTEGER() { return getToken(MiniPythonParser.INTEGER, 0); }
 		public IntTDASTContext(TypedenoterContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof AlphaParserVisitor ) return ((AlphaParserVisitor<? extends T>)visitor).visitIntTDAST(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class CharTDASTContext extends TypedenoterContext {
-		public TerminalNode CHAR() { return getToken(AlphaParser.CHAR, 0); }
+		public TerminalNode CHAR() { return getToken(MiniPythonParser.CHAR, 0); }
 		public CharTDASTContext(TypedenoterContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof AlphaParserVisitor ) return ((AlphaParserVisitor<? extends T>)visitor).visitCharTDAST(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class StringTDASTContext extends TypedenoterContext {
-		public TerminalNode STRING() { return getToken(AlphaParser.STRING, 0); }
+		public TerminalNode STRING() { return getToken(MiniPythonParser.STRING, 0); }
 		public StringTDASTContext(TypedenoterContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof AlphaParserVisitor ) return ((AlphaParserVisitor<? extends T>)visitor).visitStringTDAST(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final TypedenoterContext typedenoter() throws RecognitionException {
@@ -838,11 +763,6 @@ public class AlphaParser extends Parser {
 			return getRuleContext(OperatorContext.class,i);
 		}
 		public ExpressionASTContext(ExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof AlphaParserVisitor ) return ((AlphaParserVisitor<? extends T>)visitor).visitExpressionAST(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ExpressionContext expression() throws RecognitionException {
@@ -898,57 +818,32 @@ public class AlphaParser extends Parser {
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class NumPEASTContext extends PrimaryExpressionContext {
-		public TerminalNode NUM() { return getToken(AlphaParser.NUM, 0); }
+		public TerminalNode NUM() { return getToken(MiniPythonParser.NUM, 0); }
 		public NumPEASTContext(PrimaryExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof AlphaParserVisitor ) return ((AlphaParserVisitor<? extends T>)visitor).visitNumPEAST(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class StrPEASTContext extends PrimaryExpressionContext {
-		public TerminalNode STRLIT() { return getToken(AlphaParser.STRLIT, 0); }
+		public TerminalNode STRLIT() { return getToken(MiniPythonParser.STRLIT, 0); }
 		public StrPEASTContext(PrimaryExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof AlphaParserVisitor ) return ((AlphaParserVisitor<? extends T>)visitor).visitStrPEAST(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class IdPEASTContext extends PrimaryExpressionContext {
-		public TerminalNode ID() { return getToken(AlphaParser.ID, 0); }
+		public TerminalNode ID() { return getToken(MiniPythonParser.ID, 0); }
 		public IdPEASTContext(PrimaryExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof AlphaParserVisitor ) return ((AlphaParserVisitor<? extends T>)visitor).visitIdPEAST(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class ExpPEASTContext extends PrimaryExpressionContext {
-		public TerminalNode PIZQ() { return getToken(AlphaParser.PIZQ, 0); }
+		public TerminalNode PIZQ() { return getToken(MiniPythonParser.PIZQ, 0); }
 		public ExpressionContext expression() {
 			return getRuleContext(ExpressionContext.class,0);
 		}
-		public TerminalNode PDER() { return getToken(AlphaParser.PDER, 0); }
+		public TerminalNode PDER() { return getToken(MiniPythonParser.PDER, 0); }
 		public ExpPEASTContext(PrimaryExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof AlphaParserVisitor ) return ((AlphaParserVisitor<? extends T>)visitor).visitExpPEAST(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 	@SuppressWarnings("CheckReturnValue")
 	public static class CharPEASTContext extends PrimaryExpressionContext {
-		public TerminalNode CHARLIT() { return getToken(AlphaParser.CHARLIT, 0); }
+		public TerminalNode CHARLIT() { return getToken(MiniPythonParser.CHARLIT, 0); }
 		public CharPEASTContext(PrimaryExpressionContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof AlphaParserVisitor ) return ((AlphaParserVisitor<? extends T>)visitor).visitCharPEAST(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final PrimaryExpressionContext primaryExpression() throws RecognitionException {
@@ -1019,19 +914,14 @@ public class AlphaParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class OperatorContext extends ParserRuleContext {
-		public TerminalNode SUM() { return getToken(AlphaParser.SUM, 0); }
-		public TerminalNode SUB() { return getToken(AlphaParser.SUB, 0); }
-		public TerminalNode MUL() { return getToken(AlphaParser.MUL, 0); }
-		public TerminalNode DIV() { return getToken(AlphaParser.DIV, 0); }
+		public TerminalNode SUM() { return getToken(MiniPythonParser.SUM, 0); }
+		public TerminalNode SUB() { return getToken(MiniPythonParser.SUB, 0); }
+		public TerminalNode MUL() { return getToken(MiniPythonParser.MUL, 0); }
+		public TerminalNode DIV() { return getToken(MiniPythonParser.DIV, 0); }
 		public OperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_operator; }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof AlphaParserVisitor ) return ((AlphaParserVisitor<? extends T>)visitor).visitOperator(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final OperatorContext operator() throws RecognitionException {
