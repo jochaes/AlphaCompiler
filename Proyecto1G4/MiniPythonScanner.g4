@@ -1,89 +1,86 @@
-//Scanner Mini Python
-//Proyecto 1: Parser Mini Python
-//Estudiante: Josué Chaves
 
+//Scanner Mini Python
+//Proyecto 1: Scanner Mini Python
+//Estudiante: Josué Chaves
 
 lexer grammar MiniPythonScanner;
 
-//símbolos
-PyCOMA  : ';';
-COMA    : ',';     //TAREA: Se agrega la coma para poder utilizar varias expresiones en las declaraciones y uso de metodos
-ASSIGN  : ':=';
-PIZQ    : '(';
-PDER    : ')';
-CIZQ    :'{';
-CDER    :'}';
-VIR     : '~';
-DOSPUN  : ':';
-DOUBLEQUOTES: '"';   //TAREA: Se agrega ", para que una expression pueda ser un string
-SINGLEQUOTE: '\'';   //TAREA: Se agrega ', para que una expression pueda ser un char
-SUM     : '+';
-SUB     : '-';
-MUL     : '*';
-DIV     : '/';
+
+tokens {INDENT, DEDENT}
+
+@lexer::header{
+    import com.yuvalshavit.antlr4.DenterHelper;
+}
+
+@lexer::members{
+    private final DenterHelper denter = new DenterHelper(NL, MiniPythonScanner.INDENT, MiniPythonScanner.DEDENT) {
+        @Override
+        public Token pullToken(){
+            return MiniPythonScanner.super.nextToken();
+        }
+    };
+
+    @Override
+    public Token nextToken(){
+        return denter.nextToken();
+    }
+}
+
+//Symbols
+COMMA               : ',';
+COLON               : ':';
+OPENPARENTHESIS     : '(';
+CLOSEPARENTHESIS    : ')';
+OPENCURLYBRACE      : '{';
+CLOSECURLYBRACE     : '}';
+OPENSQRBRACKET      : '[';
+CLOSESQRBRACKET     : ']';
+
+DOUBLEQUOTES        : '"';
+SINGLEQUOTE         : '\'';
+
+PLUSSIGN            : '+';
+MINUSSIGN           : '-';
+ASTERISK            : '*';
+SLASH               : '/';
+
+ASSIGNMENT          : '=';
+LESSTHAN            : '<';
+GREATERTHAN         : '>';
+LESSTHANEQUAL       : '<=';
+GREATERTHANEQUAL    : '>=';
+COMPARISON          : '==';
 
 //palabras reservadas
-DEF     : 'def';   //TAREA: Se agrega DEF para indicar que inicia un método
-IF      : 'if';
-WHILE   : 'while';
-LET     : 'let';
-THEN    : 'then';
-ELSE    : 'else';
-IN      : 'in';
-DO      : 'do';
-BEGIN   : 'begin';
-END     : 'end';
-CONST   : 'const';
-VAR     : 'var';
-CHAR    : 'char';    //TAREA: Se agrega CHAR para verificacion de tipo char
-STRING  : 'string';  //TAREA: Se agrega STRING para verificacion de tipo string
-INTEGER : 'int';
-
-
-ID : LETTER (LETTER|DIGIT)* ;
-NUM : DIGIT DIGIT* ;
-CHARLIT : SINGLEQUOTE (LETTER|DIGIT) SINGLEQUOTE;       //TAREA: CHARLIT para crear literales de char: x:='h'
-STRLIT: DOUBLEQUOTES ID (ID|[ \t\n\r]+)* DOUBLEQUOTES;  //TAREA: STRLIT para crear literales de String: x:="hola"
-
-fragment LETTER : 'a'..'z' | 'A'..'Z';
-fragment DIGIT : '0'..'9' ;
-
-
-WS  :   [ \t\n\r]+ -> skip ;
-
-
-//lexer grammar AlphaScanner;
-////símbolos
-//PyCOMA  : ';';
-//ASSIGN  : ':=';
-//PIZQ    : '(';
-//PDER    : ')';
-//VIR     : '~';
-//DOSPUN  : ':';
-//
-//SUM     : '+';
-//SUB     : '-';
-//MUL     : '*';
-//DIV     : '/';
-//
-////palabras reservadas
-//IF      : 'if' ;
-//WHILE   : 'while';
+DEF                 : 'def';
+IF                  : 'if';
+WHILE               : 'while';
 //LET     : 'let';
 //THEN    : 'then';
-//ELSE    : 'else';
-//IN      : 'in';
-//DO      : 'do';
+ELSE                : 'else';
+IN                  : 'in';
+DO                  : 'do';
 //BEGIN   : 'begin';
 //END     : 'end';
-//CONST   : 'const';
-//VAR     : 'var';
-//
-//
-//ID : LETTER (LETTER|DIGIT)* ;
-//NUM : DIGIT DIGIT* ;
-//
-//fragment LETTER : 'a'..'z' | 'A'..'Z';
-//fragment DIGIT : '0'..'9' ;
-//
-//WS  :   [ \t\n\r]+ -> skip ;
+CONST               : 'const';
+VAR                 : 'var';
+RETURN              :'return';
+PRINT               : 'print';
+LEN                 : 'len';
+//CHAR                : 'char';
+//STRING              : 'string';
+//INTEGER             : 'int';
+
+
+IDENTIFIER : LETTER (LETTER|DIGIT)* ;
+INTEGER : DIGIT DIGIT* ;
+FLOAT : DIGIT DIGIT* '.' DIGIT DIGIT*;
+CHARCONST : SINGLEQUOTE (LETTER|DIGIT) SINGLEQUOTE;       //TAREA: CHARLIT para crear literales de char: x:='h'
+STRING: DOUBLEQUOTES IDENTIFIER (IDENTIFIER|[ \t\n\r]+)* DOUBLEQUOTES;  //TAREA: STRLIT para crear literales de String: x:="hola"
+
+fragment LETTER : 'a'..'z' | 'A'..'Z' | '_';
+fragment DIGIT : '0'..'9' ;
+
+NEWLINE : '\n';
+NL: ('\r'? '\n' ' '*);
+WS  : [ \n]+ -> skip ;
