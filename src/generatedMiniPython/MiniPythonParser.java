@@ -20,10 +20,10 @@ public class MiniPythonParser extends Parser {
 		INDENT=1, DEDENT=2, COMMA=3, COLON=4, OPENPARENTHESIS=5, CLOSEPARENTHESIS=6, 
 		OPENCURLYBRACE=7, CLOSECURLYBRACE=8, OPENSQRBRACKET=9, CLOSESQRBRACKET=10, 
 		DOUBLEQUOTES=11, SINGLEQUOTE=12, PLUSSIGN=13, MINUSSIGN=14, ASTERISK=15, 
-		SLASH=16, LESSTHAN=17, GREATERTHAN=18, LESSTHANEQUAL=19, GREATERTHANEQUAL=20, 
-		COMPARISON=21, DEF=22, IF=23, WHILE=24, ELSE=25, IN=26, DO=27, CONST=28, 
-		VAR=29, IDENTIFIER=30, INTEGER=31, CHARCONST=32, STRING=33, NL=34, FOR=35, 
-		RETURN=36, NEWLINE=37, PRINT=38, ASSIGNMENT=39, FLOAT=40, LEN=41;
+		SLASH=16, ASSIGNMENT=17, LESSTHAN=18, GREATERTHAN=19, LESSTHANEQUAL=20, 
+		GREATERTHANEQUAL=21, COMPARISON=22, DEF=23, IF=24, WHILE=25, FOR=26, ELSE=27, 
+		IN=28, DO=29, CONST=30, VAR=31, RETURN=32, PRINT=33, LEN=34, IDENTIFIER=35, 
+		INTEGER=36, FLOAT=37, CHARCONST=38, STRING=39, NEWLINE=40, NL=41, WS=42;
 	public static final int
 		RULE_program = 0, RULE_mainStatement = 1, RULE_statement = 2, RULE_defStatement = 3, 
 		RULE_argList = 4, RULE_ifStatement = 5, RULE_whileStatement = 6, RULE_forStatement = 7, 
@@ -49,9 +49,10 @@ public class MiniPythonParser extends Parser {
 	private static String[] makeLiteralNames() {
 		return new String[] {
 			null, null, null, "','", "':'", "'('", "')'", "'{'", "'}'", "'['", "']'", 
-			"'\"'", "'''", "'+'", "'-'", "'*'", "'/'", "'<'", "'>'", "'<='", "'>='", 
-			"'=='", "'def'", "'if'", "'while'", "'else'", "'in'", "'do'", "'const'", 
-			"'var'"
+			"'\"'", "'''", "'+'", "'-'", "'*'", "'/'", "'='", "'<'", "'>'", "'<='", 
+			"'>='", "'=='", "'def'", "'if'", "'while'", "'for'", "'else'", "'in'", 
+			"'do'", "'const'", "'var'", "'return'", "'print'", "'len'", null, null, 
+			null, null, null, "'\\n'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
@@ -60,10 +61,10 @@ public class MiniPythonParser extends Parser {
 			null, "INDENT", "DEDENT", "COMMA", "COLON", "OPENPARENTHESIS", "CLOSEPARENTHESIS", 
 			"OPENCURLYBRACE", "CLOSECURLYBRACE", "OPENSQRBRACKET", "CLOSESQRBRACKET", 
 			"DOUBLEQUOTES", "SINGLEQUOTE", "PLUSSIGN", "MINUSSIGN", "ASTERISK", "SLASH", 
-			"LESSTHAN", "GREATERTHAN", "LESSTHANEQUAL", "GREATERTHANEQUAL", "COMPARISON", 
-			"DEF", "IF", "WHILE", "ELSE", "IN", "DO", "CONST", "VAR", "IDENTIFIER", 
-			"INTEGER", "CHARCONST", "STRING", "NL", "FOR", "RETURN", "NEWLINE", "PRINT", 
-			"ASSIGNMENT", "FLOAT", "LEN"
+			"ASSIGNMENT", "LESSTHAN", "GREATERTHAN", "LESSTHANEQUAL", "GREATERTHANEQUAL", 
+			"COMPARISON", "DEF", "IF", "WHILE", "FOR", "ELSE", "IN", "DO", "CONST", 
+			"VAR", "RETURN", "PRINT", "LEN", "IDENTIFIER", "INTEGER", "FLOAT", "CHARCONST", 
+			"STRING", "NEWLINE", "NL", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -873,7 +874,7 @@ public class MiniPythonParser extends Parser {
 			setState(147);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 4063232L) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 8126464L) != 0)) {
 				{
 				{
 				setState(144);
@@ -956,7 +957,7 @@ public class MiniPythonParser extends Parser {
 			{
 			setState(153);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 4063232L) != 0)) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 8126464L) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -1292,7 +1293,7 @@ public class MiniPythonParser extends Parser {
 			setState(194);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 3314641027616L) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 1082331775520L) != 0)) {
 				{
 				setState(186);
 				expression();
@@ -1514,7 +1515,7 @@ public class MiniPythonParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001)\u00e6\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001*\u00e6\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
 		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0002"+
 		"\b\u0007\b\u0002\t\u0007\t\u0002\n\u0007\n\u0002\u000b\u0007\u000b\u0002"+
@@ -1551,7 +1552,7 @@ public class MiniPythonParser extends Parser {
 		"\u0018\u0001\u0018\u0001\u0018\u0001\u0018\u0003\u0018\u00e0\b\u0018\u0001"+
 		"\u0019\u0001\u0019\u0001\u0019\u0001\u0019\u0001\u0019\u0000\u0000\u001a"+
 		"\u0000\u0002\u0004\u0006\b\n\f\u000e\u0010\u0012\u0014\u0016\u0018\u001a"+
-		"\u001c\u001e \"$&(*,.02\u0000\u0003\u0001\u0000\u0011\u0015\u0001\u0000"+
+		"\u001c\u001e \"$&(*,.02\u0000\u0003\u0001\u0000\u0012\u0016\u0001\u0000"+
 		"\r\u000e\u0001\u0000\u000f\u0010\u00e7\u00004\u0001\u0000\u0000\u0000"+
 		"\u0002=\u0001\u0000\u0000\u0000\u0004G\u0001\u0000\u0000\u0000\u0006I"+
 		"\u0001\u0000\u0000\u0000\bY\u0001\u0000\u0000\u0000\n[\u0001\u0000\u0000"+
@@ -1574,30 +1575,30 @@ public class MiniPythonParser extends Parser {
 		"FH\u0003\u0018\f\u0000G?\u0001\u0000\u0000\u0000G@\u0001\u0000\u0000\u0000"+
 		"GA\u0001\u0000\u0000\u0000GB\u0001\u0000\u0000\u0000GC\u0001\u0000\u0000"+
 		"\u0000GD\u0001\u0000\u0000\u0000GE\u0001\u0000\u0000\u0000GF\u0001\u0000"+
-		"\u0000\u0000H\u0005\u0001\u0000\u0000\u0000IJ\u0005\u0016\u0000\u0000"+
-		"JK\u0005\u001e\u0000\u0000KL\u0005\u0005\u0000\u0000LM\u0003\b\u0004\u0000"+
+		"\u0000\u0000H\u0005\u0001\u0000\u0000\u0000IJ\u0005\u0017\u0000\u0000"+
+		"JK\u0005#\u0000\u0000KL\u0005\u0005\u0000\u0000LM\u0003\b\u0004\u0000"+
 		"MN\u0005\u0006\u0000\u0000NO\u0005\u0004\u0000\u0000OP\u0003\u001a\r\u0000"+
-		"P\u0007\u0001\u0000\u0000\u0000QV\u0005\u001e\u0000\u0000RS\u0005\u0003"+
-		"\u0000\u0000SU\u0005\u001e\u0000\u0000TR\u0001\u0000\u0000\u0000UX\u0001"+
-		"\u0000\u0000\u0000VT\u0001\u0000\u0000\u0000VW\u0001\u0000\u0000\u0000"+
-		"WZ\u0001\u0000\u0000\u0000XV\u0001\u0000\u0000\u0000YQ\u0001\u0000\u0000"+
-		"\u0000YZ\u0001\u0000\u0000\u0000Z\t\u0001\u0000\u0000\u0000[\\\u0005\u0017"+
-		"\u0000\u0000\\]\u0003\u001c\u000e\u0000]^\u0005\u0004\u0000\u0000^_\u0003"+
-		"\u001a\r\u0000_`\u0005\u0019\u0000\u0000`a\u0005\u0004\u0000\u0000ab\u0003"+
-		"\u001a\r\u0000b\u000b\u0001\u0000\u0000\u0000cd\u0005\u0018\u0000\u0000"+
-		"de\u0003\u001c\u000e\u0000ef\u0005\u0004\u0000\u0000fg\u0003\u001a\r\u0000"+
-		"g\r\u0001\u0000\u0000\u0000hi\u0005#\u0000\u0000ij\u0003\u001c\u000e\u0000"+
-		"jk\u0005\u001a\u0000\u0000kl\u0003.\u0017\u0000lm\u0005\u0004\u0000\u0000"+
-		"mn\u0003\u001a\r\u0000n\u000f\u0001\u0000\u0000\u0000op\u0005$\u0000\u0000"+
-		"pq\u0003\u001c\u000e\u0000qr\u0005%\u0000\u0000r\u0011\u0001\u0000\u0000"+
-		"\u0000st\u0005&\u0000\u0000tu\u0003\u001c\u000e\u0000uv\u0005%\u0000\u0000"+
-		"v\u0013\u0001\u0000\u0000\u0000wx\u0005\u001e\u0000\u0000xy\u0005\'\u0000"+
-		"\u0000yz\u0003\u001c\u000e\u0000z{\u0005%\u0000\u0000{\u0015\u0001\u0000"+
-		"\u0000\u0000|}\u0005\u001e\u0000\u0000}~\u0005\u0005\u0000\u0000~\u007f"+
-		"\u0003.\u0017\u0000\u007f\u0080\u0005%\u0000\u0000\u0080\u0017\u0001\u0000"+
-		"\u0000\u0000\u0081\u0082\u0003.\u0017\u0000\u0082\u0083\u0005%\u0000\u0000"+
+		"P\u0007\u0001\u0000\u0000\u0000QV\u0005#\u0000\u0000RS\u0005\u0003\u0000"+
+		"\u0000SU\u0005#\u0000\u0000TR\u0001\u0000\u0000\u0000UX\u0001\u0000\u0000"+
+		"\u0000VT\u0001\u0000\u0000\u0000VW\u0001\u0000\u0000\u0000WZ\u0001\u0000"+
+		"\u0000\u0000XV\u0001\u0000\u0000\u0000YQ\u0001\u0000\u0000\u0000YZ\u0001"+
+		"\u0000\u0000\u0000Z\t\u0001\u0000\u0000\u0000[\\\u0005\u0018\u0000\u0000"+
+		"\\]\u0003\u001c\u000e\u0000]^\u0005\u0004\u0000\u0000^_\u0003\u001a\r"+
+		"\u0000_`\u0005\u001b\u0000\u0000`a\u0005\u0004\u0000\u0000ab\u0003\u001a"+
+		"\r\u0000b\u000b\u0001\u0000\u0000\u0000cd\u0005\u0019\u0000\u0000de\u0003"+
+		"\u001c\u000e\u0000ef\u0005\u0004\u0000\u0000fg\u0003\u001a\r\u0000g\r"+
+		"\u0001\u0000\u0000\u0000hi\u0005\u001a\u0000\u0000ij\u0003\u001c\u000e"+
+		"\u0000jk\u0005\u001c\u0000\u0000kl\u0003.\u0017\u0000lm\u0005\u0004\u0000"+
+		"\u0000mn\u0003\u001a\r\u0000n\u000f\u0001\u0000\u0000\u0000op\u0005 \u0000"+
+		"\u0000pq\u0003\u001c\u000e\u0000qr\u0005(\u0000\u0000r\u0011\u0001\u0000"+
+		"\u0000\u0000st\u0005!\u0000\u0000tu\u0003\u001c\u000e\u0000uv\u0005(\u0000"+
+		"\u0000v\u0013\u0001\u0000\u0000\u0000wx\u0005#\u0000\u0000xy\u0005\u0011"+
+		"\u0000\u0000yz\u0003\u001c\u000e\u0000z{\u0005(\u0000\u0000{\u0015\u0001"+
+		"\u0000\u0000\u0000|}\u0005#\u0000\u0000}~\u0005\u0005\u0000\u0000~\u007f"+
+		"\u0003.\u0017\u0000\u007f\u0080\u0005(\u0000\u0000\u0080\u0017\u0001\u0000"+
+		"\u0000\u0000\u0081\u0082\u0003.\u0017\u0000\u0082\u0083\u0005(\u0000\u0000"+
 		"\u0083\u0019\u0001\u0000\u0000\u0000\u0084\u0085\u0005\u0001\u0000\u0000"+
-		"\u0085\u008a\u0003\u0004\u0002\u0000\u0086\u0087\u0005%\u0000\u0000\u0087"+
+		"\u0085\u008a\u0003\u0004\u0002\u0000\u0086\u0087\u0005(\u0000\u0000\u0087"+
 		"\u0089\u0003\u0004\u0002\u0000\u0088\u0086\u0001\u0000\u0000\u0000\u0089"+
 		"\u008c\u0001\u0000\u0000\u0000\u008a\u0088\u0001\u0000\u0000\u0000\u008a"+
 		"\u008b\u0001\u0000\u0000\u0000\u008b\u008d\u0001\u0000\u0000\u0000\u008c"+
@@ -1632,27 +1633,27 @@ public class MiniPythonParser extends Parser {
 		"\u0001\u0000\u0000\u0000\u00c2\u00c3\u0001\u0000\u0000\u0000\u00c3/\u0001"+
 		"\u0000\u0000\u0000\u00c4\u00c6\u0005\u000e\u0000\u0000\u00c5\u00c4\u0001"+
 		"\u0000\u0000\u0000\u00c5\u00c6\u0001\u0000\u0000\u0000\u00c6\u00c7\u0001"+
-		"\u0000\u0000\u0000\u00c7\u00e0\u0005\u001f\u0000\u0000\u00c8\u00ca\u0005"+
-		"\u000e\u0000\u0000\u00c9\u00c8\u0001\u0000\u0000\u0000\u00c9\u00ca\u0001"+
-		"\u0000\u0000\u0000\u00ca\u00cb\u0001\u0000\u0000\u0000\u00cb\u00e0\u0005"+
-		"(\u0000\u0000\u00cc\u00e0\u0005 \u0000\u0000\u00cd\u00e0\u0005!\u0000"+
-		"\u0000\u00ce\u00d3\u0005\u001e\u0000\u0000\u00cf\u00d0\u0005\u0005\u0000"+
-		"\u0000\u00d0\u00d1\u0003.\u0017\u0000\u00d1\u00d2\u0005\u0006\u0000\u0000"+
-		"\u00d2\u00d4\u0001\u0000\u0000\u0000\u00d3\u00cf\u0001\u0000\u0000\u0000"+
-		"\u00d3\u00d4\u0001\u0000\u0000\u0000\u00d4\u00e0\u0001\u0000\u0000\u0000"+
-		"\u00d5\u00d6\u0005\u0005\u0000\u0000\u00d6\u00d7\u0003\u001c\u000e\u0000"+
-		"\u00d7\u00d8\u0005\u0006\u0000\u0000\u00d8\u00e0\u0001\u0000\u0000\u0000"+
-		"\u00d9\u00e0\u00032\u0019\u0000\u00da\u00db\u0005)\u0000\u0000\u00db\u00dc"+
-		"\u0005\u0005\u0000\u0000\u00dc\u00dd\u0003\u001c\u000e\u0000\u00dd\u00de"+
-		"\u0005\u0006\u0000\u0000\u00de\u00e0\u0001\u0000\u0000\u0000\u00df\u00c5"+
-		"\u0001\u0000\u0000\u0000\u00df\u00c9\u0001\u0000\u0000\u0000\u00df\u00cc"+
-		"\u0001\u0000\u0000\u0000\u00df\u00cd\u0001\u0000\u0000\u0000\u00df\u00ce"+
-		"\u0001\u0000\u0000\u0000\u00df\u00d5\u0001\u0000\u0000\u0000\u00df\u00d9"+
-		"\u0001\u0000\u0000\u0000\u00df\u00da\u0001\u0000\u0000\u0000\u00e01\u0001"+
-		"\u0000\u0000\u0000\u00e1\u00e2\u0005\t\u0000\u0000\u00e2\u00e3\u0003."+
-		"\u0017\u0000\u00e3\u00e4\u0005\n\u0000\u0000\u00e43\u0001\u0000\u0000"+
-		"\u0000\u00108=GVY\u008a\u0093\u009f\u00a9\u00b3\u00bf\u00c2\u00c5\u00c9"+
-		"\u00d3\u00df";
+		"\u0000\u0000\u0000\u00c7\u00e0\u0005$\u0000\u0000\u00c8\u00ca\u0005\u000e"+
+		"\u0000\u0000\u00c9\u00c8\u0001\u0000\u0000\u0000\u00c9\u00ca\u0001\u0000"+
+		"\u0000\u0000\u00ca\u00cb\u0001\u0000\u0000\u0000\u00cb\u00e0\u0005%\u0000"+
+		"\u0000\u00cc\u00e0\u0005&\u0000\u0000\u00cd\u00e0\u0005\'\u0000\u0000"+
+		"\u00ce\u00d3\u0005#\u0000\u0000\u00cf\u00d0\u0005\u0005\u0000\u0000\u00d0"+
+		"\u00d1\u0003.\u0017\u0000\u00d1\u00d2\u0005\u0006\u0000\u0000\u00d2\u00d4"+
+		"\u0001\u0000\u0000\u0000\u00d3\u00cf\u0001\u0000\u0000\u0000\u00d3\u00d4"+
+		"\u0001\u0000\u0000\u0000\u00d4\u00e0\u0001\u0000\u0000\u0000\u00d5\u00d6"+
+		"\u0005\u0005\u0000\u0000\u00d6\u00d7\u0003\u001c\u000e\u0000\u00d7\u00d8"+
+		"\u0005\u0006\u0000\u0000\u00d8\u00e0\u0001\u0000\u0000\u0000\u00d9\u00e0"+
+		"\u00032\u0019\u0000\u00da\u00db\u0005\"\u0000\u0000\u00db\u00dc\u0005"+
+		"\u0005\u0000\u0000\u00dc\u00dd\u0003\u001c\u000e\u0000\u00dd\u00de\u0005"+
+		"\u0006\u0000\u0000\u00de\u00e0\u0001\u0000\u0000\u0000\u00df\u00c5\u0001"+
+		"\u0000\u0000\u0000\u00df\u00c9\u0001\u0000\u0000\u0000\u00df\u00cc\u0001"+
+		"\u0000\u0000\u0000\u00df\u00cd\u0001\u0000\u0000\u0000\u00df\u00ce\u0001"+
+		"\u0000\u0000\u0000\u00df\u00d5\u0001\u0000\u0000\u0000\u00df\u00d9\u0001"+
+		"\u0000\u0000\u0000\u00df\u00da\u0001\u0000\u0000\u0000\u00e01\u0001\u0000"+
+		"\u0000\u0000\u00e1\u00e2\u0005\t\u0000\u0000\u00e2\u00e3\u0003.\u0017"+
+		"\u0000\u00e3\u00e4\u0005\n\u0000\u0000\u00e43\u0001\u0000\u0000\u0000"+
+		"\u00108=GVY\u008a\u0093\u009f\u00a9\u00b3\u00bf\u00c2\u00c5\u00c9\u00d3"+
+		"\u00df";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
