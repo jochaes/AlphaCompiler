@@ -1,5 +1,7 @@
 def calcularFac(num):
     num_aux = 0
+    num_aux = 9
+    num_aux = 0
     if (num < 1 ):
         num_aux = 1
     else:
