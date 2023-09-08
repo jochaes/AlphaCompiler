@@ -13,12 +13,17 @@ tokens {INDENT, DEDENT}
 }
 
 @lexer::members{
-    private final DenterHelper denter = new DenterHelper(NL, MiniPythonScanner.INDENT, MiniPythonScanner.DEDENT) {
-        @Override
-        public Token pullToken(){
-            return MiniPythonScanner.super.nextToken();
-        }
-    };
+//    private final DenterHelper denter = new DenterHelper(NL, MiniPythonScanner.INDENT, MiniPythonScanner.DEDENT) {
+//        @Override
+//        public Token pullToken(){
+//            return MiniPythonScanner.super.nextToken();
+//        }
+//    };
+    private final DenterHelper denter = DenterHelper.builder()
+        .nl(NEWLINE)
+        .indent(MiniPythonScanner.INDENT)
+        .dedent(MiniPythonScanner.DEDENT)
+        .pullToken(MiniPythonScanner.super::nextToken);
 
     @Override
     public Token nextToken(){
@@ -35,15 +40,12 @@ OPENCURLYBRACE      : '{';
 CLOSECURLYBRACE     : '}';
 OPENSQRBRACKET      : '[';
 CLOSESQRBRACKET     : ']';
-
 DOUBLEQUOTES        : '"';
 SINGLEQUOTE         : '\'';
-
 PLUSSIGN            : '+';
 MINUSSIGN           : '-';
 ASTERISK            : '*';
 SLASH               : '/';
-
 ASSIGNMENT          : '=';
 LESSTHAN            : '<';
 GREATERTHAN         : '>';
@@ -56,22 +58,14 @@ DEF                 : 'def';
 IF                  : 'if';
 WHILE               : 'while';
 FOR                 : 'for';
-//LET     : 'let';
-//THEN    : 'then';
 ELSE                : 'else';
 IN                  : 'in';
 DO                  : 'do';
-//BEGIN   : 'begin';
-//END     : 'end';
 CONST               : 'const';
 VAR                 : 'var';
 RETURN              : 'return';
 PRINT               : 'print';
 LEN                 : 'len';
-//CHAR                : 'char';
-//STRING              : 'string';
-//INTEGER             : 'int';
-
 
 IDENTIFIER : LETTER (LETTER|DIGIT)* ;
 INTEGER : DIGIT DIGIT* ;
@@ -82,6 +76,10 @@ STRING: DOUBLEQUOTES IDENTIFIER (IDENTIFIER|[ \t\n\r]+)* DOUBLEQUOTES;  //TAREA:
 fragment LETTER : 'a'..'z' | 'A'..'Z' | '_';
 fragment DIGIT : '0'..'9' ;
 
-NEWLINE : '\n';
-NL: ('\r'? '\n' ' '*);
-WS  : [ \n]+ -> skip ;
+
+//NL: ('\r'? '\n' ' '*);
+
+NEWLINE: ('\r'? '\n' (' ' | '\t')*);
+//NEWLINE : '\n';
+WS  : [ \r\n\t]+ -> skip ;
+

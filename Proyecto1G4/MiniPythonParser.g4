@@ -37,7 +37,7 @@ whileStatement: WHILE expression COLON sequence;
 
 forStatement: FOR expression IN expressionList COLON sequence;
 
-returnStatement: RETURN expression NEWLINE;
+returnStatement: RETURN expression;
 
 printStatement: PRINT expression NEWLINE;
 
@@ -47,7 +47,7 @@ functionCallStatement: IDENTIFIER OPENPARENTHESIS expressionList NEWLINE;
 
 expressionStatement: expressionList NEWLINE;
 
-sequence: INDENT statement (NEWLINE statement)* DEDENT;
+sequence: INDENT statement statement* DEDENT;   //Tiene que llevar un Statement, con 0 o más, lo de newline ya no se necesita
 
 expression: additionExpression comparison*;
 

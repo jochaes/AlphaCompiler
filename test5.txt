@@ -3,6 +3,6 @@ let
 in
 begin
     x := "hola";
-    hola(
+    print(i)
 end
 
