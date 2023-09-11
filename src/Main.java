@@ -54,6 +54,7 @@
 
 
 //Para ejecutar el parser Automático
+import AST.ProgramASTree;
 import generatedMiniPython.*;
 import generated.*;
 import org.antlr.v4.runtime.CharStream;
@@ -74,11 +75,10 @@ public class Main {
 
     public static void main(String[] args)
     {
-        //Casos de Pruebas
-
-//        initAlphaParserAutomatico("test5.txt");
-        initMiniPythonParserAutomatico("testClase6.txt");
-
+        //Se ejecuta el Parser Manual con el archivo test.txt
+        //Para verel arbol se recomienda colocar un breakpoint en la linea 183
+        // y revisar la variable desde el debugger.
+        initParserManual("test.txt");
     }
 
     public static void initAlphaParserAutomatico(String txtPrueba){
@@ -108,14 +108,12 @@ public class Main {
                 //Para visitar el arbol
                 (new PrettyPrint()).visit(tree);
 
-
 //                parser.program();
                 System.out.println("Compilación con Parser Automático Terminada!!\n");
 
 //                java.util.concurrent.Future<JFrame> treeGUI = org.antlr.v4.gui.Trees.inspect(tree, parser);
 //                treeGUI.get().setVisible(true);
             }
-
             catch(RecognitionException e){
                 System.out.println("Error!!!");
                 e.printStackTrace();
@@ -164,7 +162,7 @@ public class Main {
         }
         catch(Exception e){System.out.println("No hay archivo");e.printStackTrace();}
     }
-/**
+
     public static void initParserManual(String txtPrueba){
         AlphaScanner inst = null;
 //        AlphaParser parser = null;
@@ -177,22 +175,15 @@ public class Main {
         try {
             input = CharStreams.fromFileName(txtPrueba);  //Abrir el archivo y lo lee
             inst = new AlphaScanner(input);               //A partir del stream, se lo doy de entrada al Scanner
-//            tokens = new CommonTokenStream(inst);          //Se crea la clase commontokenstream, osea a prtir de lo que crea el scanner, hace un objeto con toda la lista de tokens
-//            parser = new AlphaParser(tokens);            //Ese objeto se lo mando al parser(Le paso la lista de token que viene en el archivo)
-
             AlphaParserManual parser = new AlphaParserManual(inst); //Nuestro Parser
 
-            //En este punto ya esta todo montado
 
 
             try {
-//                tree = parser.program(); //Iniciar el Parser, de la instancia llame al metodo principal (llame a program)
-//                Si aqui se da cuenta que algo no está bien, entonces manda error
-                parser.parseProgram();
+
+                ProgramASTree program =  parser.parseProgram();
                 System.out.println("Compilación con Parser Manual Terminada!!\n");
 
-//                java.util.concurrent.Future<JFrame> treeGUI = org.antlr.v4.gui.Trees.inspect(tree, parser);
-//                treeGUI.get().setVisible(true);
             }
 
             catch(RecognitionException e){
@@ -202,6 +193,6 @@ public class Main {
         }
         catch(Exception e){System.out.println("No hay archivo");e.printStackTrace();}
     }
-**/
+
 
 }

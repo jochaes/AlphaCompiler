@@ -79,9 +79,9 @@ public class AlphaParserManual {
     // Parser del Token No Terminal: Program
     //    program ::=
     //      singleCommand
-//    public void parseProgram(){
-//        parseSingleCommand();
-//    }
+    //    public void parseProgram(){
+    //        parseSingleCommand();
+    //    }
 
     //Para la tarea del Arbol:::
     public ProgramASTree parseProgram(){
@@ -94,20 +94,6 @@ public class AlphaParserManual {
     // Parser del Token No Terminal: command
     //    command ::=
     //                singleCommand (; singleCommand)*
-//    public void parseCommand(){
-//        parseSingleCommand();
-//
-//        //Cuando uno define un Token, el token no es sólo en nombre
-//        //Los scanner cuando detecta un token devuelve un objeto con 4 cosas,
-//        // Varibale, fila, columna,
-//        //Acá preguntamos si el tipo de token actual sea
-//        while(this.tokenActual.getType() == AlphaScanner.PyCOMA){
-//            acceptIt(); //Next token
-//            parseSingleCommand();
-//        }
-//    }
-
-    //Para la tarea del Arbol:::
     public CommandASTree parseCommand(){
         CommandASTree res;
         SingleCommandASTree SC1 = parseSingleCommand();
@@ -136,67 +122,6 @@ public class AlphaParserManual {
     //                  | let declaration in singleCommand
     //                  | begin command end
     //Identificar el conjunto de iniciadores de esa regla, cuando hay varias opciones, estos son los terminales
-//    public void parseSingleCommand(){
-//        if (tokenActual.getType() == AlphaScanner.ID){  //si el token actual es un identificador
-//            acceptIt();
-//
-//            if ( tokenActual.getType() == AlphaScanner.ASSIGN ){
-//                acceptIt();
-//                parseExpression();
-//
-//            }else if( tokenActual.getType() == AlphaScanner.PIZQ ){
-//                acceptIt();
-//                parseExpression();
-///*
-// *
-// * Uso de Métodos de la manera:
-// *   ID (x,'y', "HOLA, 20)
-// *
-// * */
-//                while(this.tokenActual.getType() == AlphaScanner.COMA){
-//                    acceptIt();
-//                    parseExpression();
-//                }
-//                accept(AlphaScanner.PDER);
-//
-//            }else {
-//                printError("Se esperaba una asignación o un aexprecion entre ()");
-//
-//            }
-//
-//        }else if(tokenActual.getType() == AlphaScanner.IF ) {
-//
-//
-//
-//            acceptIt(); //Acepta el IF y lee el siguiente
-//            parseExpression();
-//            accept(AlphaScanner.THEN);
-//            parseSingleCommand();
-//            accept(AlphaScanner.ELSE);
-//            parseSingleCommand();
-//        }else if(tokenActual.getType() == AlphaScanner.WHILE ) {
-//            acceptIt();
-//            parseExpression();
-//            accept(AlphaScanner.DO);
-//            parseSingleCommand();
-//
-//        }else if(tokenActual.getType() == AlphaScanner.LET ) {
-//            acceptIt();
-//            parseDeclaration();
-//            accept(AlphaScanner.IN);
-//            parseSingleCommand();
-//        }else if(tokenActual.getType() == AlphaScanner.BEGIN ) {
-//            acceptIt();
-//            parseCommand();
-//            accept(AlphaScanner.END);
-//        }else{
-//
-//            res = null;
-//            //Se puede hacer una función que
-//            printError("Error, se esperaban {if,else,while,let,begin}, pero viene otra cosa");
-//        }
-//    }
-
     public SingleCommandASTree parseSingleCommand(){
         SingleCommandASTree res = new SingleCommandASTree();
         ExpressionASTree expressionAST;
@@ -348,13 +273,13 @@ public class AlphaParserManual {
             TypeDenoterASTree tp = parseTypeDenoter();
             VarSDASTree varSD = new VarSDASTree(idtoken, tp );
             singleDeclaration = new SingleDeclarationASTree(varSD);
-/*
-*
-* Declaración de Métodos de la manera:
-*   def ID(x:int,y:string){command}
-*
-* */
-// DEF ID (PIZQ PDER | PIZQ ID DOSPUN typedenoter (COMA ID DOSPUN typedenoter)* PDER ) CIZQ command CDER
+        /*
+        *
+        * Declaración de Métodos de la manera:
+        *   def ID(x:int,y:string){command}
+        *
+        * */
+        // DEF ID (PIZQ PDER | PIZQ ID DOSPUN typedenoter (COMA ID DOSPUN typedenoter)* PDER ) CIZQ command CDER
         } else if(tokenActual.getType() == AlphaScanner.DEF){
             DefSDAST defSD = new DefSDAST();
 
@@ -422,22 +347,22 @@ public class AlphaParserManual {
             IntTDASTree intTP = new IntTDASTree(tokenActual);
             acceptIt();
             typeDenoter = intTP;
-/*
- *
- * Tipos CHAR:
- *   x:char
- *
- * */
+        /*
+         *
+         * Tipos CHAR:
+         *   x:char
+         *
+         * */
         } else if (tokenActual.getType() == AlphaScanner.CHAR) {
             CharTDASTree charTD = new CharTDASTree(tokenActual);
             acceptIt();
             typeDenoter = charTD;
-/*
- *
- * Tipos STRING:
- *   x:string
- *
- * */
+        /*
+         *
+         * Tipos STRING:
+         *   x:string
+         *
+         * */
         } else if (tokenActual.getType() == AlphaScanner.STRING) {
             StringTDASTree stringTD = new StringTDASTree(tokenActual);
             acceptIt();

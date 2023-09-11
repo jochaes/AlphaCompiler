@@ -1,15 +1,9 @@
 let
     var x:int;
-    var y:string;
-    var z:char;
-    const w~"hola";
-    const t~'k';
     def hola(x:int, y:string, f:char){ x := 20; x:=(x+y) }
 in
 begin
     x := 20;
-    y := "hola";
-    z := 'k';
     print(x);
     hola(20,y,'g',"hola")
 end
