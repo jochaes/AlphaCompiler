@@ -1,9 +1,8 @@
-import AST.CommandASTree;
-import AST.ProgramASTree;
-import AST.SingleCommandASTree;
+import AST.*;
 import generated.AlphaScanner;
 import org.antlr.v4.runtime.Token;
 
+import java.beans.Expression;
 import java.util.LinkedList;
 
 //Algoritmo de Descenso recursivo
@@ -199,17 +198,36 @@ public class AlphaParserManual {
 //    }
 
     public SingleCommandASTree parseSingleCommand(){
-        SingleCommandASTree res;
+        SingleCommandASTree res = new SingleCommandASTree();
+        ExpressionASTree expressionAST;
+        LinkedList<ExpressionASTree> expressionList= new LinkedList<ExpressionASTree>();
         if (tokenActual.getType() == AlphaScanner.ID){  //si el token actual es un identificador
+            //Puede Ser Un Assign
+            AssignSCASTree assignSC = new AssignSCASTree();
+            assignSC.setIdToken(tokenActual);
+
+            // O Puede ser una llamada
+            CallSCASTree callSC = new CallSCASTree();
+            callSC.setIdToken(tokenActual);
+
+
             acceptIt();
 
             if ( tokenActual.getType() == AlphaScanner.ASSIGN ){
+                assignSC.setAssignToken(tokenActual);
                 acceptIt();
-                parseExpression();
+
+                expressionAST = parseExpression();
+                assignSC.setExpression(expressionAST);
+                res.setSingleCommand(assignSC);
+                return res;
 
             }else if( tokenActual.getType() == AlphaScanner.PIZQ ){
+                callSC.setPizqToken(tokenActual);
                 acceptIt();
-                parseExpression();
+
+                expressionAST = parseExpression();
+                callSC.setExpression(expressionAST);
                 /*
                  *
                  * Uso de Métodos de la manera:
@@ -218,40 +236,67 @@ public class AlphaParserManual {
                  * */
                 while(this.tokenActual.getType() == AlphaScanner.COMA){
                     acceptIt();
-                    parseExpression();
+
+                    ExpressionASTree tempExpression =  parseExpression();
+                    expressionList.add(tempExpression);
                 }
+                callSC.setExpressionList(expressionList);
                 accept(AlphaScanner.PDER);
+                //Falta colocar el PDER en en callSC
+                res.setSingleCommand(callSC);
+                return res;
+
 
             }else {
                 printError("Se esperaba una asignación o un aexprecion entre ()");
-
+                return null;
             }
 
         }else if(tokenActual.getType() == AlphaScanner.IF ) {
-            acceptIt(); //Acepta el IF y lee el siguiente
-            parseExpression();
-            accept(AlphaScanner.THEN);
-            parseSingleCommand();
-            accept(AlphaScanner.ELSE);
-            parseSingleCommand();
-        }else if(tokenActual.getType() == AlphaScanner.WHILE ) {
-            acceptIt();
-            parseExpression();
-            accept(AlphaScanner.DO);
-            parseSingleCommand();
+            IfSCASTree ifSC = new IfSCASTree();
 
+            acceptIt(); //Acepta el IF y lee el siguiente
+            ifSC.setExpression( parseExpression() );
+
+            accept(AlphaScanner.THEN);
+
+            ifSC.setSingleCommand( parseSingleCommand() );
+            accept(AlphaScanner.ELSE);
+
+            ifSC.setSingleCommand( parseSingleCommand() );
+
+            res.setSingleCommand(ifSC);
+            return res;
+
+        }else if(tokenActual.getType() == AlphaScanner.WHILE ) {
+            WhileSCASTree whileSC = new WhileSCASTree();
+
+            acceptIt();
+            whileSC.setExpression( parseExpression() );
+            accept(AlphaScanner.DO);
+            whileSC.setSingleCommand(parseSingleCommand());
+
+            res.setSingleCommand(whileSC);
+            return res;
         }else if(tokenActual.getType() == AlphaScanner.LET ) {
+            LetSCASTree letSC = new LetSCASTree();
             acceptIt();
-            parseDeclaration();
+            letSC.setDeclaration( parseDeclaration() );
             accept(AlphaScanner.IN);
-            parseSingleCommand();
+            letSC.setSingleCommand( parseSingleCommand() );
+            res.setSingleCommand(letSC);
+            return res;
         }else if(tokenActual.getType() == AlphaScanner.BEGIN ) {
+            BlockSCASTree blockSCASTree = new BlockSCASTree();
             acceptIt();
-            parseCommand();
+            blockSCASTree.setSingleCommand( parseCommand() );
             accept(AlphaScanner.END);
+            res.setSingleCommand(blockSCASTree);
+            return res;
         }else{
             //Se puede hacer una función que
             printError("Error, se esperaban {if,else,while,let,begin}, pero viene otra cosa");
+            return null;
         }
         return res;
     }

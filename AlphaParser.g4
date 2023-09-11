@@ -74,4 +74,5 @@ primaryExpression :
         | PIZQ expression PDER                                                                      #expPEAST
         | CHARLIT                                                                                   #charPEAST
         | STRLIT                                                                                    #strPEAST;
+
 operator : SUM | SUB | MUL | DIV                                                                    #operator;
