@@ -301,38 +301,53 @@ public class AlphaParserManual {
         return res;
     }
 
-
-
-
     // Parser del Token No Terminal: declaration
     //    declaration ::=
     //                  singleDeclaration (; singleDeclaration)*
-    public void parseDeclaration(){
-        parseSingleDeclaration();
+    public DeclarationASTree parseDeclaration(){
+        DeclarationASTree declaration;
+        SingleDeclarationASTree singleDeclaration = parseSingleDeclaration();
+        LinkedList<SingleDeclarationASTree> singleDeclarationList = new LinkedList<SingleDeclarationASTree>();
+
 
         while(this.tokenActual.getType() == AlphaScanner.PyCOMA){
             acceptIt();
-            parseSingleDeclaration();
+            SingleDeclarationASTree tmpSingleDeclaration =  parseSingleDeclaration();
+            singleDeclarationList.add(tmpSingleDeclaration);
         }
+
+        declaration = new DeclarationASTree(singleDeclaration, singleDeclarationList);
+        return declaration;
+
     }
 
     // Parser del Token No Terminal: singleDeclaration
     //    singleDeclaration ::=
     //                  const Identifier ~ expression
     //                  | var Identifier : typeDenoter
-    public void parseSingleDeclaration(){
+    public SingleDeclarationASTree parseSingleDeclaration(){
+        SingleDeclarationASTree singleDeclaration;
 
         if ( tokenActual.getType() == AlphaScanner.CONST ){
+
             acceptIt();
+            Token idtoken = tokenActual;
             accept( AlphaScanner.ID );
             accept(AlphaScanner.VIR);
-            parseExpression();
+            ExpressionASTree expression =  parseExpression();
+            ConstSDASTree constSD = new ConstSDASTree(expression, idtoken);
+            singleDeclaration = new SingleDeclarationASTree(constSD);
+
 
         } else if( tokenActual.getType() == AlphaScanner.VAR ){
+
             acceptIt();
+            Token idtoken = tokenActual;
             accept( AlphaScanner.ID );
             accept(AlphaScanner.DOSPUN);
-            parseTypeDenoter();
+            TypeDenoterASTree tp = parseTypeDenoter();
+            VarSDASTree varSD = new VarSDASTree(idtoken, tp );
+            singleDeclaration = new SingleDeclarationASTree(varSD);
 /*
 *
 * Declaración de Métodos de la manera:
@@ -341,38 +356,59 @@ public class AlphaParserManual {
 * */
 // DEF ID (PIZQ PDER | PIZQ ID DOSPUN typedenoter (COMA ID DOSPUN typedenoter)* PDER ) CIZQ command CDER
         } else if(tokenActual.getType() == AlphaScanner.DEF){
+            DefSDAST defSD = new DefSDAST();
+
             acceptIt();
+            if (tokenActual.getType() == AlphaScanner.ID){
+                defSD.setFunctionName(tokenActual);
+            }
             accept(AlphaScanner.ID);
             accept(AlphaScanner.PIZQ);
 
             if (tokenActual.getType() == AlphaScanner.PDER){
                 acceptIt();
                 accept(AlphaScanner.CIZQ);
-                parseCommand();
+                defSD.setFunctionBody(parseCommand());
                 accept(AlphaScanner.CDER);
+                singleDeclaration = new SingleDeclarationASTree(defSD);
             } else if (tokenActual.getType() == AlphaScanner.ID) {
+                defSD.setArgumentName(tokenActual);
                 acceptIt();
                 accept(AlphaScanner.DOSPUN);
-                parseTypeDenoter();
+
+                defSD.setArgumentType(parseTypeDenoter());
+                LinkedList<Token> tokenLinkedList = new LinkedList<Token>();
+                LinkedList<TypeDenoterASTree> typesList = new LinkedList<TypeDenoterASTree>();
 
                 while(this.tokenActual.getType() == AlphaScanner.COMA){
                     acceptIt(); //Next token
+                    tokenLinkedList.add(tokenActual);
                     accept(AlphaScanner.ID);
                     accept(AlphaScanner.DOSPUN);
-                    parseTypeDenoter();
+                    TypeDenoterASTree tmpTD = parseTypeDenoter();
+                    typesList.add(tmpTD);
                 }
+
+                defSD.setArgs(tokenLinkedList);
+                defSD.setArgsTypes(typesList);
+
                 accept(AlphaScanner.PDER);
                 accept(AlphaScanner.CIZQ);
-                parseCommand();
+                defSD.setFunctionBody(parseCommand());
                 accept(AlphaScanner.CDER);
+                singleDeclaration = new SingleDeclarationASTree(defSD);
             }else{
                 printError("Error de validación de función");
+                singleDeclaration = null;
             }
 
         }
         else {
             printError("Debia venir un const o un var o un DEF, pero llegó otra cosa");
+            singleDeclaration = null;
         }
+
+        return singleDeclaration;
     }
 
     // Parser del Token No Terminal: typeDenoter
