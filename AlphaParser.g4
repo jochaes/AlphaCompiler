@@ -66,6 +66,7 @@ typedenoter :
         INTEGER                                                                                     #intTDAST
         | CHAR                                                                                      #charTDAST
         | STRING                                                                                    #stringTDAST;
+
 expression : primaryExpression (operator primaryExpression)*                                        #expressionAST;
                                                //Literales CHAR y STRING
 primaryExpression :

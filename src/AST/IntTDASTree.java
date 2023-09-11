@@ -1,4 +1,13 @@
 package AST;
 
-public class IntTDASTree {
+import org.antlr.v4.runtime.Token;
+
+public class IntTDASTree extends TypeDenoterASTree{
+
+    private Token integerToken;
+
+    public IntTDASTree(Token pIntegerToken){
+        this.integerToken = pIntegerToken;
+    }
+
 }

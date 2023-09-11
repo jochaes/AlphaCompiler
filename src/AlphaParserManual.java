@@ -289,7 +289,7 @@ public class AlphaParserManual {
         }else if(tokenActual.getType() == AlphaScanner.BEGIN ) {
             BlockSCASTree blockSCASTree = new BlockSCASTree();
             acceptIt();
-            blockSCASTree.setSingleCommand( parseCommand() );
+            blockSCASTree.setCommand( parseCommand() );
             accept(AlphaScanner.END);
             res.setSingleCommand(blockSCASTree);
             return res;
@@ -298,7 +298,7 @@ public class AlphaParserManual {
             printError("Error, se esperaban {if,else,while,let,begin}, pero viene otra cosa");
             return null;
         }
-        return res;
+
     }
 
     // Parser del Token No Terminal: declaration
@@ -414,11 +414,14 @@ public class AlphaParserManual {
     // Parser del Token No Terminal: typeDenoter
     //    typeDenoter ::=
     //                  Identifier
-    public void parseTypeDenoter(){
+    public TypeDenoterASTree parseTypeDenoter(){
+        TypeDenoterASTree typeDenoter;
 //        accept(AlphaScanner.ID);
 
         if (tokenActual.getType() == AlphaScanner.INTEGER) {
+            IntTDASTree intTP = new IntTDASTree(tokenActual);
             acceptIt();
+            typeDenoter = intTP;
 /*
  *
  * Tipos CHAR:
@@ -426,7 +429,9 @@ public class AlphaParserManual {
  *
  * */
         } else if (tokenActual.getType() == AlphaScanner.CHAR) {
+            CharTDASTree charTD = new CharTDASTree(tokenActual);
             acceptIt();
+            typeDenoter = charTD;
 /*
  *
  * Tipos STRING:
@@ -434,62 +439,75 @@ public class AlphaParserManual {
  *
  * */
         } else if (tokenActual.getType() == AlphaScanner.STRING) {
+            StringTDASTree stringTD = new StringTDASTree(tokenActual);
             acceptIt();
+            typeDenoter = stringTD;
         }else {
             printError("Debia venir un Integer, Char o String");
+            return null;
         }
+        return typeDenoter;
     }
 
     // Parser del Token No Terminal: expression
     //    expression ::=
     //              primaryExpression (operator primaryExpression)*
-    public void parseExpression(){
-        parsePrimaryExpression();
+    public ExpressionASTree parseExpression(){
+        ExpressionASTree expression = new ExpressionASTree();
+        LinkedList<Token> operators = new LinkedList<Token>();
+        LinkedList<PrimaryExpressionASTree> primaryexpList = new LinkedList<PrimaryExpressionASTree>();
+        expression.setPrimaryExpression( parsePrimaryExpression() );
 
         while( this.tokenActual.getType() == AlphaScanner.SUM ||
                 this.tokenActual.getType() == AlphaScanner.SUB ||
                 this.tokenActual.getType() == AlphaScanner.MUL ||
                 this.tokenActual.getType() == AlphaScanner.DIV
         ){
+            operators.add(tokenActual);
             acceptIt();
-            parsePrimaryExpression();
+            PrimaryExpressionASTree tmpPE = parsePrimaryExpression();
+            primaryexpList.add(tmpPE);
         }
+
+        expression.setPrimaryExpressionList(primaryexpList);
+        expression.setOperators(operators);
+
+        return expression;
     }
 
     // Parser del Token No Terminal: primaryExpression
     //    primaryExpression ::=
     //                  Literal | Identifier | ( expression )
 
-    public void parsePrimaryExpression(){
+    public PrimaryExpressionASTree parsePrimaryExpression(){
+
+        PrimaryExpressionASTree primaryExpression;
+        Token tokenPrimaryExp = null;
+        ExpressionASTree expression = null;
 
         if( tokenActual.getType() == AlphaScanner.NUM ){
+            tokenPrimaryExp = tokenActual;
             acceptIt();
         }else if( tokenActual.getType() == AlphaScanner.ID ){
+            tokenPrimaryExp = tokenActual;
             acceptIt();
         }else if( tokenActual.getType() == AlphaScanner.PIZQ ){
+
             acceptIt();
-            parseExpression();
+            expression = parseExpression();
             accept(AlphaScanner.PDER);
-/*
- *
- * Verificación de Constantes CHAR:
- *   const x~'c'
- *
- * */
         } else if (tokenActual.getType() == AlphaScanner.CHARLIT) {
+            tokenPrimaryExp = tokenActual;
             acceptIt();
-/*
- *
- * Verificación de Constantes String:
- *   const x~"hola"
- *
- * */
         } else if (tokenActual.getType() == AlphaScanner.STRLIT) {
+            tokenPrimaryExp = tokenActual;
             acceptIt();
         }else {
             printError("Debia venir un Num, ID, (Expression), Charlit, Strlit");
-
+            return null;
         }
+        primaryExpression = new PrimaryExpressionASTree(tokenPrimaryExp, expression);
+        return primaryExpression;
     }
 
 }
