@@ -9,13 +9,11 @@ options {
   tokenVocab = MiniPythonScanner;
 }
 
-
-
 program : mainStatement mainStatement*;                         //Un programa es 1 main statement seguido de 0 más mainStatements
 
 mainStatement:                                                  // Como los statements globales
-        defStatement
-        | assignStatement;
+        defStatement NEWLINE*
+        | assignStatement NEWLINE*;
 
 statement:
         ifStatement
@@ -25,7 +23,8 @@ statement:
         | forStatement
         | assignStatement
         | functionCallStatement
-        | expressionStatement;
+        | expressionStatement
+        | assignStatementOperator;
 
 defStatement: DEF IDENTIFIER OPENPARENTHESIS argList CLOSEPARENTHESIS COLON sequence;
 
@@ -42,6 +41,8 @@ returnStatement: RETURN expression;
 printStatement: PRINT expression NEWLINE;
 
 assignStatement: IDENTIFIER ASSIGNMENT expression NEWLINE;
+
+assignStatementOperator: IDENTIFIER (SUBSTRACTIONASSIGNMENTOP|ADDITIONASSIGNMENTOP) expression NEWLINE;
 
 functionCallStatement: IDENTIFIER OPENPARENTHESIS expressionList NEWLINE;
 
@@ -85,3 +86,4 @@ primitiveExpression:
         | LEN OPENPARENTHESIS expression CLOSEPARENTHESIS;
 
 listExpression: OPENSQRBRACKET expressionList CLOSESQRBRACKET;
+

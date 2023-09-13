@@ -78,7 +78,8 @@ public class Main {
         //Se ejecuta el Parser Manual con el archivo test.txt
         //Para verel arbol se recomienda colocar un breakpoint en la linea 183
         // y revisar la variable desde el debugger.
-        initParserManual("test.txt");
+        //initParserManual("test.txt");
+        initMiniPythonParserAutomatico("test.txt");
     }
 
     public static void initAlphaParserAutomatico(String txtPrueba){
@@ -126,7 +127,7 @@ public class Main {
 
     public static void initMiniPythonParserAutomatico(String txtPrueba){
 
-        MiniPythonScanner inst = null;
+        MiniPythonLexer inst = null;
         MiniPythonParser parser = null;
         ParseTree tree=null;
 
@@ -136,7 +137,7 @@ public class Main {
         //Trate de hacer
         try {
             input = CharStreams.fromFileName(txtPrueba);  //Abrir el archivo y lo lee
-            inst = new MiniPythonScanner(input);               //A partir del stream, se lo doy de entrada al Scanner
+            inst = new MiniPythonLexer(input);               //A partir del stream, se lo doy de entrada al Scanner
             tokens = new CommonTokenStream(inst);          //Se crea la clase commontokenstream, osea a prtir de lo que crea el scanner, hace un objeto con toda la lista de tokens
             parser = new MiniPythonParser(tokens);            //Ese objeto se lo mando al parser(Le paso la lista de token que viene en el archivo)
 

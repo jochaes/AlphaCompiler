@@ -7,7 +7,7 @@ lexer grammar MiniPythonScanner;
 
 
 tokens {INDENT, DEDENT}
-
+ //import com.yuvalshavit.antlr4.DenterHelper;
 @lexer::header{
     import com.yuvalshavit.antlr4.DenterHelper;
 }
@@ -47,6 +47,8 @@ MINUSSIGN           : '-';
 ASTERISK            : '*';
 SLASH               : '/';
 ASSIGNMENT          : '=';
+SUBSTRACTIONASSIGNMENTOP:'-=';
+ADDITIONASSIGNMENTOP: '+=';
 LESSTHAN            : '<';
 GREATERTHAN         : '>';
 LESSTHANEQUAL       : '<=';
@@ -54,12 +56,12 @@ GREATERTHANEQUAL    : '>=';
 COMPARISON          : '==';
 
 //palabras reservadas
+IN                  : 'in';
 DEF                 : 'def';
 IF                  : 'if';
 WHILE               : 'while';
 FOR                 : 'for';
 ELSE                : 'else';
-IN                  : 'in';
 DO                  : 'do';
 CONST               : 'const';
 VAR                 : 'var';
@@ -71,15 +73,14 @@ IDENTIFIER : LETTER (LETTER|DIGIT)* ;
 INTEGER : DIGIT DIGIT* ;
 FLOAT : DIGIT DIGIT* '.' DIGIT DIGIT*;
 CHARCONST : SINGLEQUOTE (LETTER|DIGIT) SINGLEQUOTE;       //TAREA: CHARLIT para crear literales de char: x:='h'
-STRING: DOUBLEQUOTES IDENTIFIER (IDENTIFIER|[ \t\n\r]+)* DOUBLEQUOTES;  //TAREA: STRLIT para crear literales de String: x:="hola"
+STRING: DOUBLEQUOTES .*? DOUBLEQUOTES;  //TAREA: STRLIT para crear literales de String: x:="hola"
 
 fragment LETTER : 'a'..'z' | 'A'..'Z' | '_';
 fragment DIGIT : '0'..'9' ;
 
-
-//NL: ('\r'? '\n' ' '*);
-
 NEWLINE: ('\r'? '\n' (' ' | '\t')*);
-//NEWLINE : '\n';
+
 WS  : [ \r\n\t]+ -> skip ;
 
+LINECOMMENT: '#' ~[\r\n]* -> skip;
+COMMENT: '"""' .*? '"""' -> skip;

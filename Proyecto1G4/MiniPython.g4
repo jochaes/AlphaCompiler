@@ -1,19 +1,29 @@
-Hola chat!
-
-Estoy haciendo un compilador, en java utilizando la libreria ANTLR4.
-
-Estas son las reglas de la gramática en EBNF.
-
 //Algoritmo de Descenso recursivo
 //Proyecto 1: Parser Mini Python
 //Estudiante: Josué Chaves
 
 
-parser grammar MiniPythonParser;
+grammar MiniPython;
 
-options {
-  tokenVocab = MiniPythonScanner;
+tokens {INDENT, DEDENT}
+ //import com.yuvalshavit.antlr4.DenterHelper;
+@lexer::header{
+    import com.yuvalshavit.antlr4.DenterHelper;
 }
+
+@lexer::members{
+    private final DenterHelper denter = DenterHelper.builder()
+        .nl(NEWLINE)
+        .indent(MiniPythonParser.INDENT)
+        .dedent(MiniPythonParser.DEDENT)
+        .pullToken(MiniPythonLexer.super::nextToken);
+
+    @Override
+    public Token nextToken(){
+        return denter.nextToken();
+    }
+}
+
 
 program : mainStatement mainStatement*;                         //Un programa es 1 main statement seguido de 0 más mainStatements
 
@@ -42,7 +52,7 @@ whileStatement: WHILE expression COLON sequence;
 
 forStatement: FOR expression IN expressionList COLON sequence;
 
-returnStatement: RETURN expression;
+returnStatement: RETURN expression NEWLINE;
 
 printStatement: PRINT expression NEWLINE;
 
@@ -54,7 +64,7 @@ functionCallStatement: IDENTIFIER OPENPARENTHESIS expressionList NEWLINE;
 
 expressionStatement: expressionList NEWLINE;
 
-sequence: INDENT statement (statement*) DEDENT;   //Tiene que llevar un Statement, con 0 o más, lo de newline ya no se necesita
+sequence: INDENT statement statement* DEDENT;   //Tiene que llevar un Statement, con 0 o más, lo de newline ya no se necesita
 
 expression: additionExpression comparison*;
 
@@ -84,6 +94,7 @@ expressionList: (expression (COMMA expression)*)?;
 primitiveExpression:
         MINUSSIGN? INTEGER
         | MINUSSIGN? FLOAT
+        | MINUSSIGN? IDENTIFIER  //Para tener -x por ejemplo
         | CHARCONST
         | STRING
         | IDENTIFIER (OPENPARENTHESIS expressionList CLOSEPARENTHESIS)?
@@ -94,43 +105,58 @@ primitiveExpression:
 listExpression: OPENSQRBRACKET expressionList CLOSESQRBRACKET;
 
 
-Es un compilador para mi lenguage llamado minipython.
+//Symbols
+COMMA               : ',';
+COLON               : ':';
+OPENPARENTHESIS     : '(';
+CLOSEPARENTHESIS    : ')';
+OPENCURLYBRACE      : '{';
+CLOSECURLYBRACE     : '}';
+OPENSQRBRACKET      : '[';
+CLOSESQRBRACKET     : ']';
+DOUBLEQUOTES        : '"';
+SINGLEQUOTE         : '\'';
+PLUSSIGN            : '+';
+MINUSSIGN           : '-';
+ASTERISK            : '*';
+SLASH               : '/';
+ASSIGNMENT          : '=';
+SUBSTRACTIONASSIGNMENTOP:'-=';
+ADDITIONASSIGNMENTOP: '+=';
+LESSTHAN            : '<';
+GREATERTHAN         : '>';
+LESSTHANEQUAL       : '<=';
+GREATERTHANEQUAL    : '>=';
+COMPARISON          : '==';
 
-REsulta que lo estoy probando con este programa de prueba:
+//palabras reservadas
 
-"""
-Ejemplo de prueba
-para Análisis Sintáctico
-PUEDE CONTENER ERRORES DE TABULACIÓN CAUSADOS POR EL FORMATO DE WORD
-"""
+IN                  : 'in';
+DEF                 : 'def';
+IF                  : 'if';
+WHILE               : 'while';
+FOR                 : 'for';
+ELSE                : 'else';
+NEWLINE: ('\r'? '\n' (' ' | '\t')*);
+DO                  : 'do';
+CONST               : 'const';
+VAR                 : 'var';
+RETURN              : 'return';
+PRINT               : 'print';
+LEN                 : 'len';
 
-#Calcular factorial
+IDENTIFIER : LETTER (LETTER|DIGIT)* ;
+INTEGER : DIGIT DIGIT* ;
+FLOAT : DIGIT DIGIT* '.' DIGIT DIGIT*;
+CHARCONST : SINGLEQUOTE (LETTER|DIGIT) SINGLEQUOTE;       //TAREA: CHARLIT para crear literales de char: x:='h'
+STRING: DOUBLEQUOTES .*? DOUBLEQUOTES;  //TAREA: STRLIT para crear literales de String: x:="hola"
 
-def calcularFac(num):
-	num_aux = 0
-	if (num < 1):
-		num_aux = 1
-	else:
-		num_aux = num * (calcularFac(num-1))
-	return num_aux
+fragment LETTER : 'a'..'z' | 'A'..'Z' | '_';
+fragment DIGIT : '0'..'9' ;
 
-def promedio(cualquier_arreglo):
-	tam = len(cualquier_arreglo)
-	resultado=0
-#ciclo para recorrer arreglo
-	cont = 0
-	sumatoria = 0
-	while (cont <= tam-1):
-		sumatoria = sumatoria + cualquier_arreglo[cont]
-		cont += 1
-	if (tam > 0):
-		resultado = sumatoria / tam
-	else:
-		resultado = resultado
-	return resultado
 
-Pero me da el siguiente error:
-line 17:0 extraneous input 'def' expecting {DEDENT, '(', '[', '-', 'if', 'while', 'for', 'return', 'print', 'len', IDENTIFIER, INTEGER, FLOAT, CHARCONST, STRING, NEWLINE}
-line 17:32 missing INDENT at '\n\t'
 
-Y no sé que puede ser, me puedes ayudar a encontrar el problema en mi gramática?
+WS  : [ \r\t]+ -> skip ;
+
+LINECOMMENT: '#' ~[\r\n]* -> skip;
+COMMENT: '"""' .*? '"""' -> skip;

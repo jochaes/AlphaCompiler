@@ -1,9 +1,44 @@
-let
-    var x:int;
-    def hola(x:int, y:string, f:char){ x := 20; x:=(x+y) }
-in
-begin
-    x := 20;
-    print(x);
-    hola(20,y,'g',"hola")
-end
+"""
+Ejemplo de prueba
+para Análisis Sintáctico
+PUEDE CONTENER ERRORES DE TABULACIÓN CAUSADOS POR EL FORMATO DE WORD
+"""
+
+#Calcular factorial
+
+def calcularFac(num):
+	num_aux = 0
+	if (num < 1):
+		num_aux = 1
+	else:
+		num_aux = num * (calcularFac(num-1))
+	return x
+
+ventas = []
+
+def promedio(cualquier_arreglo):
+	tam = len(cualquier_arreglo)
+    #ciclo para recorrer arreglo
+	cont = 0
+	sumatoria = 0
+	while ():
+		sumatoria = sumatoria + cualquier_arreglo[cont]
+		cont += 1
+	if (tam > 0):
+		resultado = sumatoria / tam
+	else:
+	    resultado = resultado
+	return resultado
+
+def calcularpromedioventas():
+    prom = promedio(ventas)
+	print("El promedio de las ventas es: ")
+	print(prom)
+	for x in lista:
+    print(x)
+	return '2'
+
+
+def main():
+	print("Calculo del Factorial: " + calcularFac(6))
+	calcularpromedioventas()
