@@ -21,7 +21,7 @@ def promedio(cualquier_arreglo):
     #ciclo para recorrer arreglo
 	cont = 0
 	sumatoria = 0
-	while ():
+	while (x > 1100):
 		sumatoria = sumatoria + cualquier_arreglo[cont]
 		cont += 1
 	if (tam > 0):
