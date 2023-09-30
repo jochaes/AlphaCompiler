@@ -1,12 +1,18 @@
-def calcularFac(num):
-    num_aux = 0
-    x = 0
-    if(num < 1):
-        num_aux = 1
+#Esto es un comentario de linea
+
+"""
+Esto es un comentario de bloque
+"""
+
+x = 123 #Asignacion de un numero
+
+def func():
+    x = 12.3
+    y = 12,5 #Error: Punto flotante con coma
+    if( x < 20):
+        print("hola") #String
+        char = 'a'    #Char
+        char = '\n'   #Error: No verifica chars tipo \n
     else:
-        num_aux = num * (calcularfact(num * 1))
-    return num_aux
-def calcularPromedio():
-    promedio = promedio(ventas)
-    print(hola)
-    print(prom)
+        print(y)
+    return 10

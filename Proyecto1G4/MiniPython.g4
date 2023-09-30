@@ -25,7 +25,7 @@ tokens {INDENT, DEDENT}
 }
 
 
-program : mainStatement mainStatement*;                         //Un programa es 1 main statement seguido de 0 más mainStatements
+program : mainStatement*;                        //Un programa es 1 main statement seguido de 0 más mainStatements
 
 mainStatement:                                                  // Como los statements globales
         defStatement
@@ -153,8 +153,6 @@ STRING: DOUBLEQUOTES .*? DOUBLEQUOTES;  //TAREA: STRLIT para crear literales de 
 
 fragment LETTER : 'a'..'z' | 'A'..'Z' | '_';
 fragment DIGIT : '0'..'9' ;
-
-
 
 WS  : [ \r\t]+ -> skip ;
 
