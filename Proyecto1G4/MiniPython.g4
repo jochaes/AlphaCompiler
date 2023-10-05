@@ -25,84 +25,85 @@ tokens {INDENT, DEDENT}
 }
 
 
-program : mainStatement*;                        //Un programa es 1 main statement seguido de 0 más mainStatements
+program : mainStatement mainStatement*                      #program_AST;                         //Un programa es 1 main statement seguido de 0 más mainStatements
 
-mainStatement:                                                  // Como los statements globales
-        defStatement
-        | assignStatement;
+mainStatement: defStatement                                 #def_MS_AST
+        | assignStatement                                   #assign_MS_AST
+        | functionCallStatement                             #functionCall_MS_AST                           //Se agrego, se pueden hacer llamadas a funciones como main statement
+        | printStatement                                    #print_MS_AST;
 
 statement:
-        ifStatement
-        | returnStatement
-        | printStatement
-        | whileStatement
-        | forStatement
-        | assignStatement
-        | functionCallStatement
-        | expressionStatement
-        | assignStatementOperator;
+          ifStatement                                       #if_ST_AST
+        | returnStatement                                   #return_ST_AST
+        | printStatement                                    #print_ST_AST
+        | whileStatement                                    #while_ST_AST
+        | forStatement                                      #for_ST_AST
+        | assignStatement                                   #assign_ST_AST
+        | functionCallStatement                             #functionCall_ST_AST
+        | expressionStatement                               #expression_ST_AST
+        | assignStatementOperator                           #assignStaOpe_ST_AST;
 
-defStatement: DEF IDENTIFIER OPENPARENTHESIS argList CLOSEPARENTHESIS COLON sequence;
+defStatement: DEF IDENTIFIER OPENPARENTHESIS argList CLOSEPARENTHESIS COLON sequence    #defStatement_AST;
 
-argList: (IDENTIFIER ( COMMA IDENTIFIER )*)?;
+argList: (IDENTIFIER ( COMMA IDENTIFIER )*)?                                            #argList_AST;
 
-ifStatement: IF expression COLON sequence ELSE COLON sequence;
+ifStatement: IF expression COLON sequence ELSE COLON sequence                           #ifStatement_AST;
 
-whileStatement: WHILE expression COLON sequence;
+whileStatement: WHILE expression COLON sequence                                         #whileStatement_AST;
 
-forStatement: FOR expression IN expressionList COLON sequence;
+forStatement: FOR expression IN expressionList COLON sequence                           #forStatement_AST;
 
-returnStatement: RETURN expression NEWLINE;
+returnStatement: RETURN expression NEWLINE                                              #returnStatement_AST;
 
-printStatement: PRINT expression NEWLINE;
+printStatement: PRINT expression NEWLINE                                                #printStatement_AST;
 
-assignStatement: IDENTIFIER ASSIGNMENT expression NEWLINE;
+assignStatement: IDENTIFIER ASSIGNMENT expression NEWLINE                               #assignStatement_AST;
 
-assignStatementOperator: IDENTIFIER (SUBSTRACTIONASSIGNMENTOP|ADDITIONASSIGNMENTOP) expression NEWLINE;
+assignStatementOperator: IDENTIFIER (SUBSTRACTIONASSIGNMENTOP|ADDITIONASSIGNMENTOP) expression NEWLINE #assignStaOpe_AST; //+= o -=
 
-functionCallStatement: IDENTIFIER OPENPARENTHESIS expressionList NEWLINE;
+functionCallStatement: IDENTIFIER OPENPARENTHESIS expressionList CLOSEPARENTHESIS NEWLINE              #functionCallStatement_AST ;  //Se Arreglo, faltaba el parentesis cerrado
 
-expressionStatement: expressionList NEWLINE;
+expressionStatement: expressionList NEWLINE     #expressionStatement_AST;
 
-sequence: INDENT statement statement* DEDENT;   //Tiene que llevar un Statement, con 0 o más, lo de newline ya no se necesita
+sequence: INDENT statement statement* DEDENT    #sequence_AST;   //Tiene que llevar un Statement, con 0 o más, lo de newline ya no se necesita
 
-expression: additionExpression comparison*;
+expression: additionExpression comparison*      #expression_AST;
 
-comparison: comparisonOperator additionExpression;
+comparison: comparisonOperator additionExpression   #comparison_AST;
 
 comparisonOperator:
-        LESSTHAN
-        | GREATERTHAN
-        | LESSTHANEQUAL
-        | GREATERTHANEQUAL
-        | COMPARISON;
+        LESSTHAN            #lessThan_CO_AST
+        | GREATERTHAN       #greaterThan_CO_AST
+        | LESSTHANEQUAL     #lessThanEqual_CO_AST
+        | GREATERTHANEQUAL  #greaterThanEqual_CO_AST
+        | COMPARISON        #comparison_CO_AST;
 
-additionExpression: multiplicationExpression additionFactor*;
+additionExpression: multiplicationExpression additionFactor*        #additionExpression_AST;
 
-additionFactor: (PLUSSIGN|MINUSSIGN) multiplicationExpression;
+additionFactor: (PLUSSIGN|MINUSSIGN) multiplicationExpression       #additionFactor_AST;
 
-multiplicationExpression: elementExpression multiplicationFactor*;
+multiplicationExpression: elementExpression multiplicationFactor*   #multiplicationExpression_AST;
 
-multiplicationFactor: (ASTERISK|SLASH) elementExpression;
+multiplicationFactor: (ASTERISK|SLASH) elementExpression            #multiplicationFactor_AST;
 
-elementExpression: primitiveExpression elementAccess*;
+elementExpression: primitiveExpression elementAccess*               #elementExpression_AST;
 
-elementAccess: OPENSQRBRACKET expression CLOSESQRBRACKET;
+elementAccess: OPENSQRBRACKET expression CLOSESQRBRACKET            #elementAccess_AST;
 
-expressionList: (expression (COMMA expression)*)?;
+expressionList: (expression (COMMA expression)*)?                   #expressionList_AST;
 
 primitiveExpression:
-        MINUSSIGN? INTEGER
-        | MINUSSIGN? FLOAT
-        | MINUSSIGN? IDENTIFIER  //Para tener -x por ejemplo
-        | CHARCONST
-        | STRING
-        | IDENTIFIER (OPENPARENTHESIS expressionList CLOSEPARENTHESIS)?
-        | OPENPARENTHESIS expression CLOSEPARENTHESIS
-        | listExpression
-        | LEN OPENPARENTHESIS expression CLOSEPARENTHESIS;
+        MINUSSIGN? INTEGER                                                  #integer_PE_AST
+        | MINUSSIGN? FLOAT                                                  #float_PE_AST
+        | MINUSSIGN? IDENTIFIER                                             #identifier_PE_AST //Para tener -x por ejemplo
+        | CHARCONST                                                         #char_PE_AST
+        | STRING                                                            #string_PE_AST
+        | IDENTIFIER (OPENPARENTHESIS expressionList CLOSEPARENTHESIS)?     #identifierOrFunction_PE_AST
+        | OPENPARENTHESIS expression CLOSEPARENTHESIS                       #expressioParen_PE_AST
+        | listExpression                                                    #listExpression_PE_AST
+        | LEN OPENPARENTHESIS expression CLOSEPARENTHESIS                   #len_PE_AST;
 
-listExpression: OPENSQRBRACKET expressionList CLOSESQRBRACKET;
+listExpression: OPENSQRBRACKET expressionList CLOSESQRBRACKET               #listExpression_AST;
 
 
 //Symbols
@@ -148,7 +149,7 @@ LEN                 : 'len';
 IDENTIFIER : LETTER (LETTER|DIGIT)* ;
 INTEGER : DIGIT DIGIT* ;
 FLOAT : DIGIT DIGIT* '.' DIGIT DIGIT*;
-CHARCONST : SINGLEQUOTE (LETTER|DIGIT) SINGLEQUOTE;       //TAREA: CHARLIT para crear literales de char: x:='h'
+CHARCONST : SINGLEQUOTE (.|('\\'.)) SINGLEQUOTE;       //Se Arreglo, ahora cepta caracteres de tipo '\n'
 STRING: DOUBLEQUOTES .*? DOUBLEQUOTES;  //TAREA: STRLIT para crear literales de String: x:="hola"
 
 fragment LETTER : 'a'..'z' | 'A'..'Z' | '_';
