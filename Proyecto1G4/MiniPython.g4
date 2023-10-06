@@ -1,6 +1,6 @@
 //Algoritmo de Descenso recursivo
-//Proyecto 1: Parser Mini Python
-//Estudiante: Josué Chaves
+//Proyecto 2: Parser Mini Python
+
 
 
 grammar MiniPython;
@@ -40,8 +40,8 @@ statement:
         | whileStatement                                    #while_ST_AST
         | forStatement                                      #for_ST_AST
         | assignStatement                                   #assign_ST_AST
-        | functionCallStatement                             #functionCall_ST_AST
-        | assignStatementOperator                           #assignStaOpe_ST_AST;
+        | functionCallStatement                             #functionCall_ST_AST;
+//        | assignStatementOperator                           #assignStaOpe_ST_AST;
 
 defStatement: DEF IDENTIFIER OPENPARENTHESIS argList CLOSEPARENTHESIS COLON sequence    #defStatement_AST;
 
@@ -59,7 +59,7 @@ printStatement: PRINT (expression|comparison) NEWLINE                           
 
 assignStatement: IDENTIFIER ASSIGNMENT (expression|comparison) NEWLINE                  #assignStatement_AST;
 
-assignStatementOperator: IDENTIFIER (SUBSTRACTIONASSIGNMENTOP|ADDITIONASSIGNMENTOP) expression NEWLINE #assignStaOpe_AST; //+= o -=
+//assignStatementOperator: IDENTIFIER (SUBSTRACTIONASSIGNMENTOP|ADDITIONASSIGNMENTOP) expression NEWLINE #assignStaOpe_AST; //+= o -=
 
 functionCallStatement: IDENTIFIER OPENPARENTHESIS expressionList CLOSEPARENTHESIS NEWLINE              #functionCallStatement_AST ;  //Se Arreglo, faltaba el parentesis cerrado
 
@@ -80,7 +80,8 @@ comparisonOperator:
         | GREATERTHAN       #greaterThan_CO_AST
         | LESSTHANEQUAL     #lessThanEqual_CO_AST
         | GREATERTHANEQUAL  #greaterThanEqual_CO_AST
-        | COMPARISON        #comparison_CO_AST;
+        | COMPARISON        #comparison_CO_AST
+        | NOTEQUAL          #notEqual_CO_AST;
 
 expressionList: (expression (COMMA expression)*)?                           #expressionList_AST;
 
@@ -122,6 +123,7 @@ GREATERTHAN         : '>';
 LESSTHANEQUAL       : '<=';
 GREATERTHANEQUAL    : '>=';
 COMPARISON          : '==';
+NOTEQUAL            : '!=';
 
 //palabras reservadas
 

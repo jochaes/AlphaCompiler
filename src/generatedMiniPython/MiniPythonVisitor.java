@@ -95,13 +95,6 @@ public interface MiniPythonVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFunctionCall_ST_AST(MiniPythonParser.FunctionCall_ST_ASTContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code assignStaOpe_ST_AST}
-	 * labeled alternative in {@link MiniPythonParser#statement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAssignStaOpe_ST_AST(MiniPythonParser.AssignStaOpe_ST_ASTContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code defStatement_AST}
 	 * labeled alternative in {@link MiniPythonParser#defStatement}.
 	 * @param ctx the parse tree
@@ -157,13 +150,6 @@ public interface MiniPythonVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitAssignStatement_AST(MiniPythonParser.AssignStatement_ASTContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code assignStaOpe_AST}
-	 * labeled alternative in {@link MiniPythonParser#assignStatementOperator}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAssignStaOpe_AST(MiniPythonParser.AssignStaOpe_ASTContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code functionCallStatement_AST}
 	 * labeled alternative in {@link MiniPythonParser#functionCallStatement}.
@@ -255,6 +241,13 @@ public interface MiniPythonVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitComparison_CO_AST(MiniPythonParser.Comparison_CO_ASTContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code notEqual_CO_AST}
+	 * labeled alternative in {@link MiniPythonParser#comparisonOperator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNotEqual_CO_AST(MiniPythonParser.NotEqual_CO_ASTContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code expressionList_AST}
 	 * labeled alternative in {@link MiniPythonParser#expressionList}.

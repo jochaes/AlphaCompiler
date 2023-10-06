@@ -10,11 +10,17 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
 
     }
 
+    /************************************************************
+     PROGRAM
+    *************************************************************/
     @Override
     public Object visitProgram_AST(MiniPythonParser.Program_ASTContext ctx) {
         return super.visitProgram_AST(ctx);
     }
 
+    /************************************************************
+     MAIN STATEMENT Linea 30
+     *************************************************************/
     @Override
     public Object visitDef_MS_AST(MiniPythonParser.Def_MS_ASTContext ctx) {
         return super.visitDef_MS_AST(ctx);
@@ -35,6 +41,9 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
         return super.visitPrint_MS_AST(ctx);
     }
 
+    /************************************************************
+     STATEMENT Linea 36
+     *************************************************************/
     @Override
     public Object visitIf_ST_AST(MiniPythonParser.If_ST_ASTContext ctx) {
         return super.visitIf_ST_AST(ctx);
@@ -70,71 +79,97 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
         return super.visitFunctionCall_ST_AST(ctx);
     }
 
-    @Override
-    public Object visitAssignStaOpe_ST_AST(MiniPythonParser.AssignStaOpe_ST_ASTContext ctx) {
-        return super.visitAssignStaOpe_ST_AST(ctx);
-    }
-
+    /************************************************************
+     DEF STATEMENT Linea 46
+     *************************************************************/
     @Override
     public Object visitDefStatement_AST(MiniPythonParser.DefStatement_ASTContext ctx) {
         return super.visitDefStatement_AST(ctx);
     }
 
+    /************************************************************
+     ArgList Linea 48
+     *************************************************************/
     @Override
     public Object visitArgList_AST(MiniPythonParser.ArgList_ASTContext ctx) {
         return super.visitArgList_AST(ctx);
     }
 
+    /************************************************************
+     if Statement Linea 50
+     *************************************************************/
     @Override
     public Object visitIfStatement_AST(MiniPythonParser.IfStatement_ASTContext ctx) {
         return super.visitIfStatement_AST(ctx);
     }
 
+    /************************************************************
+     While Statement Linea 52
+     *************************************************************/
     @Override
     public Object visitWhileStatement_AST(MiniPythonParser.WhileStatement_ASTContext ctx) {
         return super.visitWhileStatement_AST(ctx);
     }
 
+    /************************************************************
+     for in Statement Linea 54
+     *************************************************************/
     @Override
     public Object visitForStatement_AST(MiniPythonParser.ForStatement_ASTContext ctx) {
         return super.visitForStatement_AST(ctx);
     }
 
+    /************************************************************
+     return Statement Linea 56
+     *************************************************************/
     @Override
     public Object visitReturnStatement_AST(MiniPythonParser.ReturnStatement_ASTContext ctx) {
         return super.visitReturnStatement_AST(ctx);
     }
 
+    /************************************************************
+     print Statement Linea 58
+     *************************************************************/
     @Override
     public Object visitPrintStatement_AST(MiniPythonParser.PrintStatement_ASTContext ctx) {
         return super.visitPrintStatement_AST(ctx);
     }
 
+    /************************************************************
+     AssignStatement Linea 60
+     *************************************************************/
     @Override
     public Object visitAssignStatement_AST(MiniPythonParser.AssignStatement_ASTContext ctx) {
         return super.visitAssignStatement_AST(ctx);
     }
 
-    @Override
-    public Object visitAssignStaOpe_AST(MiniPythonParser.AssignStaOpe_ASTContext ctx) {
-        return super.visitAssignStaOpe_AST(ctx);
-    }
-
+    /************************************************************
+     Function Call Linea 64
+     *************************************************************/
     @Override
     public Object visitFunctionCallStatement_AST(MiniPythonParser.FunctionCallStatement_ASTContext ctx) {
         return super.visitFunctionCallStatement_AST(ctx);
     }
 
+    /************************************************************
+     Sequence Linea 66
+     *************************************************************/
     @Override
     public Object visitSequence_AST(MiniPythonParser.Sequence_ASTContext ctx) {
         return super.visitSequence_AST(ctx);
     }
 
+    /************************************************************
+     expression Linea 68
+     *************************************************************/
     @Override
     public Object visitExpression_AST(MiniPythonParser.Expression_ASTContext ctx) {
         return super.visitExpression_AST(ctx);
     }
 
+    /************************************************************
+     Expression Operator Linea 70
+     *************************************************************/
     @Override
     public Object visitAddition_EO_AST(MiniPythonParser.Addition_EO_ASTContext ctx) {
         return super.visitAddition_EO_AST(ctx);
@@ -155,11 +190,17 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
         return super.visitDivision_EO_AST(ctx);
     }
 
+    /************************************************************
+     Comparison Linea 76
+     *************************************************************/
     @Override
     public Object visitComparison_AST(MiniPythonParser.Comparison_ASTContext ctx) {
         return super.visitComparison_AST(ctx);
     }
 
+    /************************************************************
+     Comparison Operator Linea 78
+     *************************************************************/
     @Override
     public Object visitLessThan_CO_AST(MiniPythonParser.LessThan_CO_ASTContext ctx) {
         return super.visitLessThan_CO_AST(ctx);
@@ -186,10 +227,22 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
     }
 
     @Override
+    public Object visitNotEqual_CO_AST(MiniPythonParser.NotEqual_CO_ASTContext ctx) {
+        return super.visitNotEqual_CO_AST(ctx);
+    }
+
+    /************************************************************
+     Expression List Linea 86
+     *************************************************************/
+
+    @Override
     public Object visitExpressionList_AST(MiniPythonParser.ExpressionList_ASTContext ctx) {
         return super.visitExpressionList_AST(ctx);
     }
 
+    /************************************************************
+     Primitive Expression  Linea 88
+     *************************************************************/
     @Override
     public Object visitInteger_PE_AST(MiniPythonParser.Integer_PE_ASTContext ctx) {
         return super.visitInteger_PE_AST(ctx);
@@ -240,6 +293,9 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
         return super.visitElementAccess_PE_AST(ctx);
     }
 
+    /************************************************************
+     List Expression Linea 100
+     *************************************************************/
     @Override
     public Object visitListExpression_AST(MiniPythonParser.ListExpression_ASTContext ctx) {
         return super.visitListExpression_AST(ctx);

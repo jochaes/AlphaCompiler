@@ -152,18 +152,6 @@ public interface MiniPythonListener extends ParseTreeListener {
 	 */
 	void exitFunctionCall_ST_AST(MiniPythonParser.FunctionCall_ST_ASTContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code assignStaOpe_ST_AST}
-	 * labeled alternative in {@link MiniPythonParser#statement}.
-	 * @param ctx the parse tree
-	 */
-	void enterAssignStaOpe_ST_AST(MiniPythonParser.AssignStaOpe_ST_ASTContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code assignStaOpe_ST_AST}
-	 * labeled alternative in {@link MiniPythonParser#statement}.
-	 * @param ctx the parse tree
-	 */
-	void exitAssignStaOpe_ST_AST(MiniPythonParser.AssignStaOpe_ST_ASTContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code defStatement_AST}
 	 * labeled alternative in {@link MiniPythonParser#defStatement}.
 	 * @param ctx the parse tree
@@ -259,18 +247,6 @@ public interface MiniPythonListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAssignStatement_AST(MiniPythonParser.AssignStatement_ASTContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code assignStaOpe_AST}
-	 * labeled alternative in {@link MiniPythonParser#assignStatementOperator}.
-	 * @param ctx the parse tree
-	 */
-	void enterAssignStaOpe_AST(MiniPythonParser.AssignStaOpe_ASTContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code assignStaOpe_AST}
-	 * labeled alternative in {@link MiniPythonParser#assignStatementOperator}.
-	 * @param ctx the parse tree
-	 */
-	void exitAssignStaOpe_AST(MiniPythonParser.AssignStaOpe_ASTContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code functionCallStatement_AST}
 	 * labeled alternative in {@link MiniPythonParser#functionCallStatement}.
@@ -427,6 +403,18 @@ public interface MiniPythonListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitComparison_CO_AST(MiniPythonParser.Comparison_CO_ASTContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code notEqual_CO_AST}
+	 * labeled alternative in {@link MiniPythonParser#comparisonOperator}.
+	 * @param ctx the parse tree
+	 */
+	void enterNotEqual_CO_AST(MiniPythonParser.NotEqual_CO_ASTContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code notEqual_CO_AST}
+	 * labeled alternative in {@link MiniPythonParser#comparisonOperator}.
+	 * @param ctx the parse tree
+	 */
+	void exitNotEqual_CO_AST(MiniPythonParser.NotEqual_CO_ASTContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code expressionList_AST}
 	 * labeled alternative in {@link MiniPythonParser#expressionList}.

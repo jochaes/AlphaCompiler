@@ -161,18 +161,6 @@ public class MiniPythonBaseListener implements MiniPythonListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAssignStaOpe_ST_AST(MiniPythonParser.AssignStaOpe_ST_ASTContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAssignStaOpe_ST_AST(MiniPythonParser.AssignStaOpe_ST_ASTContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterDefStatement_AST(MiniPythonParser.DefStatement_ASTContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -264,18 +252,6 @@ public class MiniPythonBaseListener implements MiniPythonListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAssignStatement_AST(MiniPythonParser.AssignStatement_ASTContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAssignStaOpe_AST(MiniPythonParser.AssignStaOpe_ASTContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAssignStaOpe_AST(MiniPythonParser.AssignStaOpe_ASTContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -432,6 +408,18 @@ public class MiniPythonBaseListener implements MiniPythonListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitComparison_CO_AST(MiniPythonParser.Comparison_CO_ASTContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNotEqual_CO_AST(MiniPythonParser.NotEqual_CO_ASTContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNotEqual_CO_AST(MiniPythonParser.NotEqual_CO_ASTContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
