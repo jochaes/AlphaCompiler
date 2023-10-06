@@ -1,4 +1,4 @@
-// Generated from /Users/gilda/Desktop/Repositorios/AlphaCompiler/Proyecto1G4/MiniPython.g4 by ANTLR 4.12.0
+// Generated from /Users/gilda/Desktop/Repositorios/AlphaCompiler/Proyecto1G4/MiniPython.g4 by ANTLR 4.13.1
 package generatedMiniPython;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -95,13 +95,6 @@ public interface MiniPythonVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFunctionCall_ST_AST(MiniPythonParser.FunctionCall_ST_ASTContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code expression_ST_AST}
-	 * labeled alternative in {@link MiniPythonParser#statement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExpression_ST_AST(MiniPythonParser.Expression_ST_ASTContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code assignStaOpe_ST_AST}
 	 * labeled alternative in {@link MiniPythonParser#statement}.
 	 * @param ctx the parse tree
@@ -179,13 +172,6 @@ public interface MiniPythonVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFunctionCallStatement_AST(MiniPythonParser.FunctionCallStatement_ASTContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code expressionStatement_AST}
-	 * labeled alternative in {@link MiniPythonParser#expressionStatement}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExpressionStatement_AST(MiniPythonParser.ExpressionStatement_ASTContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code sequence_AST}
 	 * labeled alternative in {@link MiniPythonParser#sequence}.
 	 * @param ctx the parse tree
@@ -199,6 +185,34 @@ public interface MiniPythonVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitExpression_AST(MiniPythonParser.Expression_ASTContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code addition_EO_AST}
+	 * labeled alternative in {@link MiniPythonParser#expressionOperator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAddition_EO_AST(MiniPythonParser.Addition_EO_ASTContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code substraction_EO_AST}
+	 * labeled alternative in {@link MiniPythonParser#expressionOperator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSubstraction_EO_AST(MiniPythonParser.Substraction_EO_ASTContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code multiplication_EO_AST}
+	 * labeled alternative in {@link MiniPythonParser#expressionOperator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMultiplication_EO_AST(MiniPythonParser.Multiplication_EO_ASTContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code division_EO_AST}
+	 * labeled alternative in {@link MiniPythonParser#expressionOperator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDivision_EO_AST(MiniPythonParser.Division_EO_ASTContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code comparison_AST}
 	 * labeled alternative in {@link MiniPythonParser#comparison}.
@@ -242,48 +256,6 @@ public interface MiniPythonVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitComparison_CO_AST(MiniPythonParser.Comparison_CO_ASTContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code additionExpression_AST}
-	 * labeled alternative in {@link MiniPythonParser#additionExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAdditionExpression_AST(MiniPythonParser.AdditionExpression_ASTContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code additionFactor_AST}
-	 * labeled alternative in {@link MiniPythonParser#additionFactor}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAdditionFactor_AST(MiniPythonParser.AdditionFactor_ASTContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code multiplicationExpression_AST}
-	 * labeled alternative in {@link MiniPythonParser#multiplicationExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitMultiplicationExpression_AST(MiniPythonParser.MultiplicationExpression_ASTContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code multiplicationFactor_AST}
-	 * labeled alternative in {@link MiniPythonParser#multiplicationFactor}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitMultiplicationFactor_AST(MiniPythonParser.MultiplicationFactor_ASTContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code elementExpression_AST}
-	 * labeled alternative in {@link MiniPythonParser#elementExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitElementExpression_AST(MiniPythonParser.ElementExpression_ASTContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code elementAccess_AST}
-	 * labeled alternative in {@link MiniPythonParser#elementAccess}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitElementAccess_AST(MiniPythonParser.ElementAccess_ASTContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code expressionList_AST}
 	 * labeled alternative in {@link MiniPythonParser#expressionList}.
 	 * @param ctx the parse tree
@@ -326,12 +298,12 @@ public interface MiniPythonVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitString_PE_AST(MiniPythonParser.String_PE_ASTContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code identifierOrFunction_PE_AST}
+	 * Visit a parse tree produced by the {@code functionCall_PE_AST}
 	 * labeled alternative in {@link MiniPythonParser#primitiveExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitIdentifierOrFunction_PE_AST(MiniPythonParser.IdentifierOrFunction_PE_ASTContext ctx);
+	T visitFunctionCall_PE_AST(MiniPythonParser.FunctionCall_PE_ASTContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code expressioParen_PE_AST}
 	 * labeled alternative in {@link MiniPythonParser#primitiveExpression}.
@@ -353,6 +325,13 @@ public interface MiniPythonVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitLen_PE_AST(MiniPythonParser.Len_PE_ASTContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code elementAccess_PE_AST}
+	 * labeled alternative in {@link MiniPythonParser#primitiveExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitElementAccess_PE_AST(MiniPythonParser.ElementAccess_PE_ASTContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code listExpression_AST}
 	 * labeled alternative in {@link MiniPythonParser#listExpression}.

@@ -11,9 +11,7 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
     }
 
     @Override
-    public Object visitProgram_AST(MiniPythonParser.Program_ASTContext ctx)
-    {
-        System.out.println("Program Visited");
+    public Object visitProgram_AST(MiniPythonParser.Program_ASTContext ctx) {
         return super.visitProgram_AST(ctx);
     }
 
@@ -73,11 +71,6 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
     }
 
     @Override
-    public Object visitExpression_ST_AST(MiniPythonParser.Expression_ST_ASTContext ctx) {
-        return super.visitExpression_ST_AST(ctx);
-    }
-
-    @Override
     public Object visitAssignStaOpe_ST_AST(MiniPythonParser.AssignStaOpe_ST_ASTContext ctx) {
         return super.visitAssignStaOpe_ST_AST(ctx);
     }
@@ -133,11 +126,6 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
     }
 
     @Override
-    public Object visitExpressionStatement_AST(MiniPythonParser.ExpressionStatement_ASTContext ctx) {
-        return super.visitExpressionStatement_AST(ctx);
-    }
-
-    @Override
     public Object visitSequence_AST(MiniPythonParser.Sequence_ASTContext ctx) {
         return super.visitSequence_AST(ctx);
     }
@@ -145,6 +133,26 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
     @Override
     public Object visitExpression_AST(MiniPythonParser.Expression_ASTContext ctx) {
         return super.visitExpression_AST(ctx);
+    }
+
+    @Override
+    public Object visitAddition_EO_AST(MiniPythonParser.Addition_EO_ASTContext ctx) {
+        return super.visitAddition_EO_AST(ctx);
+    }
+
+    @Override
+    public Object visitSubstraction_EO_AST(MiniPythonParser.Substraction_EO_ASTContext ctx) {
+        return super.visitSubstraction_EO_AST(ctx);
+    }
+
+    @Override
+    public Object visitMultiplication_EO_AST(MiniPythonParser.Multiplication_EO_ASTContext ctx) {
+        return super.visitMultiplication_EO_AST(ctx);
+    }
+
+    @Override
+    public Object visitDivision_EO_AST(MiniPythonParser.Division_EO_ASTContext ctx) {
+        return super.visitDivision_EO_AST(ctx);
     }
 
     @Override
@@ -178,36 +186,6 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
     }
 
     @Override
-    public Object visitAdditionExpression_AST(MiniPythonParser.AdditionExpression_ASTContext ctx) {
-        return super.visitAdditionExpression_AST(ctx);
-    }
-
-    @Override
-    public Object visitAdditionFactor_AST(MiniPythonParser.AdditionFactor_ASTContext ctx) {
-        return super.visitAdditionFactor_AST(ctx);
-    }
-
-    @Override
-    public Object visitMultiplicationExpression_AST(MiniPythonParser.MultiplicationExpression_ASTContext ctx) {
-        return super.visitMultiplicationExpression_AST(ctx);
-    }
-
-    @Override
-    public Object visitMultiplicationFactor_AST(MiniPythonParser.MultiplicationFactor_ASTContext ctx) {
-        return super.visitMultiplicationFactor_AST(ctx);
-    }
-
-    @Override
-    public Object visitElementExpression_AST(MiniPythonParser.ElementExpression_ASTContext ctx) {
-        return super.visitElementExpression_AST(ctx);
-    }
-
-    @Override
-    public Object visitElementAccess_AST(MiniPythonParser.ElementAccess_ASTContext ctx) {
-        return super.visitElementAccess_AST(ctx);
-    }
-
-    @Override
     public Object visitExpressionList_AST(MiniPythonParser.ExpressionList_ASTContext ctx) {
         return super.visitExpressionList_AST(ctx);
     }
@@ -238,8 +216,8 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
     }
 
     @Override
-    public Object visitIdentifierOrFunction_PE_AST(MiniPythonParser.IdentifierOrFunction_PE_ASTContext ctx) {
-        return super.visitIdentifierOrFunction_PE_AST(ctx);
+    public Object visitFunctionCall_PE_AST(MiniPythonParser.FunctionCall_PE_ASTContext ctx) {
+        return super.visitFunctionCall_PE_AST(ctx);
     }
 
     @Override
@@ -255,6 +233,11 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
     @Override
     public Object visitLen_PE_AST(MiniPythonParser.Len_PE_ASTContext ctx) {
         return super.visitLen_PE_AST(ctx);
+    }
+
+    @Override
+    public Object visitElementAccess_PE_AST(MiniPythonParser.ElementAccess_PE_ASTContext ctx) {
+        return super.visitElementAccess_PE_AST(ctx);
     }
 
     @Override

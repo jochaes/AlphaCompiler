@@ -102,7 +102,8 @@ public class Main {
               tree = parser.program(); //Iniciar el Parser, de la instancia llame al metodo principal (llame a program)
 
 //              Si aqui se da cuenta que algo no está bien, entonces manda error
-                (new Checker()).visit(tree);
+                //(new Checker()).visit(tree);
+                parser.program();
                 System.out.println("Compilación con Parser Automático Terminada!!\n");
 
 //                java.util.concurrent.Future<JFrame> treeGUI = org.antlr.v4.gui.Trees.inspect(tree, parser);
