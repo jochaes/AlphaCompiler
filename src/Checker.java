@@ -6,8 +6,16 @@ import java.util.List;
 
 public class Checker extends MiniPythonBaseVisitor<Object> {
 
+    private SymbolTable VarTable;
+    private SymbolTable FunctionTable;
+
     public Checker(){
 
+        //La tabla para las Variables
+        this.VarTable = new SymbolTable();
+
+        //La Tabla para las Funciones
+        this.FunctionTable = new SymbolTable();
     }
 
     /************************************************************
