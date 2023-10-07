@@ -69,10 +69,26 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
         return super.visitFor_ST_AST(ctx);
     }
 
+    /*
+    Assign ST
+    Notas:
+        Se asigna el tipo la primera vez que se encuentra una variable
+        El tipo no se puede cambiar
+     */
     @Override
     public Object visitAssign_ST_AST(MiniPythonParser.Assign_ST_ASTContext ctx) {
         return super.visitAssign_ST_AST(ctx);
     }
+
+    /*
+    Function Call ST
+    Notas:
+        Hay que buscar la funcion en la tabla
+        Hay que revizar la cantidad de parametros e inferir los tipos
+            ( Yo creo que esta inferencia es xq en tiempo de ejecucion si los tipos de adentro
+            de la funcion son diferentes entonces se cae, nada hacemos con inferir los tipos de los argumentos en la definicion de la funcion)
+        Los parametros son locales para la funcion
+     */
 
     @Override
     public Object visitFunctionCall_ST_AST(MiniPythonParser.FunctionCall_ST_ASTContext ctx) {
@@ -81,6 +97,9 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
 
     /************************************************************
      DEF STATEMENT Linea 46
+
+     Notas:
+        El tipo de la funcion lo da el return, si no es void (No se puede usar en un expresion)
      *************************************************************/
     @Override
     public Object visitDefStatement_AST(MiniPythonParser.DefStatement_ASTContext ctx) {
@@ -161,6 +180,13 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
 
     /************************************************************
      expression Linea 68
+     Notas:
+        DEL DOC DEL PROYECTO:
+            ..., además de que con argumentos de tipo entero, al evaluar cada operación con los 4 anteriores
+            operadores, esta sea inferida como de tipo entero...
+        A lo que entendí, si la expresión tiene un entero, se evalua toda a entero
+
+        Se pueden hacer sumas de strings
      *************************************************************/
     @Override
     public Object visitExpression_AST(MiniPythonParser.Expression_ASTContext ctx) {
@@ -192,6 +218,10 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
 
     /************************************************************
      Comparison Linea 76
+     Notas:
+        Los tipos de los operandos debe ser igual (Osea hay que tirar error si son diferentes)
+        Los tipos permitidos son integer y char (Si es de otro tipo tira otro tipo de error)
+
      *************************************************************/
     @Override
     public Object visitComparison_AST(MiniPythonParser.Comparison_ASTContext ctx) {
