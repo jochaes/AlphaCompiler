@@ -55,6 +55,7 @@
 
 //Para ejecutar el parser Automático
 
+import CustomExeptions.MainCompilationException;
 import generatedMiniPython.*;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
@@ -72,8 +73,6 @@ public class Main {
 
     public static void main(String[] args)
     {
-        //Se ejecuta el Parser Manual con el archivo test.txt
-        //initParserManual("test.txt");
         initMiniPythonParserAutomatico("test.txt");
     }
 
@@ -85,6 +84,7 @@ public class Main {
 
         CharStream input=null;                              //Char stream es una clase para abrir el archivo y hacer lectura
         CommonTokenStream tokens = null;
+        ErrorListener errorListener = null;
 
         //Trate de hacer
         try {
@@ -92,25 +92,47 @@ public class Main {
             inst = new MiniPythonLexer(input);                  //A partir del stream, se lo doy de entrada al Scanner
             tokens = new CommonTokenStream(inst);               //Se crea la clase commontokenstream, osea a prtir de lo que crea el scanner, hace un objeto con toda la lista de tokens
             parser = new MiniPythonParser(tokens);              //Ese objeto se lo mando al parser(Le paso la lista de token que viene en el archivo)
+            errorListener = new ErrorListener();
 
-//           Alpha.AlphaParserManual parser = new Alpha.AlphaParserManual(inst); //Nuestro Parser
+            inst.removeErrorListeners();
+            inst.addErrorListener(errorListener);
 
-            //En este punto ya esta todo montado
+            parser.removeErrorListeners();
+            parser.addErrorListener(errorListener);
+
+
 
 
             try {
-              tree = parser.program(); //Iniciar el Parser, de la instancia llame al metodo principal (llame a program)
+                System.out.println("Iniciando Compilación");
+                System.out.println(" **Iniciando Analisis Sintactico (Parser y Scanner)");
+                tree = parser.program(); //Primero reviza el Parser y el lexer
+                if (!errorListener.hasErrors())
+                    System.out.println("  ++Analisis Sintactico finalizado");
+                else{
+                    System.out.println("*Compilación Fallida: Errores de Parser o Scanner*");
+                    System.out.println(errorListener.toString());
+                    throw new MainCompilationException("Compilacion Fallida");  //Exepcion Custom
+                }
 
-//              Si aqui se da cuenta que algo no está bien, entonces manda error
-                //(new Checker()).visit(tree);
-                parser.program();
-                System.out.println("Compilación con Parser Automático Terminada!!\n");
 
-//                java.util.concurrent.Future<JFrame> treeGUI = org.antlr.v4.gui.Trees.inspect(tree, parser);
-//                treeGUI.get().setVisible(true);
+                System.out.println(" **Iniciando Analisis Contextual");
+                (new Checker()).visit(tree);
+                if (!errorListener.hasErrors())
+                    System.out.println("  ++Analisis Contextual Finalizado");
+                else{
+                    System.out.println("*Compilación Fallida: Error Contextual*");
+                    System.out.println(errorListener.toString());
+                    throw new MainCompilationException("Compilacion Fallida");  //Exepcion Custom
+                }
+
+
+                System.out.println("*Compilación MiniPyhton Finalizada!!\n");
+
+
             }
 
-            catch(RecognitionException e){
+            catch(RecognitionException | MainCompilationException e){
                 System.out.println("Error!!!");
                 e.printStackTrace();
             }

@@ -69,7 +69,7 @@ public class SymbolTable {
         }
         return temp;
     }
-    
+
     public void openScope(){currentLevel++;}
 
     public void closeScope(){
