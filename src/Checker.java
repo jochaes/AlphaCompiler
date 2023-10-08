@@ -523,7 +523,126 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
      *************************************************************/
     @Override
     public Object visitComparison_AST(MiniPythonParser.Comparison_ASTContext ctx) {
-        return super.visitComparison_AST(ctx);
+
+
+        int tipoRetorno = -1;
+
+        try {
+            tipoRetorno = (int) visit(ctx.expression(0));
+
+            int tipoTemp = (int) visit(ctx.expression(1));
+            Token operador = (Token) visit(ctx.comparisonOperator());
+
+
+
+            //********* < *********
+            if (operador.getType() == MiniPythonParser.LESSTHAN) {
+                //Los Dos son Enteros
+                if (tipoRetorno == 0 && tipoTemp == 0){
+                    tipoRetorno = 5;
+                }
+                //Los dos son char
+                else if (tipoRetorno == 2 && tipoTemp == 2){
+                    tipoRetorno = 5;
+                }
+                //Si es cualquier otra cosa, entonces se lanza error
+                else {
+                    throw new TiposException(tipoRetorno, tipoTemp, operador);
+                }
+            }
+
+            //********* > *********
+            else if (operador.getType() == MiniPythonParser.GREATERTHAN) {
+                //Los Dos son Enteros
+                if (tipoRetorno == 0 && tipoTemp == 0){
+                    tipoRetorno = 5;
+                }
+                //Los dos son char
+                else if (tipoRetorno == 2 && tipoTemp == 2){
+                    tipoRetorno = 5;
+                }
+                //Si es cualquier otra cosa, entonces se lanza error
+                else {
+                    throw new TiposException(tipoRetorno, tipoTemp, operador);
+                }
+            }
+
+            //********* <= *********
+            else if (operador.getType() == MiniPythonParser.LESSTHANEQUAL) {
+                //Los Dos son Enteros
+                if (tipoRetorno == 0 && tipoTemp == 0){
+                    tipoRetorno = 5;
+                }
+                //Los dos son char
+                else if (tipoRetorno == 2 && tipoTemp == 2){
+                    tipoRetorno = 5;
+                }
+                //Si es cualquier otra cosa, entonces se lanza error
+                else {
+                    throw new TiposException(tipoRetorno, tipoTemp, operador);
+                }
+            }
+
+            //********* >= *********
+            else if (operador.getType() == MiniPythonParser.GREATERTHANEQUAL) {
+                //Los Dos son Enteros
+                if (tipoRetorno == 0 && tipoTemp == 0){
+                    tipoRetorno = 5;
+                }
+                //Los dos son char
+                else if (tipoRetorno == 2 && tipoTemp == 2){
+                    tipoRetorno = 5;
+                }
+                //Si es cualquier otra cosa, entonces se lanza error
+                else {
+                    throw new TiposException(tipoRetorno, tipoTemp, operador);
+                }
+            }
+
+            //********* == *********
+            else if (operador.getType() == MiniPythonParser.COMPARISON) {
+                //Los Dos son Enteros
+                if (tipoRetorno == 0 && tipoTemp == 0){
+                    tipoRetorno = 5;
+                }
+                //Los dos son char
+                else if (tipoRetorno == 2 && tipoTemp == 2){
+                    tipoRetorno = 5;
+                }
+                //Si es cualquier otra cosa, entonces se lanza error
+                else {
+                    throw new TiposException(tipoRetorno, tipoTemp, operador);
+                }
+
+            }
+
+            //********* != *********
+            else if (operador.getType() == MiniPythonParser.NOTEQUAL) {
+                //Los Dos son Enteros
+                if (tipoRetorno == 0 && tipoTemp == 0){
+                    tipoRetorno = 5;
+                }
+                //Los dos son char
+                else if (tipoRetorno == 2 && tipoTemp == 2){
+                    tipoRetorno = 5;
+                }
+                //Si es cualquier otra cosa, entonces se lanza error
+                else {
+                    throw new TiposException(tipoRetorno, tipoTemp, operador);
+                }
+
+            }
+            else {
+                throw new OperadorNoExisteException(operador);
+            }
+
+
+        }catch (OperadorNoExisteException | TiposException e){
+            this.errorListener.addContextualError(e.toString());
+            System.err.println(e.toString());
+        }
+
+        return (Integer) tipoRetorno;
     }
 
     /************************************************************
@@ -568,7 +687,6 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
      *************************************************************/
     @Override
     public Object visitExpressionList_AST(MiniPythonParser.ExpressionList_ASTContext ctx) {
-
 
         return ctx.expression();
 
