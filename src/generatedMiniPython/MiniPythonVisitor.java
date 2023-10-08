@@ -1,5 +1,6 @@
 // Generated from /Users/gilda/Desktop/Repositorios/AlphaCompiler/Proyecto1G4/MiniPython.g4 by ANTLR 4.13.1
 package generatedMiniPython;
+import CustomExeptions.VariableYaExisteException;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**

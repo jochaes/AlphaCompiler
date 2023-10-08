@@ -15,9 +15,12 @@ public class ErrorListener extends BaseErrorListener {
         this.errorMsgs = new ArrayList<String>();
     }
 
+    public void addContextualError (String msg) {
+        errorMsgs.add(new String("CONTEXTUAL ERROR: " +  msg));
+    }
+
     @Override
     public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
-
         if(recognizer instanceof MiniPythonParser)
             errorMsgs.add(new String("PARSER ERROR - LINE" + line+":"+charPositionInLine + " " + msg));
         else if (recognizer instanceof MiniPythonLexer)

@@ -117,7 +117,7 @@ public class Main {
 
 
                 System.out.println(" **Iniciando Analisis Contextual");
-                (new Checker()).visit(tree);
+                (new Checker(errorListener)).visit(tree);
                 if (!errorListener.hasErrors())
                     System.out.println("  ++Analisis Contextual Finalizado");
                 else{
@@ -133,8 +133,7 @@ public class Main {
             }
 
             catch(RecognitionException | MainCompilationException e){
-                System.out.println("Error!!!");
-                e.printStackTrace();
+                System.err.println("Error!!!" + e.getMessage());
             }
         }
         catch(Exception e){System.out.println("No hay archivo");e.printStackTrace();}

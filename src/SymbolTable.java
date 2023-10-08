@@ -1,8 +1,10 @@
 import generatedMiniPython.MiniPythonParser;
 import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 public class SymbolTable {
     LinkedList<Ident> table;
@@ -31,10 +33,12 @@ public class SymbolTable {
     }
 
     public class MethodIdent extends Ident{
-        MiniPythonParser.ArgListContext params;  //Los parametros están en el ArgList
+        List<TerminalNode> params;  //Los parametros están en el ArgList
+        int numParams;
 
-        public MethodIdent(Token t, int tp, MiniPythonParser.ArgListContext p, ParserRuleContext decl){
+        public MethodIdent(Token t, int tp, List<TerminalNode> p,  ParserRuleContext decl){
             super(t,tp,decl);
+            this.numParams = p.size();
             this.params = p;
         }
 
@@ -45,7 +49,7 @@ public class SymbolTable {
         this.currentLevel = -1;
     }
 
-    public void insert( Token id, int type, MiniPythonParser.ArgListContext p, ParserRuleContext decl  ){
+    public void insert( Token id, int type, List<TerminalNode> p, ParserRuleContext decl  ){
 
         //TODO No se puede insertar un elemento repetido en el mismo nivel
         Ident i = new MethodIdent(id, type, p, decl);
