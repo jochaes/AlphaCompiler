@@ -25,6 +25,14 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
         this.errorListener = errorListener;
     }
 
+    public SymbolTable getVarTable() {
+        return VarTable;
+    }
+
+    public SymbolTable getFunctionTable() {
+        return FunctionTable;
+    }
+
     /************************************************************
      PROGRAM
     *************************************************************/
@@ -110,7 +118,6 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
      */
     @Override
     public Object visitAssign_ST_AST(MiniPythonParser.Assign_ST_ASTContext ctx) {
-        System.out.println("VISITANDO ASIGNACION");
         return super.visitAssign_ST_AST(ctx);
     }
 
@@ -143,6 +150,9 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
         // TODO:  Revizar que los argumentos no existan en la tabla de variables           *
         // TODO: Agregar la funcion a la tabla de funciones
 
+        //imprimimos la tabla de funciones
+        this.FunctionTable.print();
+
         //Abrimos un nuevo scope, para que los argumentos sean locales a la funcion
         this.VarTable.openScope();
 
@@ -169,7 +179,7 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
 
 
             //Agregar la funcion a la tabla de funciones
-            this.FunctionTable.insert(ctx.IDENTIFIER().getSymbol(), -1, params, ctx);
+            this.FunctionTable.insert(ctx.IDENTIFIER().getSymbol(), funType, params, ctx);
 
         }
         catch (FuncionYaExisteExeption | VariableYaExisteException e){
@@ -179,6 +189,9 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
 
         //Cerramos el scope
         this.VarTable.closeScope();
+
+        //imprimimos la tabla de funciones
+        this.FunctionTable.print();
 
         return null;
     }
@@ -286,7 +299,6 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
      *************************************************************/
     @Override
     public Object visitSequence_AST(MiniPythonParser.Sequence_ASTContext ctx) {
-        System.out.println("VISITANDO SECUENCIA");
         int typeReturn = -1;  //Retorna el tipo de la secuencia, si no tiene return, retorna -1
 
         //Visitamos cada statement de la secuencia
@@ -316,7 +328,7 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
      *************************************************************/
     @Override
     public Object visitExpression_AST(MiniPythonParser.Expression_ASTContext ctx) {
-        //TODO AQUI VOY A TENER QUE HACER UNA INFERENCIA DE TIPOS
+
         int tipoRetorno = -1;
 
         try {

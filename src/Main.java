@@ -101,8 +101,6 @@ public class Main {
             parser.addErrorListener(errorListener);
 
 
-
-
             try {
                 System.out.println("Iniciando Compilación");
                 System.out.println(" **Iniciando Analisis Sintactico (Parser y Scanner)");
@@ -117,7 +115,9 @@ public class Main {
 
 
                 System.out.println(" **Iniciando Analisis Contextual");
+
                 (new Checker(errorListener)).visit(tree);
+
                 if (!errorListener.hasErrors())
                     System.out.println("  ++Analisis Contextual Finalizado");
                 else{

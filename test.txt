@@ -1,5 +1,5 @@
 
 def programa(x,y,z):
     x = y + 7
-    return x < z
+    return 3 < 1
 
