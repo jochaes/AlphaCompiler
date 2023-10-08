@@ -317,9 +317,176 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
     @Override
     public Object visitExpression_AST(MiniPythonParser.Expression_ASTContext ctx) {
         //TODO AQUI VOY A TENER QUE HACER UNA INFERENCIA DE TIPOS
+        int tipoRetorno = -1;
+
+        try {
+            tipoRetorno = (int) visit(ctx.primitiveExpression(0));
+
+            int tipoTemp = -1;
+            Token operador = null;
+
+            for (int i = 1; i < ctx.primitiveExpression().size(); i++) {
+
+                tipoTemp = (int) visit(ctx.primitiveExpression(i));
+
+                operador = (Token) visit(ctx.expressionOperator(i - 1));
+
+                //********* SUMAS *********
+                if (operador.getType() == MiniPythonParser.PLUSSIGN) {
+
+                    //Si es un string, entonces la suma es un string
+                    if (tipoRetorno == 1 || tipoTemp == 1){
+                        tipoRetorno = 1;
+                    }
+                    //Si es un char, entonces la suma es un string
+                    else if (tipoRetorno == 2 || tipoTemp == 2){
+                        throw new TiposException(tipoRetorno, tipoTemp, operador);
+                    }
+                    //Si es un float, entonces la suma es un float
+                    else if (tipoRetorno == 4 || tipoTemp == 4){
+                        tipoRetorno = 4;
+                    }
+                    //Si es un int, entonces la suma es un int
+                    else if (tipoRetorno == 0 || tipoTemp == 0){
+                        tipoRetorno = 0;
+                    }
+                    //Si es un bool, entonces la suma es un bool
+                    else if (tipoRetorno == 5 || tipoTemp == 5){
+                        throw new TiposException(tipoRetorno, tipoTemp, operador);
+                    }
+                    //Si es una lista, entonces la suma es una lista
+                    else if (tipoRetorno == 3 || tipoTemp == 3){
+                        throw new TiposException(tipoRetorno, tipoTemp, operador);
+                    }
+                    //Si es indefinido, entonces la suma es indefinida
+                    else if (tipoRetorno == -1 || tipoTemp == -1){
+                        throw new TiposException(tipoRetorno, tipoTemp, operador);
+                    }
+                    //Si es cualquier otra cosa, entonces la suma es indefinida
+                    else {
+                        throw new TiposException(tipoRetorno, tipoTemp, operador);
+                    }
+
+                }
+                //********* RESTAS *********
+                else if (operador.getType() == MiniPythonParser.MINUSSIGN) {
+                    //Si es un string, entonces la suma es un string
+                    if (tipoRetorno == 1 || tipoTemp == 1){
+                        throw new TiposException(tipoRetorno, tipoTemp, operador);
+                    }
+                    //Si es un char, entonces la suma es un string
+                    else if (tipoRetorno == 2 || tipoTemp == 2){
+                        throw new TiposException(tipoRetorno, tipoTemp, operador);
+                    }
+                    //Si es un float, entonces la suma es un float
+                    else if (tipoRetorno == 4 || tipoTemp == 4){
+                        tipoRetorno = 4;
+                    }
+                    //Si es un int, entonces la suma es un int
+                    else if (tipoRetorno == 0 || tipoTemp == 0){
+                        tipoRetorno = 0;
+                    }
+                    //Si es un bool, entonces la suma es un bool
+                    else if (tipoRetorno == 5 || tipoTemp == 5){
+                        throw new TiposException(tipoRetorno, tipoTemp, operador);
+                    }
+                    //Si es una lista, entonces la suma es una lista
+                    else if (tipoRetorno == 3 || tipoTemp == 3){
+                        throw new TiposException(tipoRetorno, tipoTemp, operador);
+                    }
+                    //Si es indefinido, entonces la suma es indefinida
+                    else if (tipoRetorno == -1 || tipoTemp == -1){
+                        throw new TiposException(tipoRetorno, tipoTemp, operador);
+                    }
+                    //Si es cualquier otra cosa, entonces la suma es indefinida
+                    else {
+                        throw new TiposException(tipoRetorno, tipoTemp, operador);
+                    }
+                }
+                //********* MULTIPLICACIONES *********
+                else if (operador.getType() == MiniPythonParser.ASTERISK) {
+                    //Si es un string, entonces la suma es un string
+                    if (tipoRetorno == 1 || tipoTemp == 1){
+                        throw new TiposException(tipoRetorno, tipoTemp, operador);
+                    }
+                    //Si es un char, entonces la suma es un string
+                    else if (tipoRetorno == 2 || tipoTemp == 2){
+                        throw new TiposException(tipoRetorno, tipoTemp, operador);
+                    }
+                    //Si es un float, entonces la suma es un float
+                    else if (tipoRetorno == 4 || tipoTemp == 4){
+                        tipoRetorno = 4;
+                    }
+                    //Si es un int, entonces la suma es un int
+                    else if (tipoRetorno == 0 || tipoTemp == 0){
+                        tipoRetorno = 0;
+                    }
+                    //Si es un bool, entonces la suma es un bool
+                    else if (tipoRetorno == 5 || tipoTemp == 5){
+                        throw new TiposException(tipoRetorno, tipoTemp, operador);
+                    }
+                    //Si es una lista, entonces la suma es una lista
+                    else if (tipoRetorno == 3 || tipoTemp == 3){
+                        throw new TiposException(tipoRetorno, tipoTemp, operador);
+                    }
+                    //Si es indefinido, entonces la suma es indefinida
+                    else if (tipoRetorno == -1 || tipoTemp == -1){
+                        throw new TiposException(tipoRetorno, tipoTemp, operador);
+                    }
+                    //Si es cualquier otra cosa, entonces la suma es indefinida
+                    else {
+                        throw new TiposException(tipoRetorno, tipoTemp, operador);
+                    }
+                }
+                //********* DIVISIONES *********
+                else if (operador.getType() == MiniPythonParser.SLASH) {
+                    //Si es un string, entonces la suma es un string
+                    if (tipoRetorno == 1 || tipoTemp == 1){
+                        throw new TiposException(tipoRetorno, tipoTemp, operador);
+                    }
+                    //Si es un char, entonces la suma es un string
+                    else if (tipoRetorno == 2 || tipoTemp == 2){
+                        throw new TiposException(tipoRetorno, tipoTemp, operador);
+                    }
+                    //Si es un float, entonces la suma es un float
+                    else if (tipoRetorno == 4 || tipoTemp == 4){
+                        tipoRetorno = 4;
+                    }
+                    //Si es un int, entonces la suma es un int
+                    else if (tipoRetorno == 0 || tipoTemp == 0){
+                        tipoRetorno = 0;
+                    }
+                    //Si es un bool, entonces la suma es un bool
+                    else if (tipoRetorno == 5 || tipoTemp == 5){
+                        throw new TiposException(tipoRetorno, tipoTemp, operador);
+                    }
+                    //Si es una lista, entonces la suma es una lista
+                    else if (tipoRetorno == 3 || tipoTemp == 3){
+                        throw new TiposException(tipoRetorno, tipoTemp, operador);
+                    }
+                    //Si es indefinido, entonces la suma es indefinida
+                    else if (tipoRetorno == -1 || tipoTemp == -1){
+                        throw new TiposException(tipoRetorno, tipoTemp, operador);
+                    }
+                    //Si es cualquier otra cosa, entonces la suma es indefinida
+                    else {
+                        throw new TiposException(tipoRetorno, tipoTemp, operador);
+                    }
+                } else {
+                    throw new OperadorNoExisteException(operador);
+
+                }
+
+            }
+        }catch (OperadorNoExisteException | TiposException e){
+            this.errorListener.addContextualError(e.toString());
+            System.err.println(e.toString());
+        }
 
 
-        return super.visitExpression_AST(ctx);
+
+        return (Integer) tipoRetorno;
+
     }
 
     /************************************************************
@@ -327,22 +494,24 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
      *************************************************************/
     @Override
     public Object visitAddition_EO_AST(MiniPythonParser.Addition_EO_ASTContext ctx) {
-        return super.visitAddition_EO_AST(ctx);
+        return ctx.PLUSSIGN().getSymbol();
+
     }
 
     @Override
     public Object visitSubstraction_EO_AST(MiniPythonParser.Substraction_EO_ASTContext ctx) {
-        return super.visitSubstraction_EO_AST(ctx);
+
+        return  ctx.MINUSSIGN().getSymbol();
     }
 
     @Override
     public Object visitMultiplication_EO_AST(MiniPythonParser.Multiplication_EO_ASTContext ctx) {
-        return super.visitMultiplication_EO_AST(ctx);
+        return ctx.ASTERISK().getSymbol();
     }
 
     @Override
     public Object visitDivision_EO_AST(MiniPythonParser.Division_EO_ASTContext ctx) {
-        return super.visitDivision_EO_AST(ctx);
+        return ctx.SLASH().getSymbol();
     }
 
     /************************************************************
@@ -362,32 +531,33 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
      *************************************************************/
     @Override
     public Object visitLessThan_CO_AST(MiniPythonParser.LessThan_CO_ASTContext ctx) {
-        return super.visitLessThan_CO_AST(ctx);
+        return ctx.LESSTHAN().getSymbol();
+
     }
 
     @Override
     public Object visitGreaterThan_CO_AST(MiniPythonParser.GreaterThan_CO_ASTContext ctx) {
-        return super.visitGreaterThan_CO_AST(ctx);
+        return ctx.GREATERTHAN().getSymbol();
     }
 
     @Override
     public Object visitLessThanEqual_CO_AST(MiniPythonParser.LessThanEqual_CO_ASTContext ctx) {
-        return super.visitLessThanEqual_CO_AST(ctx);
+        return ctx.LESSTHANEQUAL().getSymbol();
     }
 
     @Override
     public Object visitGreaterThanEqual_CO_AST(MiniPythonParser.GreaterThanEqual_CO_ASTContext ctx) {
-        return super.visitGreaterThanEqual_CO_AST(ctx);
+        return ctx.GREATERTHANEQUAL().getSymbol();
     }
 
     @Override
     public Object visitComparison_CO_AST(MiniPythonParser.Comparison_CO_ASTContext ctx) {
-        return super.visitComparison_CO_AST(ctx);
+        return ctx.COMPARISON().getSymbol();
     }
 
     @Override
     public Object visitNotEqual_CO_AST(MiniPythonParser.NotEqual_CO_ASTContext ctx) {
-        return super.visitNotEqual_CO_AST(ctx);
+        return ctx.NOTEQUAL().getSymbol();
     }
 
     /************************************************************
