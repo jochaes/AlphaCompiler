@@ -68,6 +68,19 @@ public class TiposException extends Exception{
 
         }
 
+        public TiposException(MiniPythonParser.Len_PE_ASTContext ctx, int tipo ){
+            int line = ctx.getStart().getLine();
+            int col = ctx.getStart().getCharPositionInLine();
+
+
+            this.message =
+                    "\nTiposException: "+
+                            "\n\tLa funcion len solo se puede utilizar con string o list no con " + getCustomType(tipo) +
+                            "\n\ten Linea: " + line + " Columna: " + col;
+        }
+
+
+
 
 
         @Override

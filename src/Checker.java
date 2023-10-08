@@ -7,6 +7,19 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/****************** TIPOS ******************
+ * -1 = Indefinido
+ *  0 = int
+ *  1 = string
+ *  2 = char
+ *  3 = list[]
+ *  4 = float
+ *  5 = Boolean
+ */
+
+
+
 public class Checker extends MiniPythonBaseVisitor<Object> {
 
     private SymbolTable VarTable;
@@ -352,12 +365,17 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
             //En expresionList se visitan todas las expresiones de la lista
             List<MiniPythonParser.ExpressionContext> parametrosMetodo = (List<MiniPythonParser.ExpressionContext>) visit(ctx.expressionList());
 
+
+            //Todo: Aca se debe hacer la inferencia de los tipos
+            // Creo que acá hay que comparar los tipos de la llamada con los tipos de la definicion
+
             //Visitar todas las expresiones de la lista
             for (int i = 0; i < parametrosMetodo.size(); i++){
                 visit(parametrosMetodo.get(i));
             }
 
-            //Todo: Aca se debe hacer la inferencia de los tipos, pero diay, no se como hacerlo XD
+
+
             if ( parametrosMetodo.size() != temp.numParams ){
                 throw new DiferenteCantidadParamsException(ctx);
             }
@@ -897,10 +915,23 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
 
     @Override
     public Object visitLen_PE_AST(MiniPythonParser.Len_PE_ASTContext ctx) {
-        //TODO: DEBE recibir listas o strings, o identificadores que sean listas o strings
+        //DEBE recibir listas o strings, o identificadores que sean listas o strings
         //Por el momento no verifica eso solo retorna el tipo de la funcion que es entero
-        //HAY QUE MODIFICAR EL G4 PARA QUE SEA (IDENTIFICADOR| STRING | LISTEXPRESSION)
-        visit(ctx.expression());
+        //HAY QUE MODIFICAR EL G4 PARA QUE SEA
+        //O bueno no es necesario, con solo evaluar que la expresion sea un string o una lista
+
+        try{
+            int tipo = (int) visit(ctx.expression());  //Acá visitamos la expresion
+
+            if (tipo != 3 && tipo != 1 ){
+                throw new TiposException(ctx, tipo);
+            }
+        }catch ( TiposException e ){
+            this.errorListener.addContextualError(e.toString());
+            System.err.println(e.toString());
+        }
+
+        //Retorna que es de tipo entero
         return 0;
 
     }
