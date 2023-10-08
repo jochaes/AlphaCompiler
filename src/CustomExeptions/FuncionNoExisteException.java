@@ -21,6 +21,16 @@ public class FuncionNoExisteException extends Exception{
                             "\n\ten Linea: " + line + " Columna: " + col;
         }
 
+        public FuncionNoExisteException(MiniPythonParser.FunctionCallStatement_ASTContext ctx ){
+            int line = ctx.getStart().getLine();
+            int col = ctx.IDENTIFIER().getSymbol().getCharPositionInLine();
+
+            this.message =
+                    "\nFuncionNoExisteException: "+
+                            "\n\tEsta llamando a una funcion que no existe" +
+                            "\n\ten Linea: " + line + " Columna: " + col;
+        }
+
 
         public FuncionNoExisteException(String message){
             super(message);

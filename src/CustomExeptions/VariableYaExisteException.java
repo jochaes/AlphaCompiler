@@ -42,6 +42,18 @@ public class VariableYaExisteException extends Exception{
                             "\n\ten Linea: " + line + " Columna: " + col;
         }
 
+        public VariableYaExisteException(MiniPythonParser.FunctionCallStatement_ASTContext ctx ){
+            int line = ctx.getStart().getLine();
+            int col = ctx.IDENTIFIER().getSymbol().getCharPositionInLine();
+
+            this.message =
+                    "\nVariableYaExisteException: "+
+                            "\n\tEl nombre de esta funcion pertenece al de una variable" +
+                            "\n\ten Linea: " + line + " Columna: " + col;
+        }
+
+
+
 
         public VariableYaExisteException(String message){
             super(message);

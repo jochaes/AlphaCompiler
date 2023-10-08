@@ -66,6 +66,7 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
 
     @Override
     public Object visitFunctionCall_MS_AST(MiniPythonParser.FunctionCall_MS_ASTContext ctx) {
+        //Solo Visita el FunctionCall normal, acá no hace nada
         return super.visitFunctionCall_MS_AST(ctx);
     }
 
@@ -135,6 +136,7 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
 
     @Override
     public Object visitFunctionCall_ST_AST(MiniPythonParser.FunctionCall_ST_ASTContext ctx) {
+        //Solo visita al FunctionCall normal, acá no hace nada
         return super.visitFunctionCall_ST_AST(ctx);
     }
 
@@ -329,7 +331,43 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
     @Override
     public Object visitFunctionCallStatement_AST(MiniPythonParser.FunctionCallStatement_ASTContext ctx) {
         //todo: Recorrer la lista de parametros y visitar cada uno
-        return super.visitFunctionCallStatement_AST(ctx);
+
+        try {
+            //Revizar que no exista el nombre de la funcion en la tabla de variables
+            if (this.VarTable.find(ctx.IDENTIFIER().getText()) != null){
+                throw new VariableYaExisteException(ctx);
+            }
+
+            //Buscamos la funcion en la tabla de funciones
+            SymbolTable.MethodIdent temp = (SymbolTable.MethodIdent) this.FunctionTable.find(ctx.IDENTIFIER().getText());
+
+
+            if (temp == null) {
+                //Si no existe la funcion en la tabla de funciones, entonces tirar error
+                throw new FuncionNoExisteException(ctx);
+            }
+
+            //Si existe la funcion, entonces hay que validar que tengan la misma cantidad de argumentos
+            //Si no tienen la misma cantidad de argumentos, entonces tirar error
+            //En expresionList se visitan todas las expresiones de la lista
+            List<MiniPythonParser.ExpressionContext> parametrosMetodo = (List<MiniPythonParser.ExpressionContext>) visit(ctx.expressionList());
+
+            //Visitar todas las expresiones de la lista
+            for (int i = 0; i < parametrosMetodo.size(); i++){
+                visit(parametrosMetodo.get(i));
+            }
+
+            //Todo: Aca se debe hacer la inferencia de los tipos, pero diay, no se como hacerlo XD
+            if ( parametrosMetodo.size() != temp.numParams ){
+                throw new DiferenteCantidadParamsException(ctx);
+            }
+
+        }catch (FuncionNoExisteException | DiferenteCantidadParamsException |VariableYaExisteException e){
+            this.errorListener.addContextualError(e.toString());
+            System.err.println(e.toString());
+        }
+
+        return null;
     }
 
     /************************************************************
