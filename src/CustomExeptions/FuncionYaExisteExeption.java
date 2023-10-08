@@ -40,6 +40,18 @@ public class FuncionYaExisteExeption extends Exception{
                         "\n\ten Linea: " + line + " Columna: " + col;
     }
 
+    public  FuncionYaExisteExeption(MiniPythonParser.AssignStatement_ASTContext ctx){
+        int line = ctx.getStart().getLine();
+        int col = ctx.getStart().getCharPositionInLine();
+
+        this.message =
+                "\nFuncionYaExisteExeption: "+
+                        "\n\tSe quiere asignar algo a una variable que ya existe como funcion" +
+                        "\n\ten Linea: " + line + " Columna: " + col;
+    }
+
+
+
     public FuncionYaExisteExeption(String message){
         super(message);
     }

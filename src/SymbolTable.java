@@ -63,6 +63,21 @@ public class SymbolTable {
         table.addFirst(i);
     }
 
+    public void updateType(Token id, int type){
+        Ident temp = null;
+
+        for(Object i: table){
+            if ( ((Ident)i).token.getText().equals(id.getText()) ){
+                temp = (Ident)i;
+                break;
+            }
+        }
+
+        if (temp != null){
+            temp.type = type;
+        }
+    }
+
     public Ident find(String name){
         Ident temp = null;
 

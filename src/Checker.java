@@ -53,13 +53,14 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
      */
     @Override
     public Object visitDef_MS_AST(MiniPythonParser.Def_MS_ASTContext ctx) {
-        //System.out.println("Acabamos de pasar por un Def_MS_AST");
+        //Solo Visita el Def normal, acá no hace nada
 
         return super.visitDef_MS_AST(ctx);
     }
 
     @Override
     public Object visitAssign_MS_AST(MiniPythonParser.Assign_MS_ASTContext ctx) {
+        //Solo Visita el Assign normal, acá no hace nada
         return super.visitAssign_MS_AST(ctx);
     }
 
@@ -118,6 +119,7 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
      */
     @Override
     public Object visitAssign_ST_AST(MiniPythonParser.Assign_ST_ASTContext ctx) {
+        //Solo visita al assign normal, acá no hace nada
         return super.visitAssign_ST_AST(ctx);
     }
 
@@ -151,7 +153,7 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
         // TODO: Agregar la funcion a la tabla de funciones
 
         //imprimimos la tabla de funciones
-        this.FunctionTable.print();
+        //this.FunctionTable.print();
 
         //Abrimos un nuevo scope, para que los argumentos sean locales a la funcion
         this.VarTable.openScope();
@@ -191,7 +193,7 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
         this.VarTable.closeScope();
 
         //imprimimos la tabla de funciones
-        this.FunctionTable.print();
+        //this.FunctionTable.print();
 
         return null;
     }
@@ -282,7 +284,43 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
      *************************************************************/
     @Override
     public Object visitAssignStatement_AST(MiniPythonParser.AssignStatement_ASTContext ctx) {
-        return super.visitAssignStatement_AST(ctx);
+        //TODO: Ver bien lo de los scopes
+
+        //this.VarTable.print();
+
+        try{
+            //Revizar que la variable no exista en la tabla de funciones
+            if (this.FunctionTable.find(ctx.IDENTIFIER().getText()) != null){
+                throw new FuncionYaExisteExeption(ctx);
+            }
+
+            //Revizar que la variable exista en el la tabla de variables
+            SymbolTable.VarIdent var = (SymbolTable.VarIdent) this.VarTable.find(ctx.IDENTIFIER().getText());
+            //Si la variable no existe, entonces se agrega a la tabla de variables con su tipo
+            if (var == null){
+                int tipo = (int) visit(ctx.expression());
+                this.VarTable.insert(ctx.IDENTIFIER().getSymbol(), tipo, ctx);
+            }else{
+
+                int tipo = (int) visit(ctx.expression());
+                //Si la variable Existe,  y su tipo es indefinido, se define acá
+                if (var.type == -1){
+                    this.VarTable.updateType(ctx.IDENTIFIER().getSymbol(), tipo);
+                }
+                //Si la variable existe, entonces se reviza que el tipo de la variable sea igual al tipo de la expresion
+                else if (var.type != tipo){
+                    throw new AsignacionException(var.type, tipo, ctx.ASSIGNMENT().getSymbol());
+                }
+            }
+
+        }catch (FuncionYaExisteExeption | AsignacionException | NullPointerException e){
+            this.errorListener.addContextualError(e.toString());
+            System.err.println(e.toString());
+        }
+
+        //this.VarTable.print();
+
+        return null;
     }
 
     /************************************************************
