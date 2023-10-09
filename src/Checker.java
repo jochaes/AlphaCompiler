@@ -19,7 +19,6 @@ import java.util.List;
  */
 
 
-
 public class Checker extends MiniPythonBaseVisitor<Object> {
 
     private SymbolTable VarTable;
