@@ -84,6 +84,7 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
 
     @Override
     public Object visitPrint_MS_AST(MiniPythonParser.Print_MS_ASTContext ctx) {
+        //Solo Visita el Print normal, acá no hace nada
         return super.visitPrint_MS_AST(ctx);
     }
 
@@ -92,6 +93,7 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
      *************************************************************/
     @Override
     public Object visitIf_ST_AST(MiniPythonParser.If_ST_ASTContext ctx) {
+        //Solo visita al if normal, acá no hace nada
         return super.visitIf_ST_AST(ctx);
     }
 
@@ -244,10 +246,33 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
 
     /************************************************************
      if Statement Linea 50
+     Sólo acepta comparaciones
      *************************************************************/
     @Override
     public Object visitIfStatement_AST(MiniPythonParser.IfStatement_ASTContext ctx) {
-        return super.visitIfStatement_AST(ctx);
+
+        try{
+
+            if (ctx.expression() != null){
+                throw new ExpresionException(ctx.expression());
+            }
+
+            if (ctx.comparison() != null){
+
+                visit(ctx.comparison());
+            }
+
+        }catch (ExpresionException e){
+            this.errorListener.addContextualError(e.toString());
+            System.err.println(e.toString());
+        }
+
+        //Visitar todas las secuencias de statements
+        for (int i = 0; i < ctx.sequence().size(); i++){
+            visit(ctx.sequence(i));
+        }
+
+        return null;
     }
 
     /************************************************************
@@ -255,7 +280,27 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
      *************************************************************/
     @Override
     public Object visitWhileStatement_AST(MiniPythonParser.WhileStatement_ASTContext ctx) {
-        return super.visitWhileStatement_AST(ctx);
+        try{
+
+            if (ctx.expression() != null){
+                throw new ExpresionException(ctx.expression());
+            }
+
+            if (ctx.comparison() != null){
+
+                visit(ctx.comparison());
+
+            }
+
+        }catch (ExpresionException e){
+            this.errorListener.addContextualError(e.toString());
+            System.err.println(e.toString());
+        }
+
+        visit(ctx.sequence()); //Visitamos la secuencia de statements
+
+
+        return null;
     }
 
     /************************************************************
@@ -263,7 +308,68 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
      *************************************************************/
     @Override
     public Object visitForStatement_AST(MiniPythonParser.ForStatement_ASTContext ctx) {
-        return super.visitForStatement_AST(ctx);
+        //Verificar que el identificador no esté asignado
+
+        //Solo para validar que el iterador no sea una funcion
+        try{
+            if (this.FunctionTable.find(ctx.IDENTIFIER(0).getText()) != null){
+                throw new FuncionYaExisteExeption(ctx);
+            }
+
+            if (this.VarTable.find(ctx.IDENTIFIER(0).getText()) != null){
+                throw new VariableYaExisteException(ctx);
+            }
+
+        }catch (FuncionYaExisteExeption | VariableYaExisteException e){
+            this.errorListener.addContextualError(e.toString());
+            System.err.println(e.toString());
+        }
+
+        //Agregamos el identificador a la tabla de variables
+        this.VarTable.insert(ctx.IDENTIFIER(0).getSymbol(), -1, ctx);
+
+        //Validamos si la lista es una lista o un identificador que apunta a una lista
+
+        try{
+            //Visita la lista de expresiones, para verificar que es toda del mismo tipo
+            if ( ctx.listExpression() != null){
+                visit(ctx.listExpression());
+            }
+
+            //Si es un identificador, entonces debe existir y debe ser una lista
+            if( ctx.IDENTIFIER(1) != null ){
+
+                //Si es una funcion, entonces tirar error
+                if (this.FunctionTable.find(ctx.IDENTIFIER(1).getText()) != null){
+                    throw new FuncionYaExisteExeption(ctx);
+                }
+
+                //Si es un  identificador, tiene que existir, y debe ser un alista
+                SymbolTable.VarIdent var = (SymbolTable.VarIdent) this.VarTable.find(ctx.IDENTIFIER(1).getText());
+
+                //Si la Variable no existe entonces tirar error
+                if (var == null){
+                    throw new VariableNoExisteException(ctx);
+                }
+
+                //Si la variable existe, entonces debe ser una lista
+                if (var.type != 3){
+                    throw new TiposException(3, var.type, ctx.IDENTIFIER(1).getSymbol());
+                }
+
+            }
+
+
+        }catch (VariableNoExisteException | FuncionYaExisteExeption | TiposException e){
+            this.errorListener.addContextualError(e.toString());
+            System.err.println(e.toString());
+        }
+
+        //Visitamos la secuencia de statements
+        visit(ctx.sequence());
+        
+
+        return null;
     }
 
     /************************************************************
@@ -815,6 +921,8 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
         //Acá es una variable, entonces hay que buscarla en la tabla de variables
         //Si no existe, entonces tirar error
         //Si existe, entonces retornar el tipo de la variable
+
+
 
         //Solo para validar que el identificador no sea una funcion
         try{
