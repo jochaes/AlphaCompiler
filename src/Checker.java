@@ -189,21 +189,39 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
 
             //Revizar que los argumentos no existan en la tabla de variables
             // Visitamos el ArgList, que es una lista de argumentos y agregamos cada uno a la tabla de variables como tipo indefinido
-            List<TerminalNode> params = (List<TerminalNode>) visit(ctx.argList());
+            List<TerminalNode> tempArguments = (List<TerminalNode>) visit(ctx.argList());
 
             //Visitamos la secuencia de statements
             //Si este sequence tiene un return, entonces el tipo de la funcion es el tipo del return
             int funType = (int) visit(ctx.sequence());
 
+            //Una vez que hemos visitado la secuencia de statements,
+            //entonces ya tenemos los tipos de los argumentos, y el tipo de la funcion
+            // Ya que cuando se estaban asignando o utilizando las variables, se actualizó su tipo
+
+            List<SymbolTable.VarIdent> methodArguments = new ArrayList<>();
+
+            for (int i = 0; i < tempArguments.size(); i++){
+                //Buscamos el argumento en la tabla de variables
+                SymbolTable.VarIdent var = (SymbolTable.VarIdent) this.VarTable.find(tempArguments.get(i).getText());
+
+                //Si el argumento existe, entonces lo agregamos a la lista de argumentos para guaradrlo con la funcion
+                if (var != null){
+                    methodArguments.add(var);
+                }else{
+                    throw new DefinicionMetodoArgumentosException(ctx, tempArguments.get(i).getSymbol());
+                }
+            }
 
             //Agregar la funcion a la tabla de funciones
-            this.FunctionTable.insert(ctx.IDENTIFIER().getSymbol(), funType, params, ctx);
+            this.FunctionTable.insert(ctx.IDENTIFIER().getSymbol(), funType, methodArguments, ctx);
 
         }
-        catch (FuncionYaExisteExeption | VariableYaExisteException e){
+        catch (FuncionYaExisteExeption | VariableYaExisteException | DefinicionMetodoArgumentosException e){
             this.errorListener.addContextualError(e.toString());
             System.err.println(e.toString());
         }
+
 
         //Cerramos el scope
         this.VarTable.closeScope();
@@ -367,7 +385,7 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
 
         //Visitamos la secuencia de statements
         visit(ctx.sequence());
-        
+
 
         return null;
     }
@@ -474,18 +492,26 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
             //Todo: Aca se debe hacer la inferencia de los tipos
             // Creo que acá hay que comparar los tipos de la llamada con los tipos de la definicion
 
-            //Visitar todas las expresiones de la lista
-            for (int i = 0; i < parametrosMetodo.size(); i++){
-                visit(parametrosMetodo.get(i));
-            }
-
-
-
+            //Si la cantidad de parametros es diferente, entonces tirar error
             if ( parametrosMetodo.size() != temp.numParams ){
                 throw new DiferenteCantidadParamsException(ctx);
             }
 
-        }catch (FuncionNoExisteException | DiferenteCantidadParamsException |VariableYaExisteException e){
+            // Acá se visita cada una de las expresiones de ExpressionList, que son los parametros de la llamada
+            // Se debe inferir el tipo de cada una de las expresiones
+            // Se debe comparar el tipo de cada expresion con el tipo de cada parametro de la definicion
+            int tipoArgumento = -1;
+            int tipoParametro = -1;
+            for (int i = 0; i < parametrosMetodo.size(); i++){
+                tipoArgumento = temp.arguments.get(i).type;
+                tipoParametro = (int) visit(parametrosMetodo.get(i));
+
+                if (tipoArgumento != tipoParametro){
+                    throw new TiposException(tipoArgumento, tipoParametro, parametrosMetodo.get(i));
+                }
+            }
+
+        }catch (FuncionNoExisteException | DiferenteCantidadParamsException |VariableYaExisteException | TiposException e){
             this.errorListener.addContextualError(e.toString());
             System.err.println(e.toString());
         }
