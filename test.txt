@@ -1,11 +1,12 @@
 
-x = 20
+x = '2'
 
 def xy(y):
-    y = '8'=
+    y = '8'
     print('x')
     return y
 
-x = xy(5) + 56
+xy(x)
+
 
 

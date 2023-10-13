@@ -74,7 +74,7 @@ public class TiposException extends Exception{
 
             this.message =
                     "\nTiposException: "+
-                            "\n\tEl tipo del parametro: " + getCustomType(primitive2) + " es diferente al tipo del argumento: " + getCustomType(primitive1) +
+                            "\n\tEl tipo del parametro( " + getCustomType(primitive2) + " ) es diferente al tipo del argumento( " + getCustomType(primitive1) +" ) " +
                             "\n\ten Linea: " + line + " Columna: " + col;
 
         }
