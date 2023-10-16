@@ -784,6 +784,9 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
                 else if (tipoRetorno == 2 && tipoTemp == 2){
                     tipoRetorno = 5;
                 }
+                else if (tipoRetorno == -1 || tipoTemp == -1){ //Puede ser que no se haya definido un argumento
+                    tipoRetorno = 5;
+                }
                 //Si es cualquier otra cosa, entonces se lanza error
                 else {
                     throw new TiposException(tipoRetorno, tipoTemp, operador);
@@ -798,6 +801,9 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
                 }
                 //Los dos son char
                 else if (tipoRetorno == 2 && tipoTemp == 2){
+                    tipoRetorno = 5;
+                }
+                else if (tipoRetorno == -1 || tipoTemp == -1){ //Puede ser que no se haya definido un argumento
                     tipoRetorno = 5;
                 }
                 //Si es cualquier otra cosa, entonces se lanza error
@@ -816,6 +822,9 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
                 else if (tipoRetorno == 2 && tipoTemp == 2){
                     tipoRetorno = 5;
                 }
+                else if (tipoRetorno == -1 || tipoTemp == -1){ //Puede ser que no se haya definido un argumento
+                    tipoRetorno = 5;
+                }
                 //Si es cualquier otra cosa, entonces se lanza error
                 else {
                     throw new TiposException(tipoRetorno, tipoTemp, operador);
@@ -830,6 +839,9 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
                 }
                 //Los dos son char
                 else if (tipoRetorno == 2 && tipoTemp == 2){
+                    tipoRetorno = 5;
+                }
+                else if (tipoRetorno == -1 || tipoTemp == -1){ //Puede ser que no se haya definido un argumento
                     tipoRetorno = 5;
                 }
                 //Si es cualquier otra cosa, entonces se lanza error
@@ -848,6 +860,9 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
                 else if (tipoRetorno == 2 && tipoTemp == 2){
                     tipoRetorno = 5;
                 }
+                else if (tipoRetorno == -1 || tipoTemp == -1){ //Puede ser que no se haya definido un argumento
+                    tipoRetorno = 5;
+                }
                 //Si es cualquier otra cosa, entonces se lanza error
                 else {
                     throw new TiposException(tipoRetorno, tipoTemp, operador);
@@ -863,6 +878,9 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
                 }
                 //Los dos son char
                 else if (tipoRetorno == 2 && tipoTemp == 2){
+                    tipoRetorno = 5;
+                }
+                else if (tipoRetorno == -1 || tipoTemp == -1){ //Puede ser que no se haya definido un argumento
                     tipoRetorno = 5;
                 }
                 //Si es cualquier otra cosa, entonces se lanza error
@@ -1058,7 +1076,7 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
         try{
             int tipo = (int) visit(ctx.expression());  //Acá visitamos la expresion
 
-            if (tipo != 3 && tipo != 1 ){
+            if (tipo != 3 && tipo != 1 && tipo != -1){
                 throw new TiposException(ctx, tipo);
             }
         }catch ( TiposException e ){
