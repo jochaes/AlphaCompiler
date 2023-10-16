@@ -575,6 +575,12 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
                     if (tipoRetorno == 1 || tipoTemp == 1){
                         tipoRetorno = 1;
                     }
+
+                    //Si es un int, entonces la suma es un int
+                    else if (tipoRetorno == 0 || tipoTemp == 0){
+                        tipoRetorno = 0;
+                    }
+
                     //Si es un char, entonces la suma es un string
                     else if (tipoRetorno == 2 || tipoTemp == 2){
                         throw new TiposException(tipoRetorno, tipoTemp, operador);
@@ -582,10 +588,6 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
                     //Si es un float, entonces la suma es un float
                     else if (tipoRetorno == 4 || tipoTemp == 4){
                         tipoRetorno = 4;
-                    }
-                    //Si es un int, entonces la suma es un int
-                    else if (tipoRetorno == 0 || tipoTemp == 0){
-                        tipoRetorno = 0;
                     }
                     //Si es un bool, entonces la suma es un bool
                     else if (tipoRetorno == 5 || tipoTemp == 5){
