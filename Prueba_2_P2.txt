@@ -1,0 +1,14 @@
+TRUE = 1
+FALSE = 0
+
+def temp(a,b):
+    if ("0==0"):
+        x=10
+    y = x + 1 + b #error de alcances. x no debería pertenecer al nivel actual y posible error de tipos con b si se validan estos tipos acá
+    if (0==0):
+        return TRUE
+    else:
+        return 0
+
+temp(1,2,3) #error por mayor cantidad de argumentos
+temp(1,"2")
