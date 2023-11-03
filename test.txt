@@ -33,6 +33,21 @@ def promedio(cualquier_arreglo):
     else:
         resultado = resultado
 
+#promedio de elementos
+def promedio(cualquier_arreglo):
+    tam = len(cualquier_arreglo)
+    resultado=0
+    #ciclo para recorrer arreglo
+    cont = 0
+    sumatoria = 0
+    while (cont <= (tam-1)):
+        sumatoria = sumatoria + cualquier_arreglo[cont]
+        cont = cont + 1
+    if tam > 0:
+        resultado = sumatoria / tam
+    else:
+        resultado = 0
+    return resultado
 
     return resultado
 
