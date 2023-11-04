@@ -33,21 +33,6 @@ def promedio(cualquier_arreglo):
     else:
         resultado = resultado
 
-#promedio de elementos
-def promedio(cualquier_arreglo):
-    tam = len(cualquier_arreglo)
-    resultado=0
-    #ciclo para recorrer arreglo
-    cont = 0
-    sumatoria = 0
-    while (cont <= (tam-1)):
-        sumatoria = sumatoria + cualquier_arreglo[cont]
-        cont = cont + 1
-    if tam > 0:
-        resultado = sumatoria / tam
-    else:
-        resultado = 0
-    return resultado
 
     return resultado
 
@@ -61,20 +46,21 @@ def calcularpromedioventas(x):
     return 10
 
 def temp(a,b):
-    if ("0=0"):          #VERIFICACIÓN DE TIPOS EN EXPRESIONES LÓGICAS %%%% No deteca el error
+    if ("0=0"):          #VERIFICACIÓN DE TIPOS EN EXPRESIONES LÓGICAS %%%% Si detecta el error
         x=10             #POSIBLE VERIFICACIÓN DE NIVELES ENTRE ÁMBITOS GLOBALES PARA x DENTRO DE UN IF Y USANDOLO FUERA DEL IF
     else:
         x=1
 
     y = x + 1 + b        #error de alcances. x no debería pertenecer al nivel actual y posible error de tipos con b si se validan estos tipos acá  %%%% No está detectando bien esto
 
-    if (0==0):
-        return TRUE
-    else:
-        return 0
+    #if (0==0):
+    #    return TRUE
+    #else:
+    #    return 0
+
 
 temp(1,2,3)              #error por mayor cantidad de argumentos   %%Si lo detecta
-temp(1,"2")
+temp(1,"2")              #Verifica que los tipos de la llamada sean igual a los tipos de los argumentos
 z = ventas[3.2] + ventas["2"] + 'a'                  #otros errores varios. VERIFICACIÓN DE OTROS POSIBLES ERRORES EN EXPRESIONES COMPLEJAS   %%% Si detecta error
 print("Calculo del Factorial:%$ " + calcularFac(6))
 

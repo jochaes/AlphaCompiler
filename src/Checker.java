@@ -1,23 +1,10 @@
+import generatedMiniPython.*;
 import CustomExeptions.*;
-import generatedMiniPython.MiniPythonBaseVisitor;
-import generatedMiniPython.MiniPythonParser;
-import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.TerminalNode;
+import org.antlr.v4.runtime.*;
 
-import java.util.ArrayList;
 import java.util.List;
-
-
-/****************** TIPOS ******************
- * -1 = Indefinido
- *  0 = int
- *  1 = string
- *  2 = char
- *  3 = list[]
- *  4 = float
- *  5 = Boolean
- */
-
+import java.util.ArrayList;
 
 public class Checker extends MiniPythonBaseVisitor<Object> {
 
@@ -37,6 +24,7 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
         this.errorListener = errorListener;
     }
 
+
     public SymbolTable getVarTable() {
         return VarTable;
     }
@@ -47,7 +35,7 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
 
     /************************************************************
      PROGRAM
-    *************************************************************/
+     *************************************************************/
     @Override
     public Object visitProgram_AST(MiniPythonParser.Program_ASTContext ctx) {
         return super.visitProgram_AST(ctx);
@@ -158,7 +146,7 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
      DEF STATEMENT Linea 46
 
      Notas:
-        El tipo de la funcion lo da el return, si no es void (No se puede usar en un expresion)
+     El tipo de la funcion lo da el return, si no es void (No se puede usar en un expresion)
      *************************************************************/
     @Override
     public Object visitDefStatement_AST(MiniPythonParser.DefStatement_ASTContext ctx) {
@@ -234,8 +222,8 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
 
     /************************************************************
      ArgList Linea 48
-        -Agregamos los argumentos a la tabla de variables
-        -Retorna la cantidad de argumentos
+     -Agregamos los argumentos a la tabla de variables
+     -Retorna la cantidad de argumentos
      *************************************************************/
     @Override
     public Object visitArgList_AST(MiniPythonParser.ArgList_ASTContext ctx) {
@@ -534,7 +522,7 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
                 typeReturn = (int) visit(ctx.statement(i));
             }
 
-           visit(ctx.statement(i));
+            visit(ctx.statement(i));
 
         }
 
@@ -544,12 +532,12 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
     /************************************************************
      expression Linea 68
      Notas:
-        DEL DOC DEL PROYECTO:
-            ..., además de que con argumentos de tipo entero, al evaluar cada operación con los 4 anteriores
-            operadores, esta sea inferida como de tipo entero...
-        A lo que entendí, si la expresión tiene un entero, se evalua toda a entero
+     DEL DOC DEL PROYECTO:
+     ..., además de que con argumentos de tipo entero, al evaluar cada operación con los 4 anteriores
+     operadores, esta sea inferida como de tipo entero...
+     A lo que entendí, si la expresión tiene un entero, se evalua toda a entero
 
-        Se pueden hacer sumas de strings
+     Se pueden hacer sumas de strings
      *************************************************************/
     @Override
     public Object visitExpression_AST(MiniPythonParser.Expression_ASTContext ctx) {
@@ -756,8 +744,8 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
     /************************************************************
      Comparison Linea 76
      Notas:
-        Los tipos de los operandos debe ser igual (Osea hay que tirar error si son diferentes)
-        Los tipos permitidos son integer y char (Si es de otro tipo tira otro tipo de error)
+     Los tipos de los operandos debe ser igual (Osea hay que tirar error si son diferentes)
+     Los tipos permitidos son integer y char (Si es de otro tipo tira otro tipo de error)
 
      *************************************************************/
     @Override
@@ -1146,7 +1134,7 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
 
             //Visitar todas las expresiones de la lista
             for (int i = 1; i < parametrosMetodo.size(); i++) {
-                                        //Aca lo visita y retorna el tipo
+                //Aca lo visita y retorna el tipo
                 if (tipoInicial != (int) visit(parametrosMetodo.get(i))){
                     throw new TiposException(ctx);
                 }
