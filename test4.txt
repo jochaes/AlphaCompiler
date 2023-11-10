@@ -1,7 +1,0 @@
-let
-
-    def (x:int, y:string, f:char){ x := 20 }
-in
-begin
-    x := 20;
-end

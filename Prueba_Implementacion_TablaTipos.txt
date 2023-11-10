@@ -1,0 +1,103 @@
+************* Prueba MP-02 Implementación de Tabla de Simbolos, Validacion de niveles de identificadores y definicion de metodos con el mismo identificador *************
+
+
+x = 123
+y = "456"
+w = [1,2,3,4]
+x = 321
+
+def funcion():
+    z = 789
+    print(z)
+z = "hola"
+
+x = "hola"
+
+def funcion():
+    z = "20"
+
+************* Prueba MP-03 llamadas a funciones  *************
+
+funcionUno():
+    print("funcionUno")
+
+funcionUno()
+
+funcionDos():
+    funcionUno()
+    print("funcionDos")
+
+funcionTres()
+
+
+************* Prueba MP-04 Inferencia de Tipos  *************
+
+#Inferencia de tipos en scopes diferentes
+
+a = 123
+a = "123" #Error de tipos
+
+def fun1():
+    a = 123
+    a = "123"  #Error de Tipos
+
+b = "123"
+c = '1'
+d = [1,2,3]
+e = [1,'2',"3"] #Error de Tipos en la lista
+
+
+************* Prueba MP-05 Inferencia de Tipos en expresiones  *************
+
+#Verificacion de tipos en expresiones
+
+x = 123
+y = [1,2,3]
+
+concat1 = "hola " + "mundo"
+concat2 = "hola " + 123
+concat3 = "hola " + 'a'
+
+mulOk = x* y[0]
+mulError = 123 * "asd"
+
+def fun1():
+    a = 'a'
+    b = 'b'
+    if (a < b):
+        print("a es menor que b")
+    else:
+        print("a es mayor que b")
+
+    if (5 > 10):
+        print("5 es mayor que 10")
+    else:
+        print("5 es menor que 10")
+
+    if(a == 5):                    #Error de tipos los 2 deben ser enteros o char
+        print("a es igual a 5")
+    else:
+        print("a no es igual a 5")
+
+    if("a" == "5"):                    #Error de tipos solo pueden ser o enteros o char
+        print("a es igual a 5")
+    else:
+        print("a no es igual a 5")
+
+
+
+************* Prueba MP-06 Uso de métodos  *************
+
+x = 10
+
+def fun1():
+    return "20"
+
+concat = x + fun1()
+
+mult = x * fun1()
+
+
+************* Prueba MP-07 Uso de métodos  *************
+
+exp = 10 + (20 * 5 ) + ( "suma" * 't') / (50-10)

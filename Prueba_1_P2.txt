@@ -1,0 +1,66 @@
+#VARIABLES GLOBALES UTILIZADAS PARA VERIFICACIÓN DE NIVELES DE IDENTIFICADORES
+
+MIN = -1
+TRUE = 1
+FALSE = 0
+
+#Calcular factorial
+def calcularFac(num):
+    num_aux = 0
+    if (num < 1):         # %%%%%% Aqui da error, el tipo de num es indefinido
+        num_aux = MIN
+    else:
+        num_aux = num * (calcularFac(num-1,2)) #error de cantidad de argumentos VERIFICACIÓN DE CANTIDAD DE ARGUMENTOS %%%%%% Da error porque la funcoin no existe, y xq la operacin esta operando dos indefinidos
+    #return num_aux #se puede comentar el retorno para evaluar posibles llamadas que lo intenten utilizar VERIFICACIÓN DE METODOS SIN RETORNO PARA EVENTUAL CHEQUEO DE TIPOS USANDO LA LLAMADA AL METODO
+
+ventas = [100,200,300,400,500]
+print(len(ventas)+1)            #no debería de dar error VERIFICACIÓN DE TIPOS DE RETORNO DE METODO PREDEFINIDO
+print(len(ventas[0])+1)         #si debería de dar error VERIFICACIÓN DE TIPOS DE ARGUMENTOS PARA METODOS PREDEFINIDOS   %%%%% Detecta el error
+
+#promedio de elementos
+def promedio(cualquier_arreglo):
+    tam = len(cualquier_arreglo)   #%%%%%%%%Cualquier arreglo está como indefinido, tira error de len
+    resultado=0
+    #ciclo para recorrer arreglo
+    cont = 0
+    sumatoria = 0
+    while (cont <= tam-1):
+        sumatoria = sumatoria + cualquier_arreglo[cont] #%%%%%%% Da error, no sabe que cualquier_arreglo es una lista
+        sumatoria()            #error no es un mEtodo es una variable VERIFICACIÓN DE LLAMADAS A MÉTODOS NO EXISTENTES    %%%%% Si lo hace bien
+        cont = cont + 1
+    if tam > 0:
+        resultado = sumatoria / tam
+    else:
+        resultado = resultado
+
+
+    return resultado
+
+def calcularpromedioventas():
+    prom = promedio(ventas)
+    print("El promedio de las ventas es: ")
+    print(prom)
+
+#VERIFICACIÓN DE REDECLARACIÓN DE METODOS  %%% Si detecta bien el error, el nombre del metodo ya existe
+def calcularpromedioventas(x):
+    return 10
+
+def temp(a,b):
+    if ("0=0"):          #VERIFICACIÓN DE TIPOS EN EXPRESIONES LÓGICAS %%%% No deteca el error
+        x=10             #POSIBLE VERIFICACIÓN DE NIVELES ENTRE ÁMBITOS GLOBALES PARA x DENTRO DE UN IF Y USANDOLO FUERA DEL IF
+    else:
+        x=1
+
+    y = x + 1 + b        #error de alcances. x no debería pertenecer al nivel actual y posible error de tipos con b si se validan estos tipos acá  %%%% No está detectando bien esto
+
+    if (0==0):
+        return TRUE
+    else:
+        return 0
+
+temp(1,2,3)              #error por mayor cantidad de argumentos   %%Si lo detecta
+temp(1,"2")
+z = ventas[3.2] + ventas["2"] + 'a'                  #otros errores varios. VERIFICACIÓN DE OTROS POSIBLES ERRORES EN EXPRESIONES COMPLEJAS   %%% Si detecta error
+print("Calculo del Factorial:%$ " + calcularFac(6))
+
+calcularpromedioventas()
