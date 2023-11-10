@@ -1,9 +1,11 @@
 import generatedMiniPython.*
-class GeneradorBytecode(): MiniPythonBaseVisitor<Unit>() {
+import jochaes.minipythoncompiler.BytecodeStorage
 
-    //todo: Implementar una clase que guarde todo el bytecode
-    
-    //todo: Hacer el constructor
+class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVisitor<Unit>() {
+
+
+    //    Para Guardar el Bytecode:
+    //    bytecodeStorage.addBytecode("Bytecode")
 
     override fun visitProgram_AST(ctx: MiniPythonParser.Program_ASTContext?) {
         super.visitProgram_AST(ctx)
