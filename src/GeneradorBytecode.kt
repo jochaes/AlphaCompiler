@@ -9,6 +9,11 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
     //    Para Guardar el Bytecode:
     //    bytecodeStorage.addBytecode("Bytecode")
 
+    var esLocal = false
+
+    var variablesLocales = mutableListOf<String>()
+    var variablesGlobales = mutableListOf<String>()
+
     override fun visitProgram_AST(ctx: MiniPythonParser.Program_ASTContext?) {
         super.visitProgram_AST(ctx)
         bytecodeStorage.addBytecode("END ")
@@ -31,6 +36,11 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
     }
 
     override fun visitIf_ST_AST(ctx: MiniPythonParser.If_ST_ASTContext?) {
+
+
+
+
+
         super.visitIf_ST_AST(ctx)
     }
 
@@ -55,12 +65,18 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
     }
 
     override fun visitFunctionCall_ST_AST(ctx: MiniPythonParser.FunctionCall_ST_ASTContext?) {
+
         super.visitFunctionCall_ST_AST(ctx)
     }
 
     override fun visitDefStatement_AST(ctx: MiniPythonParser.DefStatement_ASTContext?) {
+
+        //Solo es local cuando esta dentro de una funcion
+        esLocal = true
         bytecodeStorage.addBytecode("DEF " + ctx?.IDENTIFIER().toString())
         super.visitDefStatement_AST(ctx)
+        esLocal = false
+        variablesLocales.clear() //Limpiar las variables locales
     }
 
     override fun visitArgList_AST(ctx: MiniPythonParser.ArgList_ASTContext?) {
@@ -70,6 +86,29 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
     }
 
     override fun visitIfStatement_AST(ctx: MiniPythonParser.IfStatement_ASTContext?) {
+
+        if (ctx?.expression() != null) {
+            visit(ctx.expression())
+        } else {
+            visit(ctx!!.comparison())
+        }
+
+        bytecodeStorage.addBytecode("JUMP_IF_FALSE " + 0); //0 es una dirección fantasma que luego debe cambiarse
+        var numLine = bytecodeStorage.getSize()-1
+
+        visit(ctx.sequence(0));
+        // ifStatement: IF (expression|comparison) COLON sequence ELSE COLON sequence
+
+        if(ctx.sequence(1) != null){
+            bytecodeStorage.addBytecode("JUMP_ABSOLUTE " + 0);
+            //devuelvase a cambiar la dirección que ya conoce
+            bytecodeStorage.set(numLine, "JUMP_IF_FALSE " + bytecodeStorage.getSize());
+            numLine = bytecodeStorage.getSize()-1;
+            visit(ctx.sequence(1));
+            bytecodeStorage.set(numLine, "JUMP_ABSOLUTE " + bytecodeStorage.getSize());
+        } else {
+            bytecodeStorage.set(numLine, "JUMP_IF_FALSE " + bytecodeStorage.getSize());
+        }
 
 
 
@@ -87,7 +126,22 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
     }
 
     override fun visitReturnStatement_AST(ctx: MiniPythonParser.ReturnStatement_ASTContext?) {
-        super.visitReturnStatement_AST(ctx)
+
+
+        if (ctx?.expression() != null ) {
+            visit(ctx.expression())
+            bytecodeStorage.addBytecode("RETURN_VALUE ")
+
+        } else if (ctx?.comparison() != null){
+            visit(ctx!!.comparison())
+            bytecodeStorage.addBytecode("RETURN_VALUE ")
+        } else {
+            bytecodeStorage.addBytecode("RETURN ")
+        }
+
+
+
+        //super.visitReturnStatement_AST(ctx)
     }
 
     override fun visitPrintStatement_AST(ctx: MiniPythonParser.PrintStatement_ASTContext?) {
@@ -98,11 +152,49 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
     }
 
     override fun visitAssignStatement_AST(ctx: MiniPythonParser.AssignStatement_ASTContext?) {
-        super.visitAssignStatement_AST(ctx)
+// assignStatement: IDENTIFIER ASSIGNMENT (expression|comparison) NEWLINE                  #assignStatement_AST;
+
+        //Primero verificar si esta dentro de una funcion
+
+        if(esLocal && !variablesLocales.contains(ctx?.IDENTIFIER().toString())){
+
+            bytecodeStorage.addBytecode("PUSH_LOCAL " + ctx?.IDENTIFIER().toString())
+            variablesLocales.add(ctx?.IDENTIFIER().toString())
+        }
+
+        if (!esLocal && !variablesGlobales.contains(ctx?.IDENTIFIER().toString())) {
+            bytecodeStorage.addBytecode("PUSH_GLOBAL " + ctx?.IDENTIFIER().toString())
+            variablesGlobales.add(ctx?.IDENTIFIER().toString())
+        }
+
+
+
+        if (ctx?.expression() != null) {
+            visit(ctx.expression())
+        } else {
+            visit(ctx!!.comparison())
+        }
+
+        bytecodeStorage.addBytecode("STORE_FAST  " + ctx.IDENTIFIER().toString())
+
+
     }
 
     override fun visitFunctionCallStatement_AST(ctx: MiniPythonParser.FunctionCallStatement_ASTContext?) {
-        super.visitFunctionCallStatement_AST(ctx)
+        println("visitFunctionCallStatement_AST")
+
+        //Visitar todos los argumentos (LOAD_CONST)
+        //Visitar la funcion (LOAD_GLOBAL)
+        //Llamar a la funcion (CALL
+        var numParams = 0
+        if( ctx?.expressionList() != null){
+            numParams = ctx.expressionList().getChild(ctx.expressionList().childCount-1).text.toInt()
+            visit(ctx.expressionList())
+        }
+
+        bytecodeStorage.addBytecode("LOAD_GLOBAL " + ctx?.IDENTIFIER())
+        bytecodeStorage.addBytecode("CALL_FUNCTION " + numParams)
+
     }
 
     override fun visitSequence_AST(ctx: MiniPythonParser.Sequence_ASTContext?) {
@@ -110,22 +202,37 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
     }
 
     override fun visitExpression_AST(ctx: MiniPythonParser.Expression_ASTContext?) {
-        super.visitExpression_AST(ctx)
+        //expression: primitiveExpression (expressionOperator primitiveExpression)*  #expression_AST;
+
+        visit(ctx!!.primitiveExpression(0))
+
+
+        for (i in 0 until ctx.expressionOperator().size) {
+            visit(ctx.primitiveExpression(i + 1))
+            visit(ctx.expressionOperator(i))
+        }
+
+
+        //super.visitExpression_AST(ctx)
     }
 
     override fun visitAddition_EO_AST(ctx: MiniPythonParser.Addition_EO_ASTContext?) {
+        bytecodeStorage.addBytecode("BINARY_ADD")
         super.visitAddition_EO_AST(ctx)
     }
 
     override fun visitSubstraction_EO_AST(ctx: MiniPythonParser.Substraction_EO_ASTContext?) {
+        bytecodeStorage.addBytecode("BINARY_SUBSTRACT")
         super.visitSubstraction_EO_AST(ctx)
     }
 
     override fun visitMultiplication_EO_AST(ctx: MiniPythonParser.Multiplication_EO_ASTContext?) {
+        bytecodeStorage.addBytecode("BINARY_MULTIPLY")
         super.visitMultiplication_EO_AST(ctx)
     }
 
     override fun visitDivision_EO_AST(ctx: MiniPythonParser.Division_EO_ASTContext?) {
+        bytecodeStorage.addBytecode("BINARY_DIVIDE")
         super.visitDivision_EO_AST(ctx)
     }
 
@@ -157,23 +264,32 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
         super.visitNotEqual_CO_AST(ctx)
     }
 
-    override fun visitExpressionList_AST(ctx: MiniPythonParser.ExpressionList_ASTContext?) {
-        super.visitExpressionList_AST(ctx)
+    override fun visitExpressionList_AST(ctx: MiniPythonParser.ExpressionList_ASTContext?){
+
+        for (i in 0 until ctx?.expression()?.size!!) {
+            visit(ctx.expression(i))
+        }
+
     }
 
     override fun visitInteger_PE_AST(ctx: MiniPythonParser.Integer_PE_ASTContext?) {
+        bytecodeStorage.addBytecode("LOAD_CONST " + ctx?.INTEGER().toString())
+
         super.visitInteger_PE_AST(ctx)
     }
 
     override fun visitFloat_PE_AST(ctx: MiniPythonParser.Float_PE_ASTContext?) {
+        bytecodeStorage.addBytecode("LOAD_CONST " + ctx?.FLOAT().toString())
         super.visitFloat_PE_AST(ctx)
     }
 
     override fun visitIdentifier_PE_AST(ctx: MiniPythonParser.Identifier_PE_ASTContext?) {
+        bytecodeStorage.addBytecode("LOAD_FAST " + ctx?.IDENTIFIER().toString())
         super.visitIdentifier_PE_AST(ctx)
     }
 
     override fun visitChar_PE_AST(ctx: MiniPythonParser.Char_PE_ASTContext?) {
+        bytecodeStorage.addBytecode("LOAD_CONST " + ctx?.CHARCONST().toString())
         super.visitChar_PE_AST(ctx)
     }
 

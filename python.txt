@@ -1,0 +1,57 @@
+def func():
+    x = 12
+    y = 10
+    x = x + y
+    return x
+
+def Main():
+    w = func()
+    print(w)
+
+
+
+0 DEF func
+1 PUSH_LOCAL x
+2 LOAD_CONST 12
+3 STORE_FAST x
+
+4 PUSH_LOCAL y
+5 LOAD_CONST 10
+6 STORE_FAST y
+
+7 LOAD_FAST x
+8 LOAD_FAST y
+9 BINARY_ADD
+10 STORE_FAST x
+
+11 LOAD_FAST x
+12 RETURN_VALUE
+
+13 DEF Main
+14 PUSH_LOCAL w
+15 LOAD_GLOBAL func
+16 CALL_FUNCTION 0
+17 STORE_FAST w
+18 LOAD_FAST w
+19 LOAD_GLOBAL print
+20 CALL_FUNCTION 1
+
+21 END
+
+
+
+  2           0 LOAD_CONST               1 (12)
+              2 STORE_FAST               0 (x)
+
+  3           4 LOAD_CONST               2 (10)
+              6 STORE_FAST               1 (y)
+
+  4           8 LOAD_FAST                0 (x)
+             10 LOAD_FAST                1 (y)
+             12 BINARY_ADD
+             14 STORE_FAST               0 (x)
+
+  5          16 LOAD_FAST                0 (x)
+             18 RETURN_VALUE
+
+

@@ -529,6 +529,8 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
 
         }
 
+        //REtornar el tipo de la secuencia
+
         return (Integer) typeReturn;
     }
 

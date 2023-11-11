@@ -1,5 +1,12 @@
+def func():
+    x = 12
+    y = 10
+    x = x + y
+    return x
 
-def Main ():
+def Main():
+    w = func()
+    print(w)
 
-    print ("hola mundo")
+
 

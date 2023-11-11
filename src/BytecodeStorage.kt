@@ -19,6 +19,14 @@ class BytecodeStorage {
         }
     }
 
+    fun getSize():Int{
+        return this.bytecode.size
+    }
+
+    fun set(numLine: Int, bytecode:String){
+        this.bytecode[numLine] = bytecode
+    }
+
 //    fun writeBytecodeToFile(context:Context){
 //        val fileName = "byteCode.txt"
 //        val outputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE)
