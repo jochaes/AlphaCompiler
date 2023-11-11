@@ -116,17 +116,17 @@ public class Main {
                 }
 
 
-                System.out.println(" **Iniciando Analisis Contextual");
-
-                (new Checker(errorListener)).visit(tree);
-
-                if (!errorListener.hasErrors())
-                    System.out.println("  ++Analisis Contextual Finalizado");
-                else{
-                    System.out.println("*Compilación Fallida: Error Contextual*");
-                    System.out.println(errorListener.toString());
-                    throw new MainCompilationException("Compilacion Fallida");  //Exepcion Custom
-                }
+//                System.out.println(" **Iniciando Analisis Contextual");
+//
+//                (new Checker(errorListener)).visit(tree);
+//
+//                if (!errorListener.hasErrors())
+//                    System.out.println("  ++Analisis Contextual Finalizado");
+//                else{
+//                    System.out.println("*Compilación Fallida: Error Contextual*");
+//                    System.out.println(errorListener.toString());
+//                    throw new MainCompilationException("Compilacion Fallida");  //Exepcion Custom
+//                }
 
                 System.out.println(" **Iniciando Generación de Bytecode");
                 (new GeneradorBytecode(bytecodeStorage)).visit(tree);
