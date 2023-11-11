@@ -1,5 +1,7 @@
-import generatedMiniPython.*
+import generatedMiniPython.MiniPythonBaseVisitor
+import generatedMiniPython.MiniPythonParser
 import jochaes.minipythoncompiler.BytecodeStorage
+
 
 class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVisitor<Unit>() {
 
@@ -8,9 +10,8 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
     //    bytecodeStorage.addBytecode("Bytecode")
 
     override fun visitProgram_AST(ctx: MiniPythonParser.Program_ASTContext?) {
-        println("visitProgram_AST")
-        bytecodeStorage.addBytecode("LOADCONT kjasdha")
         super.visitProgram_AST(ctx)
+        bytecodeStorage.addBytecode("END ")
     }
 
     override fun visitDef_MS_AST(ctx: MiniPythonParser.Def_MS_ASTContext?) {
@@ -58,18 +59,26 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
     }
 
     override fun visitDefStatement_AST(ctx: MiniPythonParser.DefStatement_ASTContext?) {
+        bytecodeStorage.addBytecode("DEF " + ctx?.IDENTIFIER().toString())
         super.visitDefStatement_AST(ctx)
     }
 
     override fun visitArgList_AST(ctx: MiniPythonParser.ArgList_ASTContext?) {
+
+
         super.visitArgList_AST(ctx)
     }
 
     override fun visitIfStatement_AST(ctx: MiniPythonParser.IfStatement_ASTContext?) {
+
+
+
         super.visitIfStatement_AST(ctx)
     }
 
     override fun visitWhileStatement_AST(ctx: MiniPythonParser.WhileStatement_ASTContext?) {
+
+
         super.visitWhileStatement_AST(ctx)
     }
 
@@ -82,7 +91,10 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
     }
 
     override fun visitPrintStatement_AST(ctx: MiniPythonParser.PrintStatement_ASTContext?) {
-        super.visitPrintStatement_AST(ctx)
+        visit(ctx!!.expression())
+        bytecodeStorage.addBytecode("LOAD_GLOBAL print" )
+        bytecodeStorage.addBytecode("CALL_FUNCTION 1")
+        null
     }
 
     override fun visitAssignStatement_AST(ctx: MiniPythonParser.AssignStatement_ASTContext?) {
@@ -166,6 +178,7 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
     }
 
     override fun visitString_PE_AST(ctx: MiniPythonParser.String_PE_ASTContext?) {
+        bytecodeStorage.addBytecode("LOAD_CONST " + ctx?.STRING().toString())
         super.visitString_PE_AST(ctx)
     }
 
