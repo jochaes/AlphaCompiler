@@ -1,5 +1,4 @@
-************* Prueba MP-02 Implementación de Tabla de Simbolos, Validacion de niveles de identificadores y definicion de metodos con el mismo identificador *************
-
+#************* Prueba MP-02 Implementación de Tabla de Simbolos, Validacion de niveles de identificadores y definicion de metodos con el mismo identificador *************
 
 x = 123
 y = "456"
@@ -16,7 +15,7 @@ x = "hola"
 def funcion():
     z = "20"
 
-************* Prueba MP-03 llamadas a funciones  *************
+#************* Prueba MP-03 llamadas a funciones  *************
 
 funcionUno():
     print("funcionUno")
@@ -30,7 +29,7 @@ funcionDos():
 funcionTres()
 
 
-************* Prueba MP-04 Inferencia de Tipos  *************
+#************* Prueba MP-04 Inferencia de Tipos  *************
 
 #Inferencia de tipos en scopes diferentes
 
@@ -47,7 +46,7 @@ d = [1,2,3]
 e = [1,'2',"3"] #Error de Tipos en la lista
 
 
-************* Prueba MP-05 Inferencia de Tipos en expresiones  *************
+#************* Prueba MP-05 Inferencia de Tipos en expresiones  *************
 
 #Verificacion de tipos en expresiones
 
@@ -86,7 +85,7 @@ def fun1():
 
 
 
-************* Prueba MP-06 Uso de métodos  *************
+#************* Prueba MP-06 Uso de métodos  *************
 
 x = 10
 
@@ -98,6 +97,59 @@ concat = x + fun1()
 mult = x * fun1()
 
 
-************* Prueba MP-07 Uso de métodos  *************
+#************* Prueba MP-07 Expresiones Complejas  *************
 
 exp = 10 + (20 * 5 ) + ( "suma" * 't') / (50-10)
+
+#************* Prueba Correcta Enviada por el profesor *************
+MIN = -1
+TRUE = 1
+FALSE = 0
+
+#Calcular factorial
+def calcularFac(num):
+    num_aux = 0
+    if (num < 1):
+        num_aux = MIN
+    else:
+        num_aux = num * (calcularFac(num-1))
+    return num_aux
+
+ventas = [100,200,300,400,500]
+print(len(ventas)+1)
+
+#promedio de elementos
+def promedio(cualquier_arreglo):
+    tam = len(cualquier_arreglo)
+    resultado=0
+    #ciclo para recorrer arreglo
+    cont = 0
+    sumatoria = 0
+    while (cont <= tam-1):
+        sumatoria = sumatoria + cualquier_arreglo[cont]
+        cont = cont + 1
+    if tam > 0:
+        resultado = sumatoria / tam
+
+    return resultado
+
+def calcularpromedioventas():
+    prom = promedio(ventas)
+    print("El promedio de las ventas es: ")
+    print(prom)
+
+def temp(a,b):
+    if (0==0):
+        x=10
+    y = 1 + b
+    if (0==0):
+        return TRUE
+    else:
+        return 0
+
+temp(1,2)
+z = ventas[2]
+print("Calculo del Factorial: ")
+print(calcularFac(6))
+
+calcularpromedioventas()

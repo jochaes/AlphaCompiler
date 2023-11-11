@@ -8,6 +8,8 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
     //    bytecodeStorage.addBytecode("Bytecode")
 
     override fun visitProgram_AST(ctx: MiniPythonParser.Program_ASTContext?) {
+        println("visitProgram_AST")
+        bytecodeStorage.addBytecode("LOADCONT kjasdha")
         super.visitProgram_AST(ctx)
     }
 

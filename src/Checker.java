@@ -494,9 +494,12 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
                 tipoArgumento = temp.arguments.get(i).type;
                 tipoParametro = (int) visit(parametrosMetodo.get(i));
 
+
+
                 if (tipoArgumento != tipoParametro){
                     throw new TiposException(tipoArgumento, tipoParametro, parametrosMetodo.get(i));
                 }
+
             }
 
         }catch (FuncionNoExisteException | DiferenteCantidadParamsException |VariableYaExisteException | TiposException e){

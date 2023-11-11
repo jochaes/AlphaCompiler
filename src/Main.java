@@ -57,6 +57,7 @@
 
 import CustomExeptions.MainCompilationException;
 import generatedMiniPython.*;
+import jochaes.minipythoncompiler.BytecodeStorage;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -86,6 +87,7 @@ public class Main {
         CommonTokenStream tokens = null;
         ErrorListener errorListener = null;
 
+        BytecodeStorage bytecodeStorage = new BytecodeStorage();
         //Trate de hacer
         try {
             input = CharStreams.fromFileName(txtPrueba);        //Abrir el archivo y lo lee
@@ -125,6 +127,11 @@ public class Main {
                     System.out.println(errorListener.toString());
                     throw new MainCompilationException("Compilacion Fallida");  //Exepcion Custom
                 }
+
+                System.out.println(" **Iniciando Generación de Bytecode");
+                (new GeneradorBytecode(bytecodeStorage)).visit(tree);
+                bytecodeStorage.printBytecode();
+
 
 
                 System.out.println("*Compilación MiniPyhton Finalizada!!\n");
