@@ -10,6 +10,7 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
     //    bytecodeStorage.addBytecode("Bytecode")
 
     var esLocal = false
+    var tieneRetorno = false
 
     var variablesLocales = mutableListOf<String>()
     var variablesGlobales = mutableListOf<String>()
@@ -77,6 +78,11 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
         //visitar sequence
         super.visitDefStatement_AST(ctx)
 
+        if(!tieneRetorno && !ctx?.IDENTIFIER().toString().equals("Main")){
+            bytecodeStorage.addBytecode("RETURN")
+        }
+
+        tieneRetorno = false
         esLocal = false
         variablesLocales.clear() //Limpiar las variables locales
     }
@@ -160,6 +166,8 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
         } else {
             bytecodeStorage.addBytecode("RETURN ")
         }
+
+        tieneRetorno = true
 
         //super.visitReturnStatement_AST(ctx)
     }
@@ -378,7 +386,11 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
     }
 
     override fun visitLen_PE_AST(ctx: MiniPythonParser.Len_PE_ASTContext?) {
-        super.visitLen_PE_AST(ctx)
+
+        visit(ctx?.expression())
+        bytecodeStorage.addBytecode("LIST_LEN")
+
+        //super.visitLen_PE_AST(ctx)
     }
 
     override fun visitElementAccess_PE_AST(ctx: MiniPythonParser.ElementAccess_PE_ASTContext?) {
