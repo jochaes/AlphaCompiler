@@ -1,4 +1,4 @@
-def func():
+def func(a,b,c):
     x = 12
     y = 10
     x = x + y
@@ -14,19 +14,15 @@ def Main():
 1 PUSH_LOCAL x
 2 LOAD_CONST 12
 3 STORE_FAST x
-
 4 PUSH_LOCAL y
 5 LOAD_CONST 10
 6 STORE_FAST y
-
 7 LOAD_FAST x
 8 LOAD_FAST y
 9 BINARY_ADD
 10 STORE_FAST x
-
 11 LOAD_FAST x
 12 RETURN_VALUE
-
 13 DEF Main
 14 PUSH_LOCAL w
 15 LOAD_GLOBAL func

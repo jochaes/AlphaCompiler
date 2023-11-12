@@ -1,4 +1,4 @@
-def func():
+def func(a,b,c):
     x = 12
     y = 10
     x = x + y

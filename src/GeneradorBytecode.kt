@@ -66,6 +66,7 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
 
     override fun visitFunctionCall_ST_AST(ctx: MiniPythonParser.FunctionCall_ST_ASTContext?) {
 
+
         super.visitFunctionCall_ST_AST(ctx)
     }
 
@@ -74,7 +75,11 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
         //Solo es local cuando esta dentro de una funcion
         esLocal = true
         bytecodeStorage.addBytecode("DEF " + ctx?.IDENTIFIER().toString())
+        //Visitar arglist
+
+        //visitar sequence
         super.visitDefStatement_AST(ctx)
+
         esLocal = false
         variablesLocales.clear() //Limpiar las variables locales
     }
@@ -109,8 +114,6 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
         } else {
             bytecodeStorage.set(numLine, "JUMP_IF_FALSE " + bytecodeStorage.getSize());
         }
-
-
 
         super.visitIfStatement_AST(ctx)
     }
@@ -181,14 +184,14 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
     }
 
     override fun visitFunctionCallStatement_AST(ctx: MiniPythonParser.FunctionCallStatement_ASTContext?) {
-        println("visitFunctionCallStatement_AST")
+        println("visitFunctionCall_PE_AST")
 
         //Visitar todos los argumentos (LOAD_CONST)
         //Visitar la funcion (LOAD_GLOBAL)
         //Llamar a la funcion (CALL
         var numParams = 0
         if( ctx?.expressionList() != null){
-            numParams = ctx.expressionList().getChild(ctx.expressionList().childCount-1).text.toInt()
+            numParams = (Int) visit(ctx.expressionList())
             visit(ctx.expressionList())
         }
 
@@ -299,7 +302,20 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
     }
 
     override fun visitFunctionCall_PE_AST(ctx: MiniPythonParser.FunctionCall_PE_ASTContext?) {
-        super.visitFunctionCall_PE_AST(ctx)
+        println("visitFunctionCall_PE_AST")
+
+        //Visitar todos los argumentos (LOAD_CONST)
+        //Visitar la funcion (LOAD_GLOBAL)
+        //Llamar a la funcion (CALL
+        var numParams = 0
+        if( ctx?.expressionList() != null){
+            numParams = (Int) visit(ctx.expressionList())
+            visit(ctx.expressionList())
+        }
+
+        bytecodeStorage.addBytecode("LOAD_GLOBAL " + ctx?.IDENTIFIER())
+        bytecodeStorage.addBytecode("CALL_FUNCTION " + numParams)
+//        super.visitFunctionCall_PE_AST(ctx)
     }
 
     override fun visitExpressioParen_PE_AST(ctx: MiniPythonParser.ExpressioParen_PE_ASTContext?) {
@@ -321,4 +337,17 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
     override fun visitListExpression_AST(ctx: MiniPythonParser.ListExpression_ASTContext?) {
         super.visitListExpression_AST(ctx)
     }
+}
+
+private infix fun Any.visit(expressionList: MiniPythonParser.ExpressionListContext?): Int {
+
+    var numParams = 0
+    for (i in 0 until expressionList?.childCount!!) {
+        if (expressionList.getChild(i).text != ",") {
+            numParams++
+
+        }
+    }
+
+    return numParams
 }
