@@ -1,4 +1,4 @@
-// Generated from /Users/gilda/Desktop/Repositorios/AlphaCompiler/Proyecto1G4/MiniPython.g4 by ANTLR 4.13.1
+// Generated from /Users/jochaes/Documents/Repositorios/Compiladores/AlphaCompiler/Proyecto1G4/MiniPython.g4 by ANTLR 4.13.1
 package generatedMiniPython;
 
     import com.yuvalshavit.antlr4.DenterHelper;

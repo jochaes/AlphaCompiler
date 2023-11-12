@@ -30,14 +30,14 @@ public class FuncionYaExisteExeption extends Exception{
                         "\n\ten Linea: " + line + " Columna: " + col;
     }
 
-    public  FuncionYaExisteExeption(MiniPythonParser.ElementAccess_PE_ASTContext ctx){
+    public  FuncionYaExisteExeption(MiniPythonParser.ElementAccess_ASTContext ctx){
         int line = ctx.getStart().getLine();
-        int col = ctx.IDENTIFIER().getSymbol().getCharPositionInLine();
+//        int col = ctx.IDENTIFIER().getSymbol().getCharPositionInLine();
 
         this.message =
                 "\nFuncionYaExisteExeption: "+
                         "\n\tEl nombre de esta variable lista, pertenece al de una funcion" +
-                        "\n\ten Linea: " + line + " Columna: " + col;
+                        "\n\ten Linea: " + line + " Columna: ";
     }
 
     public  FuncionYaExisteExeption(MiniPythonParser.AssignStatement_ASTContext ctx){

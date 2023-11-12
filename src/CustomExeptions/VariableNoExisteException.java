@@ -10,7 +10,7 @@ public class VariableNoExisteException extends Exception{
             super();
         }
 
-        public VariableNoExisteException(MiniPythonParser.ElementAccess_PE_ASTContext ctx ){
+        public VariableNoExisteException(MiniPythonParser.ElementAccess_ASTContext ctx ){
             int line = ctx.getStart().getLine();
             int col = ctx.getStart().getCharPositionInLine();
 

@@ -1,4 +1,4 @@
-// Generated from /Users/gilda/Desktop/Repositorios/AlphaCompiler/Proyecto1G4/MiniPython.g4 by ANTLR 4.13.1
+// Generated from /Users/jochaes/Documents/Repositorios/Compiladores/AlphaCompiler/Proyecto1G4/MiniPython.g4 by ANTLR 4.13.1
 package generatedMiniPython;
 
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -552,6 +552,18 @@ public class MiniPythonBaseListener implements MiniPythonListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitElementAccess_PE_AST(MiniPythonParser.ElementAccess_PE_ASTContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterElementAccess_AST(MiniPythonParser.ElementAccess_ASTContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitElementAccess_AST(MiniPythonParser.ElementAccess_ASTContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

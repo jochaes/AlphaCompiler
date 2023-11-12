@@ -1,4 +1,4 @@
-// Generated from /Users/gilda/Desktop/Repositorios/AlphaCompiler/Proyecto1G4/MiniPython.g4 by ANTLR 4.13.1
+// Generated from /Users/jochaes/Documents/Repositorios/Compiladores/AlphaCompiler/Proyecto1G4/MiniPython.g4 by ANTLR 4.13.1
 package generatedMiniPython;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
@@ -327,6 +327,13 @@ public class MiniPythonBaseVisitor<T> extends AbstractParseTreeVisitor<T> implem
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitElementAccess_PE_AST(MiniPythonParser.ElementAccess_PE_ASTContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitElementAccess_AST(MiniPythonParser.ElementAccess_ASTContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

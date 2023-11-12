@@ -176,26 +176,44 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
 
         //Primero verificar si esta dentro de una funcion
 
-        if(esLocal && !variablesLocales.contains(ctx?.IDENTIFIER().toString())){
 
-            bytecodeStorage.addBytecode("PUSH_LOCAL " + ctx?.IDENTIFIER().toString())
-            variablesLocales.add(ctx?.IDENTIFIER().toString())
+        if (ctx?.elementAccess() != null){
+
+
+            visit(ctx.elementAccess()); //Esto saca el idex y el array
+
+            if (ctx?.expression() != null) { //Esto saca el value
+                visit(ctx.expression())
+            } else {
+                visit(ctx!!.comparison())
+            }
+
+            bytecodeStorage.addBytecode("STORE_SUBSCR " )
+
+
+        }else{
+
+            if(esLocal && !variablesLocales.contains(ctx?.IDENTIFIER().toString())){
+
+                bytecodeStorage.addBytecode("PUSH_LOCAL " + ctx?.IDENTIFIER().toString())
+                variablesLocales.add(ctx?.IDENTIFIER().toString())
+            }
+
+            if (!esLocal && !variablesGlobales.contains(ctx?.IDENTIFIER().toString())) {
+                bytecodeStorage.addBytecode("PUSH_GLOBAL " + ctx?.IDENTIFIER().toString())
+                variablesGlobales.add(ctx?.IDENTIFIER().toString())
+            }
+
+
+            if (ctx?.expression() != null) {
+                visit(ctx.expression())
+            } else {
+                visit(ctx!!.comparison())
+            }
+
+            bytecodeStorage.addBytecode("STORE_FAST  " + ctx.IDENTIFIER().toString())
+
         }
-
-        if (!esLocal && !variablesGlobales.contains(ctx?.IDENTIFIER().toString())) {
-            bytecodeStorage.addBytecode("PUSH_GLOBAL " + ctx?.IDENTIFIER().toString())
-            variablesGlobales.add(ctx?.IDENTIFIER().toString())
-        }
-
-
-        if (ctx?.expression() != null) {
-            visit(ctx.expression())
-        } else {
-            visit(ctx!!.comparison())
-        }
-
-        bytecodeStorage.addBytecode("STORE_FAST  " + ctx.IDENTIFIER().toString())
-
 
     }
 
@@ -355,6 +373,7 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
     }
 
     override fun visitListExpression_PE_AST(ctx: MiniPythonParser.ListExpression_PE_ASTContext?) {
+
         super.visitListExpression_PE_AST(ctx)
     }
 
@@ -363,11 +382,40 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
     }
 
     override fun visitElementAccess_PE_AST(ctx: MiniPythonParser.ElementAccess_PE_ASTContext?) {
-        super.visitElementAccess_PE_AST(ctx)
+
+        visit(ctx?.elementAccess())
+
+        bytecodeStorage.addBytecode("BINARY_SUBSCR ")
+
+        //super.visitElementAccess_PE_AST(ctx)
+    }
+
+    override fun visitElementAccess_AST(ctx: MiniPythonParser.ElementAccess_ASTContext?) {
+
+        //Saca el indeice
+        visit(ctx?.expression(0))
+
+        bytecodeStorage.addBytecode("LOAD_FAST " + ctx?.IDENTIFIER().toString())
+        
+        //Saca el arrau
+        //super.visitElementAccess_AST(ctx)
     }
 
     override fun visitListExpression_AST(ctx: MiniPythonParser.ListExpression_ASTContext?) {
-        super.visitListExpression_AST(ctx)
+
+        //Visitra cada elemento de expression lists
+        //Build list de len de expresionlist
+
+        var numParams = 0
+        if( ctx?.expressionList() != null){
+            numParams = (Int) visit(ctx.expressionList())
+            visit(ctx.expressionList())
+        }
+
+        bytecodeStorage.addBytecode("BUILD_LIST " + numParams)
+
+
+        //super.visitListExpression_AST(ctx)
     }
 }
 
@@ -382,3 +430,5 @@ private infix fun Any.visit(expressionList: MiniPythonParser.ExpressionListConte
     }
     return numParams
 }
+
+

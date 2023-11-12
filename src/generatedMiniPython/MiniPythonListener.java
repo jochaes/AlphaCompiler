@@ -1,4 +1,4 @@
-// Generated from /Users/gilda/Desktop/Repositorios/AlphaCompiler/Proyecto1G4/MiniPython.g4 by ANTLR 4.13.1
+// Generated from /Users/jochaes/Documents/Repositorios/Compiladores/AlphaCompiler/Proyecto1G4/MiniPython.g4 by ANTLR 4.13.1
 package generatedMiniPython;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -547,6 +547,18 @@ public interface MiniPythonListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitElementAccess_PE_AST(MiniPythonParser.ElementAccess_PE_ASTContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code elementAccess_AST}
+	 * labeled alternative in {@link MiniPythonParser#elementAccess}.
+	 * @param ctx the parse tree
+	 */
+	void enterElementAccess_AST(MiniPythonParser.ElementAccess_ASTContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code elementAccess_AST}
+	 * labeled alternative in {@link MiniPythonParser#elementAccess}.
+	 * @param ctx the parse tree
+	 */
+	void exitElementAccess_AST(MiniPythonParser.ElementAccess_ASTContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code listExpression_AST}
 	 * labeled alternative in {@link MiniPythonParser#listExpression}.

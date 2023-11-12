@@ -1084,6 +1084,14 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
 
     @Override
     public Object visitElementAccess_PE_AST(MiniPythonParser.ElementAccess_PE_ASTContext ctx) {
+
+        visit(ctx.elementAccess());
+
+        return -1;
+    }
+
+    @Override
+    public Object visitElementAccess_AST(MiniPythonParser.ElementAccess_ASTContext ctx) {
         //TODO: Deberia retornar el tipo del elemento de la lista, pero retorna indefinido por defecto
 
 
@@ -1114,7 +1122,6 @@ public class Checker extends MiniPythonBaseVisitor<Object> {
             this.errorListener.addContextualError(e.toString());
             System.err.println(e.toString());
         }
-
 
         return -1;
     }
