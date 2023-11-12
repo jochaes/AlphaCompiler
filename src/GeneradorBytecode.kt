@@ -211,7 +211,7 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
                 visit(ctx!!.comparison())
             }
 
-            bytecodeStorage.addBytecode("STORE_FAST  " + ctx.IDENTIFIER().toString())
+            bytecodeStorage.addBytecode("STORE_FAST " + ctx.IDENTIFIER().toString())
 
         }
 
@@ -396,7 +396,7 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
         visit(ctx?.expression(0))
 
         bytecodeStorage.addBytecode("LOAD_FAST " + ctx?.IDENTIFIER().toString())
-        
+
         //Saca el arrau
         //super.visitElementAccess_AST(ctx)
     }
