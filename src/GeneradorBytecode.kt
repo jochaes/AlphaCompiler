@@ -37,10 +37,6 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
 
     override fun visitIf_ST_AST(ctx: MiniPythonParser.If_ST_ASTContext?) {
 
-
-
-
-
         super.visitIf_ST_AST(ctx)
     }
 
@@ -53,6 +49,7 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
     }
 
     override fun visitWhile_ST_AST(ctx: MiniPythonParser.While_ST_ASTContext?) {
+
         super.visitWhile_ST_AST(ctx)
     }
 
@@ -115,13 +112,35 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
             bytecodeStorage.set(numLine, "JUMP_IF_FALSE " + bytecodeStorage.getSize());
         }
 
-        super.visitIfStatement_AST(ctx)
+        //super.visitIfStatement_AST(ctx)
     }
 
     override fun visitWhileStatement_AST(ctx: MiniPythonParser.WhileStatement_ASTContext?) {
+// Etiqueta para el inicio del bucle
+        var antesDelBucle = bytecodeStorage.getSize()
 
+        // Visita y evalúa la condición
+        // Cuerpo del bucle
+        if (ctx?.expression() != null) {
+            visit(ctx.expression())
+        } else {
+            visit(ctx!!.comparison())
+        }
 
-        super.visitWhileStatement_AST(ctx)
+        var numLine = bytecodeStorage.getSize()
+
+        bytecodeStorage.addBytecode("JUMP_IF_FALSE " + 0);
+
+        visit(ctx?.sequence())
+
+        // Salto de regreso al inicio del bucle
+        bytecodeStorage.addBytecode("JUMP_ABSOLUTE " + antesDelBucle);
+
+        bytecodeStorage.set(numLine,"JUMP_IF_FALSE " + bytecodeStorage.getSize() );
+
+//        return null;
+
+//        super.visitWhileStatement_AST(ctx)
     }
 
     override fun visitForStatement_AST(ctx: MiniPythonParser.ForStatement_ASTContext?) {
@@ -141,8 +160,6 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
         } else {
             bytecodeStorage.addBytecode("RETURN ")
         }
-
-
 
         //super.visitReturnStatement_AST(ctx)
     }
@@ -171,7 +188,6 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
         }
 
 
-
         if (ctx?.expression() != null) {
             visit(ctx.expression())
         } else {
@@ -184,7 +200,6 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
     }
 
     override fun visitFunctionCallStatement_AST(ctx: MiniPythonParser.FunctionCallStatement_ASTContext?) {
-        println("visitFunctionCall_PE_AST")
 
         //Visitar todos los argumentos (LOAD_CONST)
         //Visitar la funcion (LOAD_GLOBAL)
@@ -240,31 +255,48 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
     }
 
     override fun visitComparison_AST(ctx: MiniPythonParser.Comparison_ASTContext?) {
-        super.visitComparison_AST(ctx)
+
+        //comparison: (expression comparisonOperator expression | OPENPARENTHESIS expression comparisonOperator expression CLOSEPARENTHESIS ) #comparison_AST;
+        //Visitar todos los expression
+
+
+        for (i in 0 until ctx?.expression()?.size!!) {
+            visit(ctx.expression(i))
+        }
+
+        visit(ctx.comparisonOperator())
+
+        //super.visitComparison_AST(ctx)
     }
 
     override fun visitLessThan_CO_AST(ctx: MiniPythonParser.LessThan_CO_ASTContext?) {
-        super.visitLessThan_CO_AST(ctx)
+        bytecodeStorage.addBytecode("COMPARE_OP "+ ctx?.LESSTHAN().toString())
+        //super.visitLessThan_CO_AST(ctx)
     }
 
     override fun visitGreaterThan_CO_AST(ctx: MiniPythonParser.GreaterThan_CO_ASTContext?) {
-        super.visitGreaterThan_CO_AST(ctx)
+        bytecodeStorage.addBytecode("COMPARE_OP "+ ctx?.GREATERTHAN().toString())
+//        super.visitGreaterThan_CO_AST(ctx)
     }
 
     override fun visitLessThanEqual_CO_AST(ctx: MiniPythonParser.LessThanEqual_CO_ASTContext?) {
-        super.visitLessThanEqual_CO_AST(ctx)
+        bytecodeStorage.addBytecode("COMPARE_OP "+ ctx?.LESSTHANEQUAL().toString())
+//        super.visitLessThanEqual_CO_AST(ctx)
     }
 
     override fun visitGreaterThanEqual_CO_AST(ctx: MiniPythonParser.GreaterThanEqual_CO_ASTContext?) {
-        super.visitGreaterThanEqual_CO_AST(ctx)
+        bytecodeStorage.addBytecode("COMPARE_OP "+ ctx?.GREATERTHANEQUAL().toString())
+//        super.visitGreaterThanEqual_CO_AST(ctx)
     }
 
     override fun visitComparison_CO_AST(ctx: MiniPythonParser.Comparison_CO_ASTContext?) {
-        super.visitComparison_CO_AST(ctx)
+        bytecodeStorage.addBytecode("COMPARE_OP "+ ctx?.COMPARISON().toString())
+//        super.visitComparison_CO_AST(ctx)
     }
 
     override fun visitNotEqual_CO_AST(ctx: MiniPythonParser.NotEqual_CO_ASTContext?) {
-        super.visitNotEqual_CO_AST(ctx)
+        bytecodeStorage.addBytecode("COMPARE_OP "+ ctx?.NOTEQUAL().toString())
+//        super.visitNotEqual_CO_AST(ctx)
     }
 
     override fun visitExpressionList_AST(ctx: MiniPythonParser.ExpressionList_ASTContext?){
@@ -302,7 +334,7 @@ class GeneradorBytecode( var bytecodeStorage: BytecodeStorage): MiniPythonBaseVi
     }
 
     override fun visitFunctionCall_PE_AST(ctx: MiniPythonParser.FunctionCall_PE_ASTContext?) {
-        println("visitFunctionCall_PE_AST")
+
 
         //Visitar todos los argumentos (LOAD_CONST)
         //Visitar la funcion (LOAD_GLOBAL)
@@ -348,6 +380,5 @@ private infix fun Any.visit(expressionList: MiniPythonParser.ExpressionListConte
 
         }
     }
-
     return numParams
 }

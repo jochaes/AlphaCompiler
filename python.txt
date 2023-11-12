@@ -51,3 +51,58 @@ def Main():
              18 RETURN_VALUE
 
 
+def func():
+    if(5 <= 7):
+        print("si")
+    else:
+        print("no")
+    return 5
+
+def Main():
+    func()
+
+0 DEF func
+1 LOAD_CONST 5
+2 LOAD_CONST 7
+3 COMPARE_OP >
+4 JUMP_IF_FALSE 9
+5 LOAD_CONST "si"
+6 LOAD_GLOBAL print
+7 CALL_FUNCTION 1
+8 JUMP_ABSOLUTE 12
+9 LOAD_CONST "no"
+10 LOAD_GLOBAL print
+11 CALL_FUNCTION 1
+12 LOAD_CONST 5
+13 RETURN_VALUE
+14 DEF Main
+15 LOAD_GLOBAL func
+16 CALL_FUNCTION 0
+17 END
+
+  2           0 LOAD_GLOBAL              0 (print)
+              2 LOAD_CONST               1 ('si')
+              4 CALL_FUNCTION            1
+              6 POP_TOP
+              8 JUMP_FORWARD             8 (to=18)
+
+  3     >>   10 POP_TOP
+             12 LOAD_GLOBAL              0 (print)
+             14 LOAD_CONST               2 ('no')
+             16 CALL_FUNCTION            1
+             18 POP_TOP
+             20 LOAD_CONST               0 (None)
+             22 RETURN_VALUE
+
+  6           0 LOAD_GLOBAL              1 (func)
+              2 CALL_FUNCTION            0
+              4 POP_TOP
+              6 LOAD_CONST               0 (None)
+              8 RETURN_VALUE
+
+
+
+
+
+
+
